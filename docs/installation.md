@@ -23,6 +23,7 @@ The following MathWorks toolboxes must be installed. Install them via **Home > A
 |---|---|---|
 | Statistics and Machine Learning Toolbox | UMAP, statistical analysis | R2024a |
 | MATLAB Report Generator | Automated report generation | R2024a |
+| Cobra Toolbox | Uses cobra model structure + functions | 2024 |
 
 Verify that all toolboxes are installed:
 
@@ -97,8 +98,31 @@ disp(size(Y))     % Should be [50, 2]
 
 If all commands execute without errors, your environment is ready for the pipeline.
 
+## Installing the COBRA toolbox 
+
+The COnstraint-Based Reconstruction and Analysis Toolbox is a MATLAB software to create & analyse constrained based metabolic models. All the models stored & worked with in PATCH are stored in COBRA format and functions of the COBRA Toolbox are used. Therefore the toolbox must be installed ([see the github page](https://github.com/opencobra/cobratoolbox) as well as the [documentation webpage](https://opencobra.github.io/cobratoolbox/stable/index.html#)). 
+
++ clone the github repository from the [github page](https://github.com/opencobra/cobratoolbox) (```git clone https://github.com/opencobra/cobratoolbox.git```)
++ follow the installation instructions from the [cobratoolbox github README.md](https://github.com/opencobra/cobratoolbox)
+
+Make sure to add the toolbox to your matlab path:
+```matlab
+addpath(genpath('path/to/toolbox/on/your/local/machine'));
+savepath;
+```
+
+
+
 ## Building models with rFastcormics
 
 rFASTCORMICS will be integrated into the next release of the COBRA Toolbox. In the meantime, if you want to build context-specific models using rFASTCORMICS before comparing them with GEM-PATCH, follow the installation instructions on the [rFASTCORMICS GitHub page](https://github.com/sysbiolux/rFASTCORMICS/tree/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2).
 
 A supplementary `rFastcormicsPipeline.m` script is provided in the `scr/` folder. It builds context-specific models and outputs a `params` structure that can be passed directly to `createProject.m`. For a usage example, see `no1_modelBuildingAndProjectInit.m` in the `BRCAexample` folder.
+
+## Install Patch Pipeline 
+
+Clone the repository to your local machine. The zip download does not work, cause some of the data is not fully downloaded. 
+
+```{bash}
+git pull https://github.com/sysbiolux/analysisPipelineLVT.git
+```
