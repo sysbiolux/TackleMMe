@@ -584,10 +584,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#installing-the-cobra-toolbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installing the COBRA toolbox
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#building-models-with-rfastcormics" class="md-nav__link">
     <span class="md-ellipsis">
       
         Building models with rFastcormics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-patch-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Patch Pipeline
       
     </span>
   </a>
@@ -786,6 +808,11 @@
 <td>Automated report generation</td>
 <td>R2024a</td>
 </tr>
+<tr>
+<td>Cobra Toolbox</td>
+<td>Uses cobra model structure + functions</td>
+<td>2024</td>
+</tr>
 </tbody>
 </table>
 <p>Verify that all toolboxes are installed:</p>
@@ -837,9 +864,23 @@
 <span class="nb">disp</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">Y</span><span class="p">))</span><span class="w">     </span><span class="c">% Should be [50, 2]</span>
 </code></pre></div>
 <p>If all commands execute without errors, your environment is ready for the pipeline.</p>
+<h2 id="installing-the-cobra-toolbox">Installing the COBRA toolbox</h2>
+<p>The COnstraint-Based Reconstruction and Analysis Toolbox is a MATLAB software to create &amp; analyse constrained based metabolic models. All the models stored &amp; worked with in PATCH are stored in COBRA format and functions of the COBRA Toolbox are used. Therefore the toolbox must be installed (<a href="https://github.com/opencobra/cobratoolbox">see the github page</a> as well as the <a href="https://opencobra.github.io/cobratoolbox/stable/index.html#">documentation webpage</a>). </p>
+<ul>
+<li>clone the github repository from the <a href="https://github.com/opencobra/cobratoolbox">github page</a> (<code>git clone https://github.com/opencobra/cobratoolbox.git</code>)</li>
+<li>follow the installation instructions from the <a href="https://github.com/opencobra/cobratoolbox">cobratoolbox github README.md</a></li>
+</ul>
+<p>Make sure to add the toolbox to your matlab path:
+<div class="highlight"><pre><span></span><code><span class="nb">addpath</span><span class="p">(</span><span class="nb">genpath</span><span class="p">(</span><span class="s">'path/to/toolbox/on/your/local/machine'</span><span class="p">));</span>
+<span class="nb">savepath</span><span class="p">;</span>
+</code></pre></div></p>
 <h2 id="building-models-with-rfastcormics">Building models with rFastcormics</h2>
 <p>rFASTCORMICS will be integrated into the next release of the COBRA Toolbox. In the meantime, if you want to build context-specific models using rFASTCORMICS before comparing them with GEM-PATCH, follow the installation instructions on the <a href="https://github.com/sysbiolux/rFASTCORMICS/tree/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2">rFASTCORMICS GitHub page</a>.</p>
 <p>A supplementary <code>rFastcormicsPipeline.m</code> script is provided in the <code>scr/</code> folder. It builds context-specific models and outputs a <code>params</code> structure that can be passed directly to <code>createProject.m</code>. For a usage example, see <code>no1_modelBuildingAndProjectInit.m</code> in the <code>BRCAexample</code> folder.</p>
+<h2 id="install-patch-pipeline">Install Patch Pipeline</h2>
+<p>Clone the repository to your local machine. The zip download does not work, cause some of the data is not fully downloaded. </p>
+<div class="highlight"><pre><span></span><code>git pull https://github.com/sysbiolux/analysisPipelineLVT.git
+</code></pre></div>
 
 
 
