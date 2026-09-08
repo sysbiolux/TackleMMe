@@ -94,8 +94,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="GEM-PATCH Documentation" class="md-header__button md-logo" aria-label="GEM-PATCH Documentation" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../assets/logo.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -368,8 +367,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="GEM-PATCH Documentation" class="md-nav__button md-logo" aria-label="GEM-PATCH Documentation" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../assets/logo.svg" alt="logo">
 
     </a>
     GEM-PATCH Documentation
@@ -767,13 +765,102 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage-example_1" class="md-nav__link">
+  <a href="#example-comparative-analysis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage example
+        Example Comparative Analysis
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Example Comparative Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-for-comparative-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example for comparative Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quality-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Control
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structural-model-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structural Model Comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structural Model Comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#visualizing-the-outer-and-intersections-between-the-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualizing the outer and intersections between the models
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#functional-model-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functional Model Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sampling-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sampling Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explorative-model-comparison-with-tackel-mme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explorative model comparison with Tackel MMe
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1048,7 +1135,7 @@
 <li><strong>Same reference model</strong> and structural analysis already run — only the newly requested analyses are performed; the structural comparison is reused.</li>
 <li><strong>Different reference model</strong> — a warning is issued and the user is prompted to confirm overwriting. Answering <code>n</code> aborts the operation. To create a separate comparison instead, use a different <code>identifier</code>.</li>
 </ul>
-<h2 id="usage-example_1">Usage example</h2>
+<h2 id="example-comparative-analysis">Example Comparative Analysis</h2>
 <div class="highlight"><pre><span></span><code><span class="c">% Run only the structural comparison (default)</span>
 <span class="p">[</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">modelsComparison</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
 <span class="w">    </span><span class="p">[</span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="s">"model2"</span><span class="p">,</span><span class="w"> </span><span class="s">"model3"</span><span class="p">],</span><span class="w"> </span><span class="s">"model1"</span><span class="p">);</span>
@@ -1063,6 +1150,74 @@
 <span class="w">    </span><span class="p">[</span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="s">"model2"</span><span class="p">,</span><span class="w"> </span><span class="s">"model3"</span><span class="p">],</span><span class="w"> </span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="s">"fullRun"</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
 <span class="w">    </span><span class="p">[</span><span class="s">"structuralComparison"</span><span class="p">,</span><span class="w"> </span><span class="s">"functionalComparison"</span><span class="p">,</span><span class="w"> </span><span class="s">"samplingComparison"</span><span class="p">]);</span>
 </code></pre></div>
+<h3 id="example-for-comparative-analysis">Example for comparative Analysis</h3>
+<p>In the following we are gonna work on a Breast cancer dataset in order to show how Tackel MMe can be used to explore metabolic models. 
+The Leading question is what are the alterations within the metabolism with increaseing breast cancer stage ? </p>
+<p>The comparative Analysis function explained in detail in above, is the framework for the comparative analysis, it provides a few default visualizations. Based on these default visualizations + biological questions of interest the following explorative analysis is highly individual, Tackel me will help you to go through the network and analyze and visualze the differences. </p>
+<p>Before we start, lets look at some QC figures. </p>
+<h3 id="quality-control">Quality Control</h3>
+<p>For the QC we are asking some questions: </p>
+<ul>
+<li>How was our gene expression data discretized? </li>
+<li>How does it translate to the discretization on rxn level ? </li>
+<li>How many of the rxns are defined to be active per model ? </li>
+</ul>
+<p><img alt="overlap" src="../assets/overviewDiscretized.svg" />
+<img alt="overlap" src="../assets/coreReactionsInModel.svg" />
+<img alt="overlap" src="../assets/coreReactionsInModelIntersection.svg" /></p>
+<h3 id="structural-model-comparison">Structural Model Comparison</h3>
+<h4 id="visualizing-the-outer-and-intersections-between-the-models">Visualizing the outer and intersections between the models</h4>
+<ul>
+<li>overlap between models in absolute numbers:</li>
+</ul>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">genes in the model</label><label for="__tabbed_1_2">rxns in the model</label><label for="__tabbed_1_3">metabolites in the model</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><img alt="Control" src="../assets/modelIntersectionGenes.svg" /></p>
+</div>
+<div class="tabbed-block">
+<p><img alt="Treatment" src="../assets/modelIntersectionRxns.svg" /></p>
+</div>
+<div class="tabbed-block">
+<p><img alt="Difference" src="../assets/modelIntersectionMets.svg" /></p>
+</div>
+</div>
+</div>
+<ul>
+<li>overlap between the models in relative numbers (Jaccard Distance):</li>
+</ul>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">genes in the model</label><label for="__tabbed_2_2">rxns in the model</label><label for="__tabbed_2_3">metabolites in the model</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><img alt="Control" src="../assets/JaccardsimGenes.svg" /></p>
+</div>
+<div class="tabbed-block">
+<p><img alt="Treatment" src="../assets/JaccardsimRxns.svg" /></p>
+</div>
+<div class="tabbed-block">
+<p><img alt="Difference" src="../assets/JaccardsimMets.svg" /></p>
+</div>
+</div>
+</div>
+<ul>
+<li>the overlap between the models per subsystem in absolute &amp; relative numbers:</li>
+</ul>
+<p><img alt="overlap" src="../assets/overlapSubsystems.svg" /></p>
+<h3 id="functional-model-comparison">Functional Model Comparison</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Import of metabolites</label><label for="__tabbed_3_2">Export of metabolites</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><img alt="overlap" src="assets/Import.png" /></p>
+</div>
+<div class="tabbed-block">
+<p><img alt="overlap" src="assets/Export.png" /></p>
+</div>
+</div>
+</div>
+<p><img alt="overlap" src="../assets/objValue.svg" /></p>
+<h3 id="sampling-comparison">Sampling Comparison</h3>
+<h3 id="explorative-model-comparison-with-tackel-mme">Explorative model comparison with Tackel MMe</h3>
+<p><img alt="imageoverview" src="assets/overviewVisualizations.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">Upcoming features</p>
 <p>The following are planned for future integration:</p>
