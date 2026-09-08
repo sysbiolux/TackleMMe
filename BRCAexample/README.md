@@ -1,4 +1,4 @@
-## Analysis Pipeline - Documentation
+## TackleMMe - Documentation
 
 Our analysis pipeline has been divided in three main steps: 
 
@@ -30,7 +30,7 @@ Details about the available analyses, parameter tables, and report generation ar
 
 A complete tutorial on how to compare models is available through the `no3_modelsComparison.m` script.
 
-Before running a comparison, the `chooseActiveAnalysis` function must be called to designate which analysis run to use for each model. The `modelsComparison` function then performs three types of comparison: structural (presence/absence of reactions, metabolites, and genes), functional (FBA fluxes, FVA similarity, pathway enrichment), and sampling-based (flux distributions, inter-model KL divergence). All results and generated plots are stored in a dedicated `comparisons` field within the project.
+Before running a comparison, the `chooseActiveAnalysis` function must be called to designate which analysis run to use for each model. The `modelComparison` function then performs three types of comparison: structural (presence/absence of reactions, metabolites, and genes), functional (FBA fluxes, FVA similarity, pathway enrichment), and sampling-based (flux distributions, inter-model KL divergence). All results and generated plots are stored in a dedicated `comparisons` field within the project.
 
 Details about the comparison types and their outputs are available in https://sysbiolux.github.io/analysisPipelineLVT/model_comparison/.
 
