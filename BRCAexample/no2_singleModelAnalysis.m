@@ -1,5 +1,5 @@
 %% Main script n°2: Single Model Analysis 
-% This script is showing how to perform individual analysis on context-specific models stored in a project object.
+% This script is showing how to perform individual analysis on context-specific models stored in a TackleMMe project object.
 % The first function, singleModelAnalysis.m, allows to perform on each model the following analysis:
 %   - FBA
 %   - FVA

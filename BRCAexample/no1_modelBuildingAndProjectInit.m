@@ -1,5 +1,5 @@
 %% Main script n°1: Model Building & Project Initialization
-% This script is showing how to build context-specific models using rFastcormics and how to integrate them in a project format suitable 
+% This script is showing how to build context-specific models using rFastcormics and how to integrate them in a TackleMMe project format suitable 
 % for the rest of the analysis pipeline (singleModelAnalysis + modelsComparison).
 % rFastcormics scripts are available from the CobraToolbox or from the
 % following github repository: https://github.com/sysbiolux/rFASTCORMICS/tree/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2

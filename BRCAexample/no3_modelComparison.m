@@ -1,4 +1,4 @@
-%% Main script n°3: Models Comparison 
+%% Main script n°3: Model Comparison using TackleMMe
 % This script is showing how to compare models stored inside a project.
 % Models can be compared on structural, functional and sampling aspects.
 % For both functional and sampling comparison, functional tests (as FBA, FBA or sampling)
