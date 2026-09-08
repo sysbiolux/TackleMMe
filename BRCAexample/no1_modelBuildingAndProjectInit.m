@@ -13,15 +13,15 @@ feature astheightlimit 2000;
 
 %% define data folder path and add it to the path variable
 
-dataPath = "/Users/leonie.thomas/Documents/fastcore_workflow_with_vanille/data";
+dataPath = "/Users/leonie.thomas/Desktop/test_pipeline/analysisPipelineLVT/data";
 addpath(genpath(dataPath))
 
 %% LOADING EXAMPLE WORKSPACE
 
 brca_matrix = readtable("brca_matrix.csv", 'ReadRowNames', true, 'VariableNamingRule', 'preserve');
 samples_metadata = readtable("samples_metadata.csv", 'ReadRowNames', true, 'VariableNamingRule', 'preserve');
-gene_metadata = readtable("gene_metadata.csv", 'ReadRowNames', true, 'VariableNamingRule', 'preserve');x
-origModel = load('Recon3D.mat').model;
+gene_metadata = readtable("gene_metadata.csv", 'ReadRowNames', true, 'VariableNamingRule', 'preserve');
+origModel = load('origModelBig.mat').origModel;
 dico = load('dico.mat').dico;
 medium = readtable('RPMI1640.tsv', 'FileType', 'text', 'Delimiter', '\t');
 % in case any of these lines throw an error, ensure that the download was

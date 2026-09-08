@@ -13,7 +13,7 @@ loopless,loopless,1
 samplingToUse,loopless,
 options.toRound,sampling,1
 options.countSampleProcesses,sampling,5
-options.nPointsReturned,sampling,2000
+options.nPointsReturned,sampling,5000
 options.nFiles,sampling,10
 Options.nWorkers,sampling,5
 options.numCores,sampling,10
@@ -22,7 +22,7 @@ options.nWarmupPoints,sampling,"10*size(model.S, 2)"
 options.nStepsPerPoint,sampling,"round(size(model.S, 2))"
 modelSampling,sampling,model
 path,sampling,samplingResults/CHRR/
-nPointsReturned,kld,1000
+nPointsReturned,kld,2000
 numberOfIndSamplings,kld,8
 objThreshold,kld,0.9
 method,singleGeneDeletion,FBA

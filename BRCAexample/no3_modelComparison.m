@@ -12,15 +12,16 @@ feature astheightlimit 2000;
 
 %% define data folder path and add it to the path variable
 
-dataPath = "/Users/leonie.thomas/Documents/fastcore_workflow_with_vanille";
+dataPath = "/Users/leonie.thomas/Desktop/test_pipeline/analysisPipelineLVT/data";
 addpath(genpath(dataPath))
 
 %% LOADING PROJECT AND PARAMETERS FOR ANALYSIS
 load('20262608_BRCAProject.mat'); % available on the zenodo link
+load('BRCAProjectNo2.mat')
 defaultParametersAnalysis = readInParamTable('defaultParametersTable.csv');
 
 %% COMPUTING THE COMPARISON
-modelsToCompare = {"Control", "StageI", "StageII", "StageIII"};
+modelsToCompare = {'Control', 'StageI', 'StageII', 'StageIV'};
 [BRCAProject, analysisIDs] = chooseActiveAnalysis(BRCAProject, modelsToCompare); % by default, the most recent analyses will be chosen
 
 % choose a specific analysis
@@ -30,23 +31,26 @@ modelsToCompare = {"Control", "StageI", "StageII", "StageIII"};
 %% VISUALIZING AUTOMATICALLY GENERATED FIGURES
 
 referenceModel = "consistentMediumConstrainedModel"; 
-comparisonList = ["structuralComparison", "functionalComparison", "samplingComparison"];
+comparisonList = ["structuralComparison", "functionalComparison"];
 compID = "test_tuto3"; 
 
+
+rmpath("/Users/leonie.thomas/cobratoolbox/papers/2025_bioenergeticPD")
 [BRCAProject, comparisonName] = modelComparison(BRCAProject, modelsToCompare, referenceModel, compID, comparisonList);
 
 %% Showing the Default figures generated during comparison 
 
-load('20262608_bigComparisonStructComparison.mat');
+%load('20262608_bigComparisonStructComparison.mat');
 
-compName = "Control_vs_StageI_vs_StageII_vs_StageIII__full_test_finalObject";
+%compName = "Control_vs_StageI_vs_StageIV__test_tuto3";
+compName = comparisonName;
 
 % --- Structural Analysis Plots
 
 % how similar are the models to one another 
 % jaccard similarity over the model structure, meaning are rxns included in
 % the model
-showFigure(BRCAProject.comparisons.(compName).structuralComparison.plots.jaccardDist.rxns)
+showFigure(BRCAProject.comparisons.(compName).structuralComparison.plots.jaccardDist.genes)
 % most reactions are shared between the models, which is to be expected 
 % what can also be observed is that the cancer models are more similar than
 % to the normal model
