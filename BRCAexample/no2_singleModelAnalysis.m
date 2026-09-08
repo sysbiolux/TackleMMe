@@ -24,7 +24,7 @@ feature astheightlimit 2000;
 
 %% define data folder path and add it to the path variable
 
-dataPath = "/Users/leonie.thomas/Documents/fastcore_workflow_with_vanille";
+dataPath = "/Users/leonie.thomas/Desktop/test_pipeline/analysisPipelineLVT/data";
 addpath(genpath(dataPath))
 
 %% LOADING PROJECT AND PARAMETERS FOR ANALYSIS
@@ -34,7 +34,7 @@ defaultParametersAnalysis = readInParamTable('defaultParametersTable.csv');
 %% PERFORMING ANALYSIS
 % can take time depending on what's asked (especially (loopless) sampling))
 wantedAnalyses = {'FBA', 'FVA'};
-analyzedModels = {'Control', 'StageI', 'StageIV'};
+analyzedModels = {'Control', 'StageI', 'StageII', 'StageIV'};
 
 % this is the most time consuming function in this script, depending on
 % what you perform: FBA, FVA, sampling, + for how many models these are
@@ -44,7 +44,7 @@ analyzedModels = {'Control', 'StageI', 'StageIV'};
 BRCAProject = singleModelAnalysis(BRCAProject, defaultParametersAnalysis, analyzedModels, wantedAnalyses, 1, 1);
 
 
-%save 20260825_allSingleAnalysisLT.mat BRCAProject
+save BRCAProjectNo2.mat BRCAProject
 
 %% GENERATING A REPORT
 % List of wanted pathways for the report
@@ -59,7 +59,10 @@ writeAnalysisReport(BRCAProject, 'StageIV', 'analysis_20260902_1704', ...
 
 
 %% ADDING AN ANALYSIS TO AN EXISTING ONE
-BRCAProject = addAnalysisToExistingOne(BRCAProject, defaultParametersAnalysis, 'StageI', 'singleGeneDeletion', 'analysis_20260902_1656');
+BRCAProject = addAnalysisToExistingOne(BRCAProject, defaultParametersAnalysis, 'StageI', 'sampling', 'analysis_20260908_0118');
+BRCAProject = addAnalysisToExistingOne(BRCAProject, defaultParametersAnalysis, 'StageII', 'sampling', 'analysis_20260908_0126');
+BRCAProject = addAnalysisToExistingOne(BRCAProject, defaultParametersAnalysis, 'StageIV', 'sampling', 'analysis_20260908_0134');
+BRCAProject = addAnalysisToExistingOne(BRCAProject, defaultParametersAnalysis, 'Control', 'sampling', 'analysis_20260908_0112');
 
 
 
