@@ -1,3 +1,5 @@
+![image](./assets/logo.svg)
+
 # Welcome to GEM-PATCH
 
 **GEM-PATCH**, for **P**latform for **A**rchiving, **T**opological **Comparison** and **H**eterogeneity Analysis of **GE**nome-scale **M**etabolic **M**odels, is a pipeline developed in MATLAB designed for tackling metabolic models exploration.

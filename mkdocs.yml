@@ -2,6 +2,7 @@ site_name: GEM-PATCH Documentation
 site_url: https://sysbiolux.github.io/analysisPipelineLVT/
 theme:
   name: material
+  logo: assets/logo.svg
   #font:
     #text: Merriweather Sans
     #code: Red Hat Mono
@@ -31,14 +32,16 @@ theme:
     - content.code.copy
     - content.code.fold
     - toc.integrate
-  #icon:
-    #logo: assets/logo.png # inside docs folder, create assets folder and put the png of the logo inside
+  icon:
+    logo: assets/logo.png # inside docs folder, create assets folder and put the png of the logo inside
   #favicon: assets/favicon.ico # same here
 
 markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
   - attr_list
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji

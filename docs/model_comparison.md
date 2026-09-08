@@ -128,7 +128,7 @@ If a comparison with the same name already exists:
 - **Same reference model** and structural analysis already run — only the newly requested analyses are performed; the structural comparison is reused.
 - **Different reference model** — a warning is issued and the user is prompted to confirm overwriting. Answering `n` aborts the operation. To create a separate comparison instead, use a different `identifier`.
 
-## Usage example
+## Example Comparative Analysis 
 
 ```matlab
 % Run only the structural comparison (default)
@@ -145,6 +145,98 @@ If a comparison with the same name already exists:
     ["model1", "model2", "model3"], "model1", "fullRun", ...
     ["structuralComparison", "functionalComparison", "samplingComparison"]);
 ```
+
+### Example for comparative Analysis 
+
+In the following we are gonna work on a Breast cancer dataset in order to show how Tackel MMe can be used to explore metabolic models. 
+The Leading question is what are the alterations within the metabolism with increaseing breast cancer stage ? 
+
+The comparative Analysis function explained in detail in above, is the framework for the comparative analysis, it provides a few default visualizations. Based on these default visualizations + biological questions of interest the following explorative analysis is highly individual, Tackel me will help you to go through the network and analyze and visualze the differences. 
+
+Before we start, lets look at some QC figures. 
+
+### Quality Control
+
+For the QC we are asking some questions: 
+
++ How was our gene expression data discretized? 
++ How does it translate to the discretization on rxn level ? 
++ How many of the rxns are defined to be active per model ? 
+
+
+
+
+![overlap](assets/overviewDiscretized.svg)
+![overlap](assets/coreReactionsInModel.svg)
+![overlap](assets/coreReactionsInModelIntersection.svg)
+
+
+### Structural Model Comparison
+
+
+#### Visualizing the outer and intersections between the models
+
++ overlap between models in absolute numbers:
+
+=== "genes in the model"
+
+    ![Control](assets/modelIntersectionGenes.svg)
+
+
+=== "rxns in the model"
+
+    ![Treatment](assets/modelIntersectionRxns.svg)
+
+=== "metabolites in the model"
+
+    ![Difference](assets/modelIntersectionMets.svg)
+
+
+
++ overlap between the models in relative numbers (Jaccard Distance):
+
+=== "genes in the model"
+
+    ![Control](assets/JaccardsimGenes.svg)
+
+
+=== "rxns in the model"
+
+    ![Treatment](assets/JaccardsimRxns.svg)
+
+=== "metabolites in the model"
+
+    ![Difference](assets/JaccardsimMets.svg)
+
+
++ the overlap between the models per subsystem in absolute & relative numbers:
+
+![overlap](assets/overlapSubsystems.svg)
+
+
+
+
+### Functional Model Comparison
+
+=== "Import of metabolites"
+
+    ![overlap](assets/Import.png)
+
+=== "Export of metabolites"
+
+    ![overlap](assets/Export.png)
+
+
+![overlap](assets/objValue.svg)
+
+
+### Sampling Comparison 
+
+
+### Explorative model comparison with Tackel MMe
+
+![imageoverview](assets/overviewVisualizations.png)
+
 
 !!! note "Upcoming features"
     The following are planned for future integration:
