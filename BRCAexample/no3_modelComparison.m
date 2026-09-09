@@ -30,7 +30,7 @@ modelsToCompare = {'Control', 'StageI', 'StageII', 'StageIV'};
 %% VISUALIZING AUTOMATICALLY GENERATED FIGURES
 
 referenceModel = "consistentMediumConstrainedModel"; 
-comparisonList = ["structuralComparison", "functionalComparison", "samplingComparison"];
+comparisonList = ["structuralComparison", "functionalComparison"];
 
 compID = "tutorial_BRCA"; 
 
@@ -146,7 +146,7 @@ referenceModel = "consistentMediumConstrainedModel"
 
 % heatmaps
 
-[rxnsMetId, producingMet, matched] = getRxnIDs(BRCAProject, referenceModel, ["Pentose.* & g6p.*"; "Glycolysis.*"]);
+[rxnsMetId, producingMet, matched] = getRxnIDs(BRCAProject, referenceModel, ["Citric acid.*"; "Glycolysis.*"]);
 
 visDiffRxnSetActivitySampling(BRCAProject, comparisonName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"], referenceModel)
 

@@ -38,6 +38,9 @@ theme:
     logo: assets/logo.png # inside docs folder, create assets folder and put the png of the logo inside
   #favicon: assets/favicon.ico # same here
 
+extra_css: 
+  - stylesheets/extra.css
+
 markdown_extensions:
   - admonition
   - pymdownx.details
