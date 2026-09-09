@@ -7,7 +7,7 @@ function fig = visSingleRxnFBA(project, comparisonName, idxToVis, options)
 %
 % Arguments:
 %   project (struct): Project object from singleModelAnalysis and
-%       modelsComparison.
+%       modelComparison.
 %   comparisonName (string): Name of the comparison to visualize.
 %   idxToVis (cell): Indices of the reactions to display in the
 %       reference model, typically obtained via getRxnIDs.

@@ -7,7 +7,7 @@ function [figs] = visDiffMetSetUsageSampling(project, compName, rxnSets, rxnSetL
 %
 % Arguments:
 %   project (struct): Project object from singleModelAnalysis and
-%       modelsComparison. Both must have been run before calling this
+%       modelComparison. Both must have been run before calling this
 %       function.
 %   compName (string): Name of the comparison to visualize. Available
 %       comparisons can be listed with project.comparisons.
