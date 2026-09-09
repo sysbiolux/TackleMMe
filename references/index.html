@@ -930,9 +930,85 @@
 
     <div class="doc doc-contents first">
 
-        <p>this function creates a project object ready to be used in the pipeline
-for analysis</p>
+        <p>Creates a project structure ready for the analysis pipeline.</p>
+<p>This function initializes a project object containing one or more models,
+each defined by a set of parameters. The project can then be used as input
+for single model analysis and model comparison functions.</p>
 
+<p><span class="doc-section-title">Input arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>params</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>1-by-N cell array. One struct per model. See the Project Initialization
+  page for the full list of available fields. Required fields:
+  modelName, contextSpecificModel.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Output arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Initialized project with a models field.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="n">params</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">struct</span><span class="p">(</span><span class="s">'modelName'</span><span class="p">,</span><span class="w"> </span><span class="s">'model1'</span><span class="p">,</span><span class="w"> </span><span class="s">'contextSpecificModel'</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">)};</span>
+<span class="n">project</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">createProject</span><span class="p">(</span><span class="n">params</span><span class="p">);</span>
+
+<span class="n">params</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">{</span><span class="nb">struct</span><span class="p">(</span><span class="k">...</span><span class="c">), struct(...)};</span>
+<span class="n">project</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">createProject</span><span class="p">(</span><span class="n">params</span><span class="p">);</span>
+</code></pre></div>
+
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>Fields marked as (rFastcormics) in the source code are specific to
+models built with rFASTCORMICS and are optional for other COBRA models.
+Only <code>modelName</code> and <code>contextSpecificModel</code> are required. Field
+validation is performed by <code>validateParamsForPipeline</code>.</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>scr/classes/project_initialization/createProject.m</code></summary>
@@ -984,34 +1060,36 @@ for analysis</p>
 <span class="normal">46</span>
 <span class="normal">47</span>
 <span class="normal">48</span>
-<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span>project<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">createProject</span><span class="p">(</span>params<span class="p">)</span>
-<span class="c">% this function creates a project object ready to be used in the pipeline</span>
-<span class="c">% for analysis</span>
-
-<span class="c">% all fields </span>
-<span class="c">% - modelName</span>
-<span class="c">% - contextSpecificModel (rFastcormics)</span>
-<span class="c">% - expressionData</span>
-<span class="c">% - discretized (rFastcormics)</span>
-<span class="c">% - geneNames (rFastcormics)</span>
-<span class="c">% - dico (rFastcormics)</span>
-<span class="c">% - objFunction (rFastcormics)</span>
-<span class="c">% - consensusProportion (rFastcormics)</span>
-<span class="c">% - optionalSettings: (rFastcormics)</span>
-<span class="c">%      - medium</span>
-<span class="c">%      - notMediumConstrained</span>
-<span class="c">%      - .func</span>
-<span class="c">% - referenceModel (rFastcormics)</span>
-<span class="c">% - mapping (rFastcormics)</span>
-<span class="c">% - coreReactions (rFastcormics)</span>
-<span class="c">% - mediumComposition</span>
-<span class="c">% - manuallySetBoundaries:</span>
-<span class="c">%      - closedImport</span>
-<span class="c">%      - closedExport</span>
-<span class="c">%      - openedImport</span>
-<span class="c">%      - openedExport</span>
-<span class="c">% - sampleMetadata</span>
-<span class="c">% - sampleLabeling</span>
+<span class="normal">49</span>
+<span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span>project<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">createProject</span><span class="p">(</span>params<span class="p">)</span>
+<span class="c">% Creates a project structure ready for the analysis pipeline.</span>
+<span class="c">%</span>
+<span class="c">% This function initializes a project object containing one or more models,</span>
+<span class="c">% each defined by a set of parameters. The project can then be used as input</span>
+<span class="c">% for single model analysis and model comparison functions.</span>
+<span class="c">%</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   params (cell): 1-by-N cell array. One struct per model. See the Project Initialization</span>
+<span class="c">%       page for the full list of available fields. Required fields:</span>
+<span class="c">%       modelName, contextSpecificModel.</span>
+<span class="c">%</span>
+<span class="c">% Returns:</span>
+<span class="c">%   project (struct): Initialized project with a models field.</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   params = {struct('modelName', 'model1', 'contextSpecificModel', model)};</span>
+<span class="c">%   project = createProject(params);</span>
+<span class="c">%</span>
+<span class="c">%   params = {struct(...), struct(...)};</span>
+<span class="c">%   project = createProject(params);</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Note:</span>
+<span class="c">%   Fields marked as (rFastcormics) in the source code are specific to</span>
+<span class="c">%   models built with rFASTCORMICS and are optional for other COBRA models.</span>
+<span class="c">%   Only `modelName` and `contextSpecificModel` are required. Field</span>
+<span class="c">%   validation is performed by `validateParamsForPipeline`.</span>
 
 <span class="nb">arguments</span>
 <span class="w">    </span><span class="n">params</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="w"> </span><span class="nb">cell</span>
@@ -1050,8 +1128,100 @@ for analysis</p>
 
     <div class="doc doc-contents first">
 
-        <p>this function adds one or several model to an already existing project.</p>
+        <p>Adds one or more models to an already existing project.</p>
+<p>This function extends an existing project by adding new models. Each
+model is validated and formatted before being added. If a model with
+the same name already exists, the user is prompted to confirm
+overwriting.</p>
 
+<p><span class="doc-section-title">Input arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Existing project structure created by createProject.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>params</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>1-by-N cell array, one struct per model to add. See
+  the Project Initialization page for the full list of available
+  fields. Required fields: modelName, contextSpecificModel.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Output arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The input project with new models added.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="n">project</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">addModelsToProject</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="p">{</span><span class="nb">struct</span><span class="p">(</span><span class="s">'modelName'</span><span class="p">,</span><span class="w"> </span><span class="s">'model2'</span><span class="p">,</span><span class="w"> </span><span class="s">'contextSpecificModel'</span><span class="p">,</span><span class="w"> </span><span class="n">model2</span><span class="p">)});</span>
+
+<span class="c">% Add multiple models</span>
+<span class="n">project</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">addModelsToProject</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nb">struct</span><span class="p">(</span><span class="k">...</span><span class="c">), struct(...)});</span>
+</code></pre></div>
+
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>The project format is validated with checkProjectFormat before
+adding any model. Fields specific to rFASTCORMICS are optional.</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>scr/classes/project_initialization/addModelsToProject.m</code></summary>
@@ -1111,32 +1281,38 @@ for analysis</p>
 <span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
-<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span>project<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">addModelsToProject</span><span class="p">(</span>project, params<span class="p">)</span>
-<span class="c">% this function adds one or several model to an already existing project.</span>
-
-<span class="c">% all fields </span>
-<span class="c">% - modelName</span>
-<span class="c">% - contextSpecificModel (rFastcormics)</span>
-<span class="c">% - expressionData</span>
-<span class="c">% - discretized (rFastcormics)</span>
-<span class="c">% - dico (rFastcormics)</span>
-<span class="c">% - objFunction (rFastcormics)</span>
-<span class="c">% - consensusProportion (rFastcormics)</span>
-<span class="c">% - optionalSettings: (rFastcormics)</span>
-<span class="c">%      - medium</span>
-<span class="c">%      - notMediumConstrained</span>
-<span class="c">%      - .func</span>
-<span class="c">% - referenceModel (rFastcormics)</span>
-<span class="c">% - mapping (rFastcormics)</span>
-<span class="c">% - coreReactions (rFastcormics)</span>
-<span class="c">% - mediumComposition</span>
-<span class="c">% - manuallySetBoundaries:</span>
-<span class="c">%      - closedImport</span>
-<span class="c">%      - closedExport</span>
-<span class="c">%      - openedImport</span>
-<span class="c">%      - openedExport</span>
-<span class="c">% - sampleMetadata</span>
-<span class="c">% - sampleLabeling</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span>project<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">addModelsToProject</span><span class="p">(</span>project, params<span class="p">)</span>
+<span class="c">% Adds one or more models to an already existing project.</span>
+<span class="c">%</span>
+<span class="c">% This function extends an existing project by adding new models. Each</span>
+<span class="c">% model is validated and formatted before being added. If a model with</span>
+<span class="c">% the same name already exists, the user is prompted to confirm</span>
+<span class="c">% overwriting.</span>
+<span class="c">%</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   project (struct): Existing project structure created by createProject.</span>
+<span class="c">%   params (cell): 1-by-N cell array, one struct per model to add. See</span>
+<span class="c">%       the Project Initialization page for the full list of available</span>
+<span class="c">%       fields. Required fields: modelName, contextSpecificModel.</span>
+<span class="c">%</span>
+<span class="c">% Returns:</span>
+<span class="c">%   project (struct): The input project with new models added.</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   project = addModelsToProject(project, ...</span>
+<span class="c">%       {struct('modelName', 'model2', 'contextSpecificModel', model2)});</span>
+<span class="c">%</span>
+<span class="c">%   % Add multiple models</span>
+<span class="c">%   project = addModelsToProject(project, {struct(...), struct(...)});</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Note:</span>
+<span class="c">%   The project format is validated with checkProjectFormat before</span>
+<span class="c">%   adding any model. Fields specific to rFASTCORMICS are optional.</span>
 
 <span class="nb">arguments</span>
 <span class="w">    </span><span class="n">project</span>
