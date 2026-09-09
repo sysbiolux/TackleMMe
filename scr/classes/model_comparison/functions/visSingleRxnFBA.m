@@ -1,29 +1,50 @@
 function fig = visSingleRxnFBA(project, comparisonName, idxToVis, options)
-    % This function visualizes the values of FVA and FBA for
-    % the choosen rxns_ids between different models.
-    % As an input a singlemodelanalysis needs to be
-    % given, the name of the comparison for which this plot is to be
-    % displayed, and the indices of the rxns to be displayed. In the
-    % options you can choose which values you want to be displayed, by
-    % default only the FBA values are displayed in the barplot. But in
-    % the options it can additionally be specified that the FVA boundaries
-    % (as a grey box) and the reduced cost per reaction (as color of the
-    % FBA dot) can be displayed. 
-    % Input: 
-    % - project:                project object which is the output of
-    %                           single_model_analysis script
-    % - comparison_name:        name of the comparison as a string
-    % - idxToVis:             positions of the rxns to be displayed in the
-    %                           choosen reference model
-    % - options:                - FVA = true (default false) to display the FVA boundaries
-    %                             around the FBA solution as a grey box.                        
-    %                           - thresholdFlux= wether to apply an upper
-    %                             lower ,no upper or lower or to include 
-    %                             also the fba =0 reactions(all) to the selected
-    %                             reaction fba values
-    % 
-    % Output:                   Display of figure                
-    % 
+% Visualizes FBA and FVA values for selected reactions across models in
+% a comparison. By default, only FBA values are shown as a grouped
+% horizontal bar plot. Optionally, FVA boundaries can be displayed as
+% grey boxes around the FBA dots. Reactions are split into a high-flux
+% and low-flux panel using 1D k-means clustering for readability.
+%
+% Arguments:
+%   project (struct): Project object from singleModelAnalysis and
+%       modelsComparison.
+%   comparisonName (string): Name of the comparison to visualize.
+%   idxToVis (cell): Indices of the reactions to display in the
+%       reference model, typically obtained via getRxnIDs.
+%   options.FVA (logical): If true, display FVA boundaries as grey
+%       boxes around the FBA dots. Default: false.
+%   options.thresholdFlux (string): Flux filtering mode. Valid values:
+%       "lower" (positive flux only), "upper" (negative flux only),
+%       "none" (non-zero flux only), "all" (include zero-flux
+%       reactions). Default: "none".
+%   options.titlePlots (string): Custom title for the plots. Used when
+%       thresholdFlux is "none" or "all". Default: "".
+%   options.visiblePlots (string): Figure visibility, "on" or "off".
+%       Default: "on".
+%
+% Returns:
+%   fig (figure): Figure object containing the bar plot and optional
+%       table with reaction formulas, medium constraints, model
+%       mappings, and gene-protein-reaction rules.
+%
+% Examples:
+%   ```matlab
+%   % Visualize FBA values for selected reactions
+%   fig = visSingleRxnFBA(project, compName, rxnIDs);
+%
+%   % Include FVA boundaries and show only positive flux reactions
+%   fig = visSingleRxnFBA(project, compName, rxnIDs, ...
+%       struct('FVA', true, 'thresholdFlux', "lower"));
+%
+%   % Show all reactions including zero-flux ones
+%   fig = visSingleRxnFBA(project, compName, rxnIDs, ...
+%       struct('thresholdFlux', "all", 'titlePlots', "All reactions"));
+%   ```
+%
+% Note:
+%   When all models share the same medium composition, a table is
+%   displayed alongside the plot showing reaction formulas, medium
+%   constraints, model-specific reaction mappings, and symbol GPR rules.
 
     arguments
         project

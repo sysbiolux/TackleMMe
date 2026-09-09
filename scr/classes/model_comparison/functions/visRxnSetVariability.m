@@ -1,4 +1,43 @@
-function [fluxSet,figs] = visDiffRxnSetActivitySampling(project, compName, rxnSets,rxnSetLabels,referenceModel)
+function [fluxSet, figs] = visDiffRxnSetActivitySampling(project, compName, rxnSets, rxnSetLabels, referenceModel)
+% Generates a heatmap showing how active the defined reactions are
+% across sampling solutions. For each reaction set, the sum of flux
+% values is computed per sample, then averaged over all samples to
+% display one value per model and reaction set in the heatmap.
+%
+% Arguments:
+%   project (struct): Project object from singleModelAnalysis and
+%       modelsComparison. Both must have been run before calling this
+%       function.
+%   compName (string): Name of the comparison to visualize. Available
+%       comparisons can be listed with project.comparisons.
+%   rxnSets (cell): Sets of reaction indices to visualize, typically
+%       obtained via getRxnIDs.
+%   rxnSetLabels (string): Labels for each reaction set, displayed in
+%       the figure. Must be the same length as rxnSets.
+%   referenceModel (string): Name of the reference model. Must match
+%       the reference model used in the specified comparison and when
+%       retrieving reaction IDs with getRxnIDs.
+%
+% Returns:
+%   fluxSet (struct): Flux sum data used to generate the heatmap.
+%   figs (figure): Figure object generated and displayed by the
+%       function.
+%
+% Examples:
+%   ```matlab
+%   % Retrieve reactions for two sets, then visualize
+%   [rxnsMetId, producingMet, matched] = getRxnIDs(project, ...
+%       referenceModel, ["Pentose.* & g6p.*"; "Glycolysis.*"]);
+%   [fluxSet, figs] = visDiffRxnSetActivitySampling(project, ...
+%       compName, rxnsMetId, ...
+%       ["Pentose.* & g6p.*"; "Glycolysis.*"], referenceModel);
+%   ```
+%
+% Warning:
+%   The reference model must be the same one used when calling
+%   getRxnIDs to retrieve the reaction indices. Using a different
+%   reference model will cause index misalignment.
+
 arguments
     project 
     compName (1,1) string
@@ -7,43 +46,7 @@ arguments
     referenceModel (1,1) string
 end
 
-% 
-% This function generates a heatmap that shows how active the defined rxns
-% are, by building the sum of all the values for those reactions in one
-% sample. That value is then averaged over all samples to display one value
-% for one model & rxnSet in the heatmap.
-% This is calculated based on all solutions from the performed sampling,
-% and an average is build over all samples to get one value per rxnSet in
-% the heatmap.
-% The usage here is defined as the flux sum of all the rxns that consume
-% this metabolite in the defined rxnSet. 
-% USAGE: 
-%       visDiffMetSetUsageSampling(project, compName, rxnSets,rxnSetLabels,referenceModel) 
-% INPUT: 
-%       project:        object generated through the pipeline
-%                       (singleModelAnalysis and modelsComparison have to be run before)
-%       compName:       the comparison to visualize in this figure. The names
-%                       of the comparisons already present in the object can be seen using
-%                       project.comparisons
-%       rxnSets:        The sets of rxns to be visualized 
-%       rxnSetLabels:   The Labels that should be used in the figure
-%       referenceModel: The name of the reference model used.
-%
-% OUTPUT:
-%       figs:           Figure object generated and displayed by the
-%                       function
-%
-%
-% Code Example: 
-% after running singleModelAnalysis and modelsComparison this code can be
-% used: 
-% 
-% [rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["Pentose.* & g6p.*"; "Glycolysis.*"]);
-% visDiffMetSetUsageFBA(BRCAProject, compName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"],referenceModel)
-%
-
 % check project format: 
-% comparison specified is there ? has the required fields ? 
 
 if ~isfield(project, 'comparisons')
     error('Project object does not contain a comparison object. After running the singleModels analysis you still have to run modelsComparison before beeing able to use this function!')
