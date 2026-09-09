@@ -41,7 +41,7 @@ The **first two rows are required** and must use `all` as the analysis value:
 | `modelReference` | `all` | e.g. `Recon3D` | Reference model identifier |
 | `objFunction` | `all` | e.g. `biomass_reaction` | Objective function reaction ID |
 
-A default parameter table is provided in the `data/` folder of the repository ([`defaultParametersTable.csv`](https://github.com/sysbiolux/analysisPipelineLVT/blob/main/data/defaultParametersTable.csv)) and can be used as a starting point. You can load it in MATLAB and modify only the rows relevant to your analyses:
+A default parameter table is provided in the `data/` folder of the repository ([`defaultParametersTable.csv`](https://github.com/sysbiolux/TackleMMe/blob/main/data/defaultParametersTable.csv)) and can be used as a starting point. You can load it in MATLAB and modify only the rows relevant to your analyses:
 
 ```matlab
 parameterTable = readtable('data/defaultParametersTable.csv');

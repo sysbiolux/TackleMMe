@@ -148,8 +148,8 @@ If a comparison with the same name already exists:
 
 ### Example for comparative Analysis 
 
-In the following we are gonna work on a Breast cancer dataset in order to show how Tackel MMe can be used to explore metabolic models. 
-The Leading question is what are the alterations within the metabolism with increaseing breast cancer stage ? 
+In the following we are gonna work on a breast cancer dataset in order to show how TackleMMe can be used to explore metabolic models. 
+The leading question is what are the alterations within the metabolism with increasing breast cancer stage ? 
 
 The comparative Analysis function explained in detail in above, is the framework for the comparative analysis, it provides a few default visualizations. Based on these default visualizations + biological questions of interest the following explorative analysis is highly individual, TackleMMe will help you to go through the network and analyze and visualze the differences. 
 
