@@ -3793,35 +3793,98 @@ IDs are matched using a prefix pattern (e.g. 'glc_D' matches 'glc_D[e]').</p>
 
     <div class="doc doc-contents first">
 
-        <p>This function needs to be run in preparation for the modelsComparison
-function. For the loaded project object, multiple analysis with a
-different set of parameters can be performed. Before going into the
-comparison, an active analysis needs to be choosen out of all the
-singleModelAnalysis on grounds of which the comparison is then made.
-In order to do so this function moves the analysis performed one slot up
-in the struct structure so it is directly in the analysis slot.
-This way the downstream analysis can be performed without specifying
-the exact analysis name for every single model in the comparison.</p>
+        <p>Designates which analysis run to use for model comparison.</p>
+<p>This function must be run before modelComparison. Since multiple
+analysis runs can coexist on the same model, this function selects which
+one to use by copying it into an 'active' slot. This allows downstream
+comparison functions to access results without specifying the exact
+analysis ID for each model.</p>
 
+<p><span class="doc-section-title">Input arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Project structure with completed single model
+  analyses.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>modelList</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Names of the models to define an active analysis
+  for.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>analysisIDs</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Analysis ID to set as active for each model, in
+  the same order as modelList. If empty, the most recent analysis
+  (by timestamp) is automatically selected for each model.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>overwriteActive</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Fields to overwrite in the existing active
+  slot. Use {'all'} (default) for full replacement, or specify
+  individual fields (e.g. {'FBA'}) to selectively overwrite while
+  preserving other results.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
-<details class="inputs" open>
-  <summary>Inputs</summary>
-  <ul>
-<li>project: the project (struct)</li>
-<li>modelList: list of models for which an active analysis should
-  be defined (cell or string array)</li>
-<li>analysisIDs: the name of the analysis for each of the models to
-  be set as the active analysis for the following comparison.
-  When no analysisIDs is given the most recent analysis performed
-  for each model will be set as active.</li>
-<li>overwriteActive: when using {'all'} (default) then before adding the
-  chosen analysis to the default slot, all the objects that are in
-  there are deleted. In case you want to just replace (for example)
-  the FBA in the current default then you can just overwrite the
-  FBA slot without deleting (for example the sampling) by setting
-  overwriteActive to {'FBA'}.</li>
-</ul>
-</details>
 <p><span class="doc-section-title">Output arguments:</span></p>
     <table>
       <thead>
@@ -3834,36 +3897,58 @@ the exact analysis name for every single model in the comparison.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code></code>
+                <code>project</code>
             </td>
             <td>
+                  <code>struct</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <ul>
-<li>project: a project with a defined active analysis</li>
-</ul>
+                <p>Project with an active analysis defined for each
+  model.</p>
               </div>
             </td>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code></code>
+                <code>activeAnalysisTable</code>
             </td>
             <td>
+                  <code>table</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <ul>
-<li>analysisIDs: get the analysisID used returned, in the same order
-as the modelList given</li>
-</ul>
+                <p>Summary of the active analysis IDs used
+  per model.</p>
               </div>
             </td>
           </tr>
       </tbody>
     </table>
 
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="c">% Use the most recent analysis for each model</span>
+<span class="p">[</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">activeTable</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">chooseActiveAnalysis</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="p">{</span><span class="s">'model1'</span><span class="p">,</span><span class="w"> </span><span class="s">'model2'</span><span class="p">});</span>
+
+<span class="c">% Specify explicit analysis IDs</span>
+<span class="p">[</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">activeTable</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">chooseActiveAnalysis</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="p">{</span><span class="s">'model1'</span><span class="p">,</span><span class="w"> </span><span class="s">'model2'</span><span class="p">},</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="p">{</span><span class="s">'analysis_20240815_1430'</span><span class="p">,</span><span class="w"> </span><span class="s">'analysis_20240816_0900'</span><span class="p">});</span>
+
+<span class="c">% Selectively overwrite only FBA in the active slot</span>
+<span class="p">[</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">activeTable</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">chooseActiveAnalysis</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="p">{</span><span class="s">'model1'</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="s">'analysis_20240815_1430'</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="s">'FBA'</span><span class="p">});</span>
+</code></pre></div>
+
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>When overwriteActive is set to a specific field (e.g. {'FBA'}), the
+parameters table is automatically merged: rows corresponding to the
+overwritten analyses are replaced, while rows for other analyses are
+preserved.</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>scr/classes/model_comparison/functions/chooseActiveAnalysis.m</code></summary>
@@ -4069,36 +4154,74 @@ as the modelList given</li>
 <span class="normal">200</span>
 <span class="normal">201</span>
 <span class="normal">202</span>
-<span class="normal">203</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>project, activeAnalysisTable<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">chooseActiveAnalysis</span><span class="p">(</span>project, modelList, analysisIDs, overwriteActive<span class="p">)</span>
-<span class="w">    </span><span class="c">% This function needs to be run in preparation for the modelsComparison</span>
-<span class="w">    </span><span class="c">% function. For the loaded project object, multiple analysis with a</span>
-<span class="w">    </span><span class="c">% different set of parameters can be performed. Before going into the</span>
-<span class="w">    </span><span class="c">% comparison, an active analysis needs to be choosen out of all the</span>
-<span class="w">    </span><span class="c">% singleModelAnalysis on grounds of which the comparison is then made.</span>
-<span class="w">    </span><span class="c">% In order to do so this function moves the analysis performed one slot up</span>
-<span class="w">    </span><span class="c">% in the struct structure so it is directly in the analysis slot.</span>
-<span class="w">    </span><span class="c">% This way the downstream analysis can be performed without specifying</span>
-<span class="w">    </span><span class="c">% the exact analysis name for every single model in the comparison.</span>
-<span class="w">    </span><span class="c">%</span>
-<span class="w">    </span><span class="c">% Inputs:</span>
-<span class="w">    </span><span class="c">%   - project: the project (struct)</span>
-<span class="w">    </span><span class="c">%   - modelList: list of models for which an active analysis should</span>
-<span class="w">    </span><span class="c">%     be defined (cell or string array)</span>
-<span class="w">    </span><span class="c">%   - analysisIDs: the name of the analysis for each of the models to</span>
-<span class="w">    </span><span class="c">%     be set as the active analysis for the following comparison.</span>
-<span class="w">    </span><span class="c">%     When no analysisIDs is given the most recent analysis performed</span>
-<span class="w">    </span><span class="c">%     for each model will be set as active.</span>
-<span class="w">    </span><span class="c">%   - overwriteActive: when using {'all'} (default) then before adding the</span>
-<span class="w">    </span><span class="c">%     chosen analysis to the default slot, all the objects that are in</span>
-<span class="w">    </span><span class="c">%     there are deleted. In case you want to just replace (for example)</span>
-<span class="w">    </span><span class="c">%     the FBA in the current default then you can just overwrite the</span>
-<span class="w">    </span><span class="c">%     FBA slot without deleting (for example the sampling) by setting</span>
-<span class="w">    </span><span class="c">%     overwriteActive to {'FBA'}.</span>
-<span class="w">    </span><span class="c">%</span>
-<span class="w">    </span><span class="c">% Outputs:</span>
-<span class="w">    </span><span class="c">%   - project: a project with a defined active analysis</span>
-<span class="w">    </span><span class="c">%   - analysisIDs: get the analysisID used returned, in the same order</span>
-<span class="w">    </span><span class="c">%     as the modelList given</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>project, activeAnalysisTable<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">chooseActiveAnalysis</span><span class="p">(</span>project, modelList, analysisIDs, overwriteActive<span class="p">)</span>
+<span class="c">% Designates which analysis run to use for model comparison.</span>
+<span class="c">%</span>
+<span class="c">% This function must be run before modelComparison. Since multiple</span>
+<span class="c">% analysis runs can coexist on the same model, this function selects which</span>
+<span class="c">% one to use by copying it into an 'active' slot. This allows downstream</span>
+<span class="c">% comparison functions to access results without specifying the exact</span>
+<span class="c">% analysis ID for each model.</span>
+<span class="c">%</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   project (struct): Project structure with completed single model</span>
+<span class="c">%       analyses.</span>
+<span class="c">%   modelList (cell): Names of the models to define an active analysis</span>
+<span class="c">%       for.</span>
+<span class="c">%   analysisIDs (cell): Analysis ID to set as active for each model, in</span>
+<span class="c">%       the same order as modelList. If empty, the most recent analysis</span>
+<span class="c">%       (by timestamp) is automatically selected for each model.</span>
+<span class="c">%   overwriteActive (cell): Fields to overwrite in the existing active</span>
+<span class="c">%       slot. Use {'all'} (default) for full replacement, or specify</span>
+<span class="c">%       individual fields (e.g. {'FBA'}) to selectively overwrite while</span>
+<span class="c">%       preserving other results.</span>
+<span class="c">%</span>
+<span class="c">% Returns:</span>
+<span class="c">%   project (struct): Project with an active analysis defined for each</span>
+<span class="c">%       model.</span>
+<span class="c">%   activeAnalysisTable (table): Summary of the active analysis IDs used</span>
+<span class="c">%       per model.</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   % Use the most recent analysis for each model</span>
+<span class="c">%   [project, activeTable] = chooseActiveAnalysis(project, ...</span>
+<span class="c">%       {'model1', 'model2'});</span>
+<span class="c">%</span>
+<span class="c">%   % Specify explicit analysis IDs</span>
+<span class="c">%   [project, activeTable] = chooseActiveAnalysis(project, ...</span>
+<span class="c">%       {'model1', 'model2'}, ...</span>
+<span class="c">%       {'analysis_20240815_1430', 'analysis_20240816_0900'});</span>
+<span class="c">%</span>
+<span class="c">%   % Selectively overwrite only FBA in the active slot</span>
+<span class="c">%   [project, activeTable] = chooseActiveAnalysis(project, ...</span>
+<span class="c">%       {'model1'}, {'analysis_20240815_1430'}, {'FBA'});</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Note:</span>
+<span class="c">%   When overwriteActive is set to a specific field (e.g. {'FBA'}), the</span>
+<span class="c">%   parameters table is automatically merged: rows corresponding to the</span>
+<span class="c">%   overwritten analyses are replaced, while rows for other analyses are</span>
+<span class="c">%   preserved.</span>
 
 <span class="w">    </span><span class="nb">arguments</span>
 <span class="w">        </span><span class="n">project</span>
@@ -4289,32 +4412,184 @@ as the modelList given</li>
 
     <div class="doc doc-contents first">
 
-        <p>MODELSCOMPARISON Runs a set of analyses for the comparison of the specified models.</p>
-<p>A number of analyses are run:
-- structural analysis: based on the differential presence of
-  metabolites, genes and reactions in the different models
-- functional analysis: based on the quantitative values like FVA, FBA
-- sampling analysis: comparative analysis based on the sampling results</p>
-<p>Inputs:
-- project: the object which is the output of the single_model_analysis
-  entailing the results of fba, fva, sampling, single gene
-  deletion etc. for a single model
-- modelList: the list of Model names to be included in the comparison
-- referenceModel: the reference model used to compute the relative reaction presence
-- analyses: the list of analyses which should be performed
-  + structuralComparison: investigates the differences between the models
-    on a structural level, is a gene, metabolite, or rxn present or not?
-  + functionalComparison: investigates the differences between models on a
-    functional level, how much flux do reactions carry in FVA, FBA solutions?
-  + samplingComparison: investigates the differences between models sampling
-    solutions, investigates samples solution space
-- identifier: a string, will be added as a postfix to the analysis name,
-  can be chosen freely (default: current timestamp)</p>
-<p>Output:
-- project: project object with an added comparison field entailing
-  all the output, modelcomparison information
-- comparisonName: gives back the name of the comparison added</p>
+        <p>Compares multiple models on structural, functional, and sampling levels.</p>
+<p>This function runs a set of comparative analyses on the specified
+models. Three types of comparison are available: structural (presence
+or absence of reactions, metabolites, and genes), functional (FBA and
+FVA flux differences), and sampling (solution space comparison).
+Structural comparison is always run first as a prerequisite for the
+others.</p>
 
+<p><span class="doc-section-title">Input arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Project structure with single model analyses
+  completed and active analyses set via chooseActiveAnalysis.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>modelList</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Names of the models to compare.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>referenceModel</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Reference model used to compute relative
+  reaction presence.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>identifier</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Postfix appended to the comparison name.
+  Default: current timestamp.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>analyses</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Analyses to perform. Valid values:
+  structuralComparison, functionalComparison, samplingComparison,
+  IDAREoutput. Default: structuralComparison.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Output arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Project with a comparisons field containing all
+  results and plots.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>comparisonName</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the created comparison.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="c">% Run only the structural comparison (default)</span>
+<span class="p">[</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">modelsComparison</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="p">[</span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="s">"model2"</span><span class="p">],</span><span class="w"> </span><span class="s">"model1"</span><span class="p">);</span>
+
+<span class="c">% Run structural and functional comparisons</span>
+<span class="p">[</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">modelsComparison</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="p">[</span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="s">"model2"</span><span class="p">],</span><span class="w"> </span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="s">"batchA"</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="p">[</span><span class="s">"structuralComparison"</span><span class="p">,</span><span class="w"> </span><span class="s">"functionalComparison"</span><span class="p">]);</span>
+
+<span class="c">% Run all three comparisons</span>
+<span class="p">[</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">modelsComparison</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="p">[</span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="s">"model2"</span><span class="p">,</span><span class="w"> </span><span class="s">"model3"</span><span class="p">],</span><span class="w"> </span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="s">"fullRun"</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="p">[</span><span class="s">"structuralComparison"</span><span class="p">,</span><span class="w"> </span><span class="s">"functionalComparison"</span><span class="p">,</span><span class="w"> </span><span class="s">"samplingComparison"</span><span class="p">]);</span>
+</code></pre></div>
+
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>The comparison name is built as model1_vs_model2_vs_...__identifier.
+Models are ordered by their appearance in project.models. If a
+comparison with the same name already exists and the structural
+analysis was already run, only the newly requested analyses are
+performed.</p>
+</details>
+
+<details class="warning" open>
+  <summary>Warning</summary>
+  <p>If a comparison with the same name exists but uses a different
+reference model, the user is prompted to confirm overwriting.</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>scr/classes/model_comparison/modelComparison.m</code></summary>
@@ -4455,35 +4730,85 @@ as the modelList given</li>
 <span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
-<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>project, comparisonName<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">modelsComparison</span><span class="p">(</span>project, modelList, referenceModel, identifier, analyses<span class="p">)</span>
-<span class="c">% MODELSCOMPARISON Runs a set of analyses for the comparison of the specified models.</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>project, comparisonName<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">modelsComparison</span><span class="p">(</span>project, modelList, referenceModel, identifier, analyses<span class="p">)</span>
+<span class="c">% Compares multiple models on structural, functional, and sampling levels.</span>
 <span class="c">%</span>
-<span class="c">% A number of analyses are run:</span>
-<span class="c">% - structural analysis: based on the differential presence of</span>
-<span class="c">%   metabolites, genes and reactions in the different models</span>
-<span class="c">% - functional analysis: based on the quantitative values like FVA, FBA</span>
-<span class="c">% - sampling analysis: comparative analysis based on the sampling results</span>
+<span class="c">% This function runs a set of comparative analyses on the specified</span>
+<span class="c">% models. Three types of comparison are available: structural (presence</span>
+<span class="c">% or absence of reactions, metabolites, and genes), functional (FBA and</span>
+<span class="c">% FVA flux differences), and sampling (solution space comparison).</span>
+<span class="c">% Structural comparison is always run first as a prerequisite for the</span>
+<span class="c">% others.</span>
 <span class="c">%</span>
-<span class="c">% Inputs:</span>
-<span class="c">% - project: the object which is the output of the single_model_analysis</span>
-<span class="c">%   entailing the results of fba, fva, sampling, single gene</span>
-<span class="c">%   deletion etc. for a single model</span>
-<span class="c">% - modelList: the list of Model names to be included in the comparison</span>
-<span class="c">% - referenceModel: the reference model used to compute the relative reaction presence</span>
-<span class="c">% - analyses: the list of analyses which should be performed</span>
-<span class="c">%   + structuralComparison: investigates the differences between the models</span>
-<span class="c">%     on a structural level, is a gene, metabolite, or rxn present or not?</span>
-<span class="c">%   + functionalComparison: investigates the differences between models on a</span>
-<span class="c">%     functional level, how much flux do reactions carry in FVA, FBA solutions?</span>
-<span class="c">%   + samplingComparison: investigates the differences between models sampling</span>
-<span class="c">%     solutions, investigates samples solution space</span>
-<span class="c">% - identifier: a string, will be added as a postfix to the analysis name,</span>
-<span class="c">%   can be chosen freely (default: current timestamp)</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   project (struct): Project structure with single model analyses</span>
+<span class="c">%       completed and active analyses set via chooseActiveAnalysis.</span>
+<span class="c">%   modelList (string): Names of the models to compare.</span>
+<span class="c">%   referenceModel (string): Reference model used to compute relative</span>
+<span class="c">%       reaction presence.</span>
+<span class="c">%   identifier (string): Postfix appended to the comparison name.</span>
+<span class="c">%       Default: current timestamp.</span>
+<span class="c">%   analyses (string): Analyses to perform. Valid values:</span>
+<span class="c">%       structuralComparison, functionalComparison, samplingComparison,</span>
+<span class="c">%       IDAREoutput. Default: structuralComparison.</span>
 <span class="c">%</span>
-<span class="c">% Output:</span>
-<span class="c">% - project: project object with an added comparison field entailing</span>
-<span class="c">%   all the output, modelcomparison information</span>
-<span class="c">% - comparisonName: gives back the name of the comparison added</span>
+<span class="c">% Returns:</span>
+<span class="c">%   project (struct): Project with a comparisons field containing all</span>
+<span class="c">%       results and plots.</span>
+<span class="c">%   comparisonName (string): Name of the created comparison.</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   % Run only the structural comparison (default)</span>
+<span class="c">%   [project, compName] = modelsComparison(project, ...</span>
+<span class="c">%       ["model1", "model2"], "model1");</span>
+<span class="c">%</span>
+<span class="c">%   % Run structural and functional comparisons</span>
+<span class="c">%   [project, compName] = modelsComparison(project, ...</span>
+<span class="c">%       ["model1", "model2"], "model1", "batchA", ...</span>
+<span class="c">%       ["structuralComparison", "functionalComparison"]);</span>
+<span class="c">%</span>
+<span class="c">%   % Run all three comparisons</span>
+<span class="c">%   [project, compName] = modelsComparison(project, ...</span>
+<span class="c">%       ["model1", "model2", "model3"], "model1", "fullRun", ...</span>
+<span class="c">%       ["structuralComparison", "functionalComparison", "samplingComparison"]);</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Note:</span>
+<span class="c">%   The comparison name is built as model1_vs_model2_vs_...__identifier.</span>
+<span class="c">%   Models are ordered by their appearance in project.models. If a</span>
+<span class="c">%   comparison with the same name already exists and the structural</span>
+<span class="c">%   analysis was already run, only the newly requested analyses are</span>
+<span class="c">%   performed.</span>
+<span class="c">%</span>
+<span class="c">% Warning:</span>
+<span class="c">%   If a comparison with the same name exists but uses a different</span>
+<span class="c">%   reference model, the user is prompted to confirm overwriting.</span>
 
 <span class="nb">arguments</span>
 <span class="w">    </span><span class="n">project</span><span class="w">        </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">struct</span>
@@ -4610,211 +4935,84 @@ as the modelList given</li>
 
     <div class="doc doc-contents first">
 
-        <p>DUPLICATEFIGURE Creates a copy of a figure safely.
-  newFig = duplicateFigure(figHandle) duplicates the figure given by
-  figHandle. Works for figures with UIAxes, tables, clustergrams, etc.</p>
+        <p>Creates a copy of a figure safely.</p>
+<p>This function duplicates a figure given by its handle. It attempts
+several copy strategies in sequence: direct copyobj, children-only
+copyobj, and finally save-and-reopen via a temporary .fig file. This
+ensures compatibility with figures containing UIAxes, tables,
+clustergrams, and other complex objects.</p>
+
+<p><span class="doc-section-title">Input arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>figHandle</code>
+            </td>
+            <td>
+                  <code>figure</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Handle of the figure to duplicate.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Output arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>newFig</code>
+            </td>
+            <td>
+                  <code>figure</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Handle of the newly created figure copy.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="n">newFig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">showFigure</span><span class="p">(</span><span class="n">plots</span><span class="p">.</span><span class="n">funct</span><span class="p">.</span><span class="n">import</span><span class="p">);</span>
+</code></pre></div>
 
 
-<details class="example" open>
-  <summary>Example</summary>
-  <p>newFig = duplicateFigure(plots.funct.import);</p>
+<details class="note" open>
+  <summary>Note</summary>
+  <p>The function tries three strategies in order of preference:
+1. Direct copyobj of the entire figure
+2. copyobj of children only into a new figure
+3. Save to temporary .fig file and reopen</p>
 </details>
 
             <details class="quote">
               <summary>Source code in <code>scr/classes/model_comparison/functions/showFigure.m</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span>newFig<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">showFigure</span><span class="p">(</span>figHandle<span class="p">)</span>
-<span class="c">% DUPLICATEFIGURE Creates a copy of a figure safely.</span>
-<span class="c">%   newFig = duplicateFigure(figHandle) duplicates the figure given by</span>
-<span class="c">%   figHandle. Works for figures with UIAxes, tables, clustergrams, etc.</span>
-<span class="c">%</span>
-<span class="c">% Example:</span>
-<span class="c">%   newFig = duplicateFigure(plots.funct.import);</span>
-<span class="w">    </span><span class="k">try</span>
-
-<span class="w">        </span><span class="c">% tf = any(arrayfun(@(x) isa(x, 'matlab.ui.control.UIAxes'), figHandle.Children));</span>
-<span class="w">        </span><span class="c">% if tf </span>
-<span class="w">        </span><span class="c">%     error("This is a ui figure it needs to be saved and reopened!")</span>
-<span class="w">        </span><span class="c">% end</span>
-<span class="w">        </span><span class="nb">figure</span><span class="p">(</span><span class="nb">copyobj</span><span class="p">(</span><span class="n">figHandle</span><span class="p">,</span><span class="w"> </span><span class="nb">groot</span><span class="p">));</span>
-<span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w">  </span><span class="c">% success, exit function</span>
-
-<span class="w">    </span><span class="k">catch</span>
-<span class="w">        </span><span class="k">try</span>
-<span class="w">            </span><span class="c">% if tf </span>
-<span class="w">            </span><span class="c">%     error("This is a ui figure it needs to be saved and reopened!")</span>
-<span class="w">            </span><span class="c">% end</span>
-<span class="w">            </span><span class="n">children</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">get</span><span class="p">(</span><span class="n">figHandle</span><span class="p">,</span><span class="w"> </span><span class="s">'Children'</span><span class="p">);</span><span class="w">  </span><span class="c">% get figure children</span>
-<span class="w">            </span><span class="n">newFig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">figure</span><span class="p">;</span><span class="w">                        </span><span class="c">% create new figure</span>
-<span class="w">            </span><span class="nb">copyobj</span><span class="p">(</span><span class="n">children</span><span class="p">,</span><span class="w"> </span><span class="n">newFig</span><span class="p">);</span><span class="w">              </span><span class="c">% attempt copy</span>
-<span class="w">            </span><span class="nb">set</span><span class="p">(</span><span class="n">newFig</span><span class="p">,</span><span class="w"> </span><span class="s">'Visible'</span><span class="p">,</span><span class="w"> </span><span class="s">'on'</span><span class="p">);</span><span class="w">           </span><span class="c">% ensure it shows</span>
-<span class="w">            </span><span class="k">return</span><span class="p">;</span><span class="w">  </span><span class="c">% success, exit function</span>
-<span class="w">        </span><span class="k">catch</span><span class="w"> </span>
-<span class="w">            </span><span class="c">% try</span>
-<span class="w">            </span><span class="c">%     % if tf </span>
-<span class="w">            </span><span class="c">%     %     error("This is a ui figure it needs to be saved and reopened!")</span>
-<span class="w">            </span><span class="c">%     % end</span>
-<span class="w">                </span><span class="c">% Check input</span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">ishandle</span><span class="p">(</span><span class="n">figHandle</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">~</span><span class="nb">strcmp</span><span class="p">(</span><span class="nb">get</span><span class="p">(</span><span class="n">figHandle</span><span class="p">,</span><span class="s">'Type'</span><span class="p">),</span><span class="s">'figure'</span><span class="p">)</span>
-<span class="w">                    </span><span class="nb">error</span><span class="p">(</span><span class="s">'Input must be a valid figure handle.'</span><span class="p">);</span>
-<span class="w">                </span><span class="k">end</span>
-
-
-<span class="w">                </span><span class="c">% Generate a temporary filename in the system temp folder</span>
-<span class="w">                </span><span class="n">tempFile</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="nb">tempname</span><span class="p">,</span><span class="w"> </span><span class="s">'.fig'</span><span class="p">];</span>
-
-<span class="w">                </span><span class="k">try</span>
-<span class="w">                    </span><span class="c">% Save the figure to the temporary file</span>
-<span class="w">                    </span><span class="nb">savefig</span><span class="p">(</span><span class="n">figHandle</span><span class="p">,</span><span class="w"> </span><span class="n">tempFile</span><span class="p">);</span>
-
-<span class="w">                    </span><span class="c">% Open the figure as a new figure</span>
-<span class="w">                    </span><span class="n">newFig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">openfig</span><span class="p">(</span><span class="n">tempFile</span><span class="p">,</span><span class="w"> </span><span class="s">'reuse'</span><span class="p">);</span><span class="w"> </span><span class="c">% opens a new figure window</span>
-
-<span class="w">                    </span><span class="c">% Ensure it is visible</span>
-<span class="w">                    </span><span class="nb">set</span><span class="p">(</span><span class="n">newFig</span><span class="p">,</span><span class="w"> </span><span class="s">'Visible'</span><span class="p">,</span><span class="w"> </span><span class="s">'on'</span><span class="p">);</span>
-
-<span class="w">                </span><span class="k">catch</span><span class="w"> </span><span class="n">ME</span>
-<span class="w">                    </span><span class="c">% If any error occurs, delete the temp file and rethrow</span>
-<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="n">tempFile</span><span class="p">,</span><span class="w"> </span><span class="s">'file'</span><span class="p">)</span>
-<span class="w">                        </span><span class="nb">delete</span><span class="p">(</span><span class="n">tempFile</span><span class="p">);</span>
-<span class="w">                    </span><span class="k">end</span>
-<span class="w">                    </span><span class="nb">rethrow</span><span class="p">(</span><span class="n">ME</span><span class="p">);</span>
-<span class="w">                </span><span class="k">end</span>
-
-<span class="w">                </span><span class="c">% Delete the temporary file</span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="n">tempFile</span><span class="p">,</span><span class="w"> </span><span class="s">'file'</span><span class="p">)</span>
-<span class="w">                    </span><span class="nb">delete</span><span class="p">(</span><span class="n">tempFile</span><span class="p">);</span>
-<span class="w">                </span><span class="k">end</span>
-<span class="w">            </span><span class="c">% catch</span>
-<span class="w">            </span><span class="c">%     drawnow</span>
-<span class="w">            </span><span class="c">%     frame = getframe(figHandle);</span>
-<span class="w">            </span><span class="c">%     figure('Position', [10 10 1000 1000]) % [left bottom width height]</span>
-<span class="w">            </span><span class="c">%     imshow(frame.cdata)</span>
-<span class="w">            </span><span class="c">% end</span>
-<span class="w">        </span><span class="k">end</span>
-<span class="w">    </span><span class="k">end</span>
-
-<span class="k">end</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="getRxnIDs" class="doc doc-heading">
-            <code class="highlight language-matlab"><span class="n">getRxnIDs</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">referenceModel</span><span class="p">,</span><span class="w"> </span><span class="nb">pattern</span><span class="p">)</span></code>
-
-</h3>
-
-
-    <div class="doc doc-contents first">
-
-        <p>This function allow you to filter for reactions to visualize using a
-pattern. You can give in the pattern for a subsystem/gene/rxns or
-metabolite and the function will find the rxns that are associated
-with the pattern given as an input. 
-Additionally you can define multiple patterns to be matched. 
-If you want the rxns to be associated to both patterns (for example a
-rxns that produces/consumes lactate  in the Glycolysis) then you can
-give in a pattern like this "^lac_.<em> &amp; ^Glycolysis.</em>". If you want
-to find rxns that are assocated with multiple patterns (for example
-all reactions that are consuming/producing lactate and pyruvate) you
-can write it like this: "^lac.<em> | ^pyr.</em>". 
-USAGE:</p>
-<p>[rxnID,producing,matched] = getRxnIDs(project,referenceModel, pattern)
-INPUTS:
-  project:                project object which is the output of
-                          singleModelAnalysis and modelsComparison
-  referenceModel:         the reference model according to which the
-                          idx should be obtained
-  pattern:                the regex pattern that is matched to find
-                          genes/rxns/mets participating in a rxns
-OUTPUTS: 
-  rxnID:                  idx of the models in the reference model
-  producing:              logical vector indicating if the mets
-                          specified in the pattern are produced or consumed in the reaction
-                          (according to stochiometry)
-  matched:                returning the actuall strings the pattern
-                          were matched to (so the name of the
-                          rxns/genes/mets/subSystems detected by
-                          givin the pattern)</p>
-
-
-            <details class="quote">
-              <summary>Source code in <code>scr/classes/model_comparison/functions/getRxnIDs.m</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -4905,42 +5103,416 @@ OUTPUTS:
 <span class="normal">88</span>
 <span class="normal">89</span>
 <span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span>
-<span class="normal">94</span>
-<span class="normal">95</span>
-<span class="normal">96</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>rxnID,producing,matchedAll<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">getRxnIDs</span><span class="p">(</span>project,referenceModel, pattern<span class="p">)</span>
-<span class="w">    </span><span class="c">% This function allow you to filter for reactions to visualize using a</span>
-<span class="w">    </span><span class="c">% pattern. You can give in the pattern for a subsystem/gene/rxns or</span>
-<span class="w">    </span><span class="c">% metabolite and the function will find the rxns that are associated</span>
-<span class="w">    </span><span class="c">% with the pattern given as an input. </span>
-<span class="w">    </span><span class="c">% Additionally you can define multiple patterns to be matched. </span>
-<span class="w">    </span><span class="c">% If you want the rxns to be associated to both patterns (for example a</span>
-<span class="w">    </span><span class="c">% rxns that produces/consumes lactate  in the Glycolysis) then you can</span>
-<span class="w">    </span><span class="c">% give in a pattern like this "^lac_.* &amp; ^Glycolysis.*". If you want</span>
-<span class="w">    </span><span class="c">% to find rxns that are assocated with multiple patterns (for example</span>
-<span class="w">    </span><span class="c">% all reactions that are consuming/producing lactate and pyruvate) you</span>
-<span class="w">    </span><span class="c">% can write it like this: "^lac.* | ^pyr.*". </span>
-<span class="w">    </span><span class="c">% USAGE:</span>
-<span class="w">    </span><span class="c">%</span>
-<span class="w">    </span><span class="c">%   [rxnID,producing,matched] = getRxnIDs(project,referenceModel, pattern)</span>
-<span class="w">    </span><span class="c">% INPUTS:</span>
-<span class="w">    </span><span class="c">%   project:                project object which is the output of</span>
-<span class="w">    </span><span class="c">%                           singleModelAnalysis and modelsComparison</span>
-<span class="w">    </span><span class="c">%   referenceModel:         the reference model according to which the</span>
-<span class="w">    </span><span class="c">%                           idx should be obtained</span>
-<span class="w">    </span><span class="c">%   pattern:                the regex pattern that is matched to find</span>
-<span class="w">    </span><span class="c">%                           genes/rxns/mets participating in a rxns</span>
-<span class="w">    </span><span class="c">% OUTPUTS: </span>
-<span class="w">    </span><span class="c">%   rxnID:                  idx of the models in the reference model</span>
-<span class="w">    </span><span class="c">%   producing:              logical vector indicating if the mets</span>
-<span class="w">    </span><span class="c">%                           specified in the pattern are produced or consumed in the reaction</span>
-<span class="w">    </span><span class="c">%                           (according to stochiometry)</span>
-<span class="w">    </span><span class="c">%   matched:                returning the actuall strings the pattern</span>
-<span class="w">    </span><span class="c">%                           were matched to (so the name of the</span>
-<span class="w">    </span><span class="c">%                           rxns/genes/mets/subSystems detected by</span>
-<span class="w">    </span><span class="c">%                           givin the pattern)</span>
+<span class="normal">91</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span>newFig<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">showFigure</span><span class="p">(</span>figHandle<span class="p">)</span>
+<span class="c">% Creates a copy of a figure safely.</span>
+<span class="c">%</span>
+<span class="c">% This function duplicates a figure given by its handle. It attempts</span>
+<span class="c">% several copy strategies in sequence: direct copyobj, children-only</span>
+<span class="c">% copyobj, and finally save-and-reopen via a temporary .fig file. This</span>
+<span class="c">% ensures compatibility with figures containing UIAxes, tables,</span>
+<span class="c">% clustergrams, and other complex objects.</span>
+<span class="c">%</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   figHandle (figure): Handle of the figure to duplicate.</span>
+<span class="c">%</span>
+<span class="c">% Returns:</span>
+<span class="c">%   newFig (figure): Handle of the newly created figure copy.</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   newFig = showFigure(plots.funct.import);</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Note:</span>
+<span class="c">%   The function tries three strategies in order of preference:</span>
+<span class="c">%   1. Direct copyobj of the entire figure</span>
+<span class="c">%   2. copyobj of children only into a new figure</span>
+<span class="c">%   3. Save to temporary .fig file and reopen</span>
+
+<span class="w">    </span><span class="k">try</span>
+
+<span class="w">        </span><span class="c">% tf = any(arrayfun(@(x) isa(x, 'matlab.ui.control.UIAxes'), figHandle.Children));</span>
+<span class="w">        </span><span class="c">% if tf </span>
+<span class="w">        </span><span class="c">%     error("This is a ui figure it needs to be saved and reopened!")</span>
+<span class="w">        </span><span class="c">% end</span>
+<span class="w">        </span><span class="nb">figure</span><span class="p">(</span><span class="nb">copyobj</span><span class="p">(</span><span class="n">figHandle</span><span class="p">,</span><span class="w"> </span><span class="nb">groot</span><span class="p">));</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w">  </span><span class="c">% success, exit function</span>
+
+<span class="w">    </span><span class="k">catch</span>
+<span class="w">        </span><span class="k">try</span>
+<span class="w">            </span><span class="c">% if tf </span>
+<span class="w">            </span><span class="c">%     error("This is a ui figure it needs to be saved and reopened!")</span>
+<span class="w">            </span><span class="c">% end</span>
+<span class="w">            </span><span class="n">children</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">get</span><span class="p">(</span><span class="n">figHandle</span><span class="p">,</span><span class="w"> </span><span class="s">'Children'</span><span class="p">);</span><span class="w">  </span><span class="c">% get figure children</span>
+<span class="w">            </span><span class="n">newFig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">figure</span><span class="p">;</span><span class="w">                        </span><span class="c">% create new figure</span>
+<span class="w">            </span><span class="nb">copyobj</span><span class="p">(</span><span class="n">children</span><span class="p">,</span><span class="w"> </span><span class="n">newFig</span><span class="p">);</span><span class="w">              </span><span class="c">% attempt copy</span>
+<span class="w">            </span><span class="nb">set</span><span class="p">(</span><span class="n">newFig</span><span class="p">,</span><span class="w"> </span><span class="s">'Visible'</span><span class="p">,</span><span class="w"> </span><span class="s">'on'</span><span class="p">);</span><span class="w">           </span><span class="c">% ensure it shows</span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span><span class="w">  </span><span class="c">% success, exit function</span>
+<span class="w">        </span><span class="k">catch</span><span class="w"> </span>
+<span class="w">            </span><span class="c">% try</span>
+<span class="w">            </span><span class="c">%     % if tf </span>
+<span class="w">            </span><span class="c">%     %     error("This is a ui figure it needs to be saved and reopened!")</span>
+<span class="w">            </span><span class="c">%     % end</span>
+<span class="w">                </span><span class="c">% Check input</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">ishandle</span><span class="p">(</span><span class="n">figHandle</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">~</span><span class="nb">strcmp</span><span class="p">(</span><span class="nb">get</span><span class="p">(</span><span class="n">figHandle</span><span class="p">,</span><span class="s">'Type'</span><span class="p">),</span><span class="s">'figure'</span><span class="p">)</span>
+<span class="w">                    </span><span class="nb">error</span><span class="p">(</span><span class="s">'Input must be a valid figure handle.'</span><span class="p">);</span>
+<span class="w">                </span><span class="k">end</span>
+
+
+<span class="w">                </span><span class="c">% Generate a temporary filename in the system temp folder</span>
+<span class="w">                </span><span class="n">tempFile</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="nb">tempname</span><span class="p">,</span><span class="w"> </span><span class="s">'.fig'</span><span class="p">];</span>
+
+<span class="w">                </span><span class="k">try</span>
+<span class="w">                    </span><span class="c">% Save the figure to the temporary file</span>
+<span class="w">                    </span><span class="nb">savefig</span><span class="p">(</span><span class="n">figHandle</span><span class="p">,</span><span class="w"> </span><span class="n">tempFile</span><span class="p">);</span>
+
+<span class="w">                    </span><span class="c">% Open the figure as a new figure</span>
+<span class="w">                    </span><span class="n">newFig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">openfig</span><span class="p">(</span><span class="n">tempFile</span><span class="p">,</span><span class="w"> </span><span class="s">'reuse'</span><span class="p">);</span><span class="w"> </span><span class="c">% opens a new figure window</span>
+
+<span class="w">                    </span><span class="c">% Ensure it is visible</span>
+<span class="w">                    </span><span class="nb">set</span><span class="p">(</span><span class="n">newFig</span><span class="p">,</span><span class="w"> </span><span class="s">'Visible'</span><span class="p">,</span><span class="w"> </span><span class="s">'on'</span><span class="p">);</span>
+
+<span class="w">                </span><span class="k">catch</span><span class="w"> </span><span class="n">ME</span>
+<span class="w">                    </span><span class="c">% If any error occurs, delete the temp file and rethrow</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="n">tempFile</span><span class="p">,</span><span class="w"> </span><span class="s">'file'</span><span class="p">)</span>
+<span class="w">                        </span><span class="nb">delete</span><span class="p">(</span><span class="n">tempFile</span><span class="p">);</span>
+<span class="w">                    </span><span class="k">end</span>
+<span class="w">                    </span><span class="nb">rethrow</span><span class="p">(</span><span class="n">ME</span><span class="p">);</span>
+<span class="w">                </span><span class="k">end</span>
+
+<span class="w">                </span><span class="c">% Delete the temporary file</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="n">tempFile</span><span class="p">,</span><span class="w"> </span><span class="s">'file'</span><span class="p">)</span>
+<span class="w">                    </span><span class="nb">delete</span><span class="p">(</span><span class="n">tempFile</span><span class="p">);</span>
+<span class="w">                </span><span class="k">end</span>
+<span class="w">            </span><span class="c">% catch</span>
+<span class="w">            </span><span class="c">%     drawnow</span>
+<span class="w">            </span><span class="c">%     frame = getframe(figHandle);</span>
+<span class="w">            </span><span class="c">%     figure('Position', [10 10 1000 1000]) % [left bottom width height]</span>
+<span class="w">            </span><span class="c">%     imshow(frame.cdata)</span>
+<span class="w">            </span><span class="c">% end</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="k">end</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="getRxnIDs" class="doc doc-heading">
+            <code class="highlight language-matlab"><span class="n">getRxnIDs</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">referenceModel</span><span class="p">,</span><span class="w"> </span><span class="nb">pattern</span><span class="p">)</span></code>
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+        <p>Finds reactions matching a pattern across model fields.</p>
+<p>This function filters reactions for visualization using a regex pattern.
+The pattern can match subsystems, genes, reaction names, or metabolites.
+Multiple patterns can be combined with &amp; (AND) or | (OR) operators.</p>
+
+<p><span class="doc-section-title">Input arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Project object from singleModelAnalysis and
+  modelsComparison.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>referenceModel</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Reference model to search in.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>pattern</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Regex pattern(s) to match. Use &amp; to require
+  multiple patterns simultaneously (e.g. "^lac_.<em> &amp; ^Glycolysis.</em>")
+  or | to match any of several patterns (e.g. "^lac.<em> | ^pyr.</em>").</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Output arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnID</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Reaction indices in the reference model for each
+  pattern.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>producing</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Logical vector indicating whether matched
+  metabolites are produced or consumed in each reaction, based on
+  stoichiometry.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>matchedAll</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Actual strings matched by each pattern (reaction,
+  gene, metabolite, or subsystem names).</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="c">% Find reactions in Glycolysis involving lactate</span>
+<span class="p">[</span><span class="n">rxnID</span><span class="p">,</span><span class="w"> </span><span class="n">producing</span><span class="p">,</span><span class="w"> </span><span class="n">matched</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">getRxnIDs</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="s">"^lac_.* &amp; ^Glycolysis.*"</span><span class="p">);</span>
+
+<span class="c">% Find reactions involving lactate or pyruvate</span>
+<span class="p">[</span><span class="n">rxnID</span><span class="p">,</span><span class="w"> </span><span class="n">producing</span><span class="p">,</span><span class="w"> </span><span class="n">matched</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">getRxnIDs</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="s">"^lac.* | ^pyr.*"</span><span class="p">);</span>
+
+<span class="c">% Find reactions in a single subsystem</span>
+<span class="p">[</span><span class="n">rxnID</span><span class="p">,</span><span class="w"> </span><span class="n">producing</span><span class="p">,</span><span class="w"> </span><span class="n">matched</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">getRxnIDs</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="s">"^TCA cycle.*"</span><span class="p">);</span>
+</code></pre></div>
+
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>If no match is found in model fields, the function searches the
+gene ID dictionary (settings.dico) to match gene names, symbols, or
+other identifiers. A pattern cannot contain both &amp; and | operators.</p>
+</details>
+
+            <details class="quote">
+              <summary>Source code in <code>scr/classes/model_comparison/functions/getRxnIDs.m</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">  1</span>
+<span class="normal">  2</span>
+<span class="normal">  3</span>
+<span class="normal">  4</span>
+<span class="normal">  5</span>
+<span class="normal">  6</span>
+<span class="normal">  7</span>
+<span class="normal">  8</span>
+<span class="normal">  9</span>
+<span class="normal"> 10</span>
+<span class="normal"> 11</span>
+<span class="normal"> 12</span>
+<span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>rxnID, producing,matchedAll<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">getRxnIDs</span><span class="p">(</span>project, referenceModel, pattern<span class="p">)</span>
+<span class="c">% Finds reactions matching a pattern across model fields.</span>
+<span class="c">%</span>
+<span class="c">% This function filters reactions for visualization using a regex pattern.</span>
+<span class="c">% The pattern can match subsystems, genes, reaction names, or metabolites.</span>
+<span class="c">% Multiple patterns can be combined with &amp; (AND) or | (OR) operators.</span>
+<span class="c">%</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   project (struct): Project object from singleModelAnalysis and</span>
+<span class="c">%       modelsComparison.</span>
+<span class="c">%   referenceModel (string): Reference model to search in.</span>
+<span class="c">%   pattern (string): Regex pattern(s) to match. Use &amp; to require</span>
+<span class="c">%       multiple patterns simultaneously (e.g. "^lac_.* &amp; ^Glycolysis.*")</span>
+<span class="c">%       or | to match any of several patterns (e.g. "^lac.* | ^pyr.*").</span>
+<span class="c">%</span>
+<span class="c">% Returns:</span>
+<span class="c">%   rxnID (cell): Reaction indices in the reference model for each</span>
+<span class="c">%       pattern.</span>
+<span class="c">%   producing (cell): Logical vector indicating whether matched</span>
+<span class="c">%       metabolites are produced or consumed in each reaction, based on</span>
+<span class="c">%       stoichiometry.</span>
+<span class="c">%   matchedAll (cell): Actual strings matched by each pattern (reaction,</span>
+<span class="c">%       gene, metabolite, or subsystem names).</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   % Find reactions in Glycolysis involving lactate</span>
+<span class="c">%   [rxnID, producing, matched] = getRxnIDs(project, "model1", ...</span>
+<span class="c">%       "^lac_.* &amp; ^Glycolysis.*");</span>
+<span class="c">%</span>
+<span class="c">%   % Find reactions involving lactate or pyruvate</span>
+<span class="c">%   [rxnID, producing, matched] = getRxnIDs(project, "model1", ...</span>
+<span class="c">%       "^lac.* | ^pyr.*");</span>
+<span class="c">%</span>
+<span class="c">%   % Find reactions in a single subsystem</span>
+<span class="c">%   [rxnID, producing, matched] = getRxnIDs(project, "model1", ...</span>
+<span class="c">%       "^TCA cycle.*");</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Note:</span>
+<span class="c">%   If no match is found in model fields, the function searches the</span>
+<span class="c">%   gene ID dictionary (settings.dico) to match gene names, symbols, or</span>
+<span class="c">%   other identifiers. A pattern cannot contain both &amp; and | operators.</span>
+
 <span class="w">    </span><span class="nb">arguments</span>
 <span class="w">        </span><span class="n">project</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">struct</span>
 <span class="w">        </span><span class="n">referenceModel</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
