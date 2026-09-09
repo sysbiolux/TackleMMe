@@ -1,4 +1,48 @@
-function [fluxSet,figs] = visSingleRxnSamplingDistribution(project, compName, rxnSet,rxnSetLabel,referenceModel,addKLDValues)
+function [fluxSet, figs] = visSingleRxnSamplingDistribution(project, compName, rxnSet, rxnSetLabel, referenceModel, addKLDValues)
+% Generates violin plots showing the distribution of flux values across
+% all sampling solutions for each reaction in the defined set. One
+% violin plot is produced per reaction index in rxnSet.
+%
+% Arguments:
+%   project (struct): Project object from singleModelAnalysis and
+%       modelComparison. Both must have been run before calling this
+%       function.
+%   compName (string): Name of the comparison to visualize. Available
+%       comparisons can be listed with project.comparisons.
+%   rxnSet (cell): Set of reaction indices to visualize, typically
+%       obtained via getRxnIDs.
+%   rxnSetLabel (string): Label displayed for this reaction set in the
+%       figure.
+%   referenceModel (string): Name of the reference model. Must match
+%       the reference model used in the specified comparison and when
+%       retrieving reaction IDs with getRxnIDs.
+%   addKLDValues (logical): If true, display the Kullback-Leibler
+%       divergence significance between sampling distributions on the
+%       violin plots. Default: false.
+%
+% Returns:
+%   fluxSet (struct): Flux data used to generate the violin plots.
+%   figs (figure): Figure object generated and displayed by the
+%       function.
+%
+% Examples:
+%   ```matlab
+%   % Visualize sampling distribution for a set of reactions
+%   [rxnsMetId, producingMet, matched] = getRxnIDs(project, ...
+%       referenceModel, "Glycolysis.*");
+%   [fluxSet, figs] = visSingleRxnSamplingDistribution(project, ...
+%       compName, rxnsMetId, "Glycolysis", referenceModel);
+%
+%   % Include KLD significance values
+%   [fluxSet, figs] = visSingleRxnSamplingDistribution(project, ...
+%       compName, rxnsMetId, "Glycolysis", referenceModel, true);
+%   ```
+%
+% Warning:
+%   The reference model must be the same one used when calling
+%   getRxnIDs to retrieve the reaction indices. Using a different
+%   reference model will cause index misalignment.
+
 arguments
     project 
     compName (1,1) string
@@ -8,41 +52,7 @@ arguments
     addKLDValues (1,1) logical = false
 end
 
-% 
-% This function generates a violin that shows the distribution of flux
-% values overall samples for one rxns. One violin plot per defined index in
-% rxnSet is generated.
-% USAGE: 
-%       visSingleRxnSamplingDistribution(project, compName, rxnSet,rxnSetLabel,referenceModel) 
-% INPUT: 
-%       project:        object generated through the pipeline
-%                       (singleModelAnalysis and modelsComparison have to be run before)
-%       compName:       the comparison to visualize in this figure. The names
-%                       of the comparisons already present in the object can be seen using
-%                       project.comparisons
-%       rxnSet:        The sets of rxns to be visualized 
-%       rxnSetLabel:   The Labels that should be used in the figure
-%       referenceModel: The name of the reference model used.
-%   optional: 
-%       addKLDValue:    Specify whether you want the significance of
-%                       dissimilarity between the sampling distribution to
-%                       be displayed in the violin plot. (default:false)
-%
-% OUTPUT:
-%       figs:           Figure object generated and displayed by the
-%                       function
-%
-%
-% Code Example: 
-% after running singleModelAnalysis and modelsComparison this code can be
-% used: 
-% 
-% [rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["Pentose.* & g6p.*"; "Glycolysis.*"]);
-% visDiffMetSetUsageFBA(BRCAProject, compName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"],referenceModel)
-%
-
 % check project format: 
-% comparison specified is there ? has the required fields ? 
 
 if ~isfield(project, 'comparisons')
     error('Project object does not contain a comparison object. After running the singleModels analysis you still have to run modelsComparison before beeing able to use this function!')
@@ -50,7 +60,7 @@ end
 if ~isfield(project.comparisons, compName)
     error('The comparison name you gave as an input is not available in the object. Check your spelling!')
 end
-if ~isfield(project.comparisons.(compName),'samplingComparison')
+if ~isfield(project.comparisons.(compName), 'samplingComparison')
     error('The comparison object you specified does not entail a samplingComparison. Run modelsComparison(project, modelsToCompare, referenceModel, compID, ["samplingComparison"]).')
 end
 if ~isfield(project.comparisons.(compName).samplingComparison, 'orderedSamples')
@@ -70,6 +80,6 @@ end
 %
 rxnLabel    = matlab.lang.makeValidName(rxnSetLabel);  % used as field name
 
-[fluxSet,figs] = visualizeFlux(project, compName,rxnSet,rxnLabel,"orderedSamples","all",'on',addKLDValues)
+[fluxSet, figs] = visualizeFlux(project, compName, rxnSet, rxnLabel, "orderedSamples", "all", 'on', addKLDValues)
 
 end

@@ -22,9 +22,9 @@ initCobraToolbox();
 changeCobraSolver('gurobi');
 feature astheightlimit 2000;
 
-%% define data folder path and add it to the path variable
+%% DEFINE DATA FOLDER AND ADD IT TO THE PATH
 
-dataPath = "/Users/leonie.thomas/Desktop/test_pipeline/analysisPipelineLVT/data";
+dataPath = "local/absPath/to/data";
 addpath(genpath(dataPath))
 
 %% LOADING PROJECT AND PARAMETERS FOR ANALYSIS

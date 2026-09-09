@@ -1,4 +1,37 @@
-function prepareDataForIDAREVisualization(project, comparisonName,folderPath,options)
+function prepareDataForIDAREVisualization(project, comparisonName, folderPath, options)
+% Prepares project and comparison data for visualization in the IDARE
+% Cytoscape app. Exports all models as SBML XML files (with GPR rules
+% and compartments stripped) and generates reaction and metabolite data
+% tables containing FBA, FVA, sampling, flux sum, and structural
+% presence information for each model in the comparison.
+%
+% Arguments:
+%   project (struct): Project object from singleModelAnalysis and
+%       modelComparison.
+%   comparisonName (string): Name of the comparison to export.
+%   folderPath (string): Base directory where the timestamped output
+%       folder will be created.
+%   options: Reserved for future options. Currently unused.
+%
+% Examples:
+%   ```matlab
+%   % Export data for IDARE visualization
+%   prepareDataForIDAREVisualization(project, compName, "C:/output/idare");
+%   ```
+%
+% Note:
+%   Creates a timestamped subfolder inside folderPath with two
+%   subdirectories: "models" (containing .mat and .xml files for each
+%   model plus the reference model) and "data" (containing
+%   reaction_data.xlsx and metabolite_data.xlsx). The XML export uses
+%   COBRApy via a Python environment to convert MATLAB models to SBML
+%   format.
+%
+% Warning:
+%   Requires a configured Python environment with COBRApy installed.
+%   The Python path is hardcoded in the exportToXML helper function and
+%   must be updated to match your local conda environment path.
+
     arguments
         project 
         comparisonName (1,1) string

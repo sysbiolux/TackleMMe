@@ -1,4 +1,42 @@
-function [figs] = visMetSetVariability(project, compName, rxnSets,rxnSetLabels,referenceModel)
+function [figs] = visMetSetVariability(project, compName, rxnSets, rxnSetLabels, referenceModel)
+% Generates a heatmap showing how much each metabolite participating in
+% the defined reaction sets is used, based on all sampling solutions.
+% The resulting heatmap contains one value per metabolite set per
+% sample. Usage is defined as the flux sum of all reactions that
+% consume the metabolite within each reaction set.
+%
+% Arguments:
+%   project (struct): Project object from singleModelAnalysis and
+%       modelComparison. Both must have been run before calling this
+%       function.
+%   compName (string): Name of the comparison to visualize. Available
+%       comparisons can be listed with project.comparisons.
+%   rxnSets (cell): Sets of reaction indices to visualize, typically
+%       obtained via getRxnIDs.
+%   rxnSetLabels (string): Labels for each reaction set, displayed in
+%       the figure. Must be the same length as rxnSets.
+%   referenceModel (string): Name of the reference model. Must match
+%       the reference model used in the specified comparison and when
+%       retrieving reaction IDs with getRxnIDs.
+%
+% Returns:
+%   figs (figure): Figure object generated and displayed by the
+%       function.
+%
+% Examples:
+%   ```matlab
+%   % Retrieve reactions for two sets, then visualize
+%   [rxnsMetId, producingMet, matched] = getRxnIDs(project, ...
+%       referenceModel, ["Pentose.* & g6p.*"; "Glycolysis.*"]);
+%   figs = visMetSetVariability(project, compName, rxnsMetId, ...
+%       ["Pentose.* & g6p.*"; "Glycolysis.*"], referenceModel);
+%   ```
+%
+% Warning:
+%   The reference model must be the same one used when calling
+%   getRxnIDs to retrieve the reaction indices. Using a different
+%   reference model will cause index misalignment.
+
 arguments
     project 
     compName (1,1) string
@@ -7,40 +45,7 @@ arguments
     referenceModel (1,1) string
 end
 
-% 
-% This function generates a heatmap that shows how much all Metabolites
-% that participate in the defined Rxns are used in the defined rxnSets.
-% This is calculated based on all solutions from the performed sampling.
-% The resulting heatmap entail one value for a MetSet for one sample.
-% The usage here is defined as the flux sum of all the rxns that consume
-% this metabolite in the defined rxnSet. 
-% USAGE: 
-%       visDiffMetSetUsageSampling(project, compName, rxnSets,rxnSetLabels,referenceModel) 
-% INPUT: 
-%       project:        object generated through the pipeline
-%                       (singleModelAnalysis and modelsComparison have to be run before)
-%       compName:       the comparison to visualize in this figure. The names
-%                       of the comparisons already present in the object can be seen using
-%                       project.comparisons
-%       rxnSets:        The sets of rxns to be visualized 
-%       rxnSetLabels:   The Labels that should be used in the figure
-%       referenceModel: The name of the reference model used.
-%
-% OUTPUT:
-%       figs:           Figure object generated and displayed by the
-%                       function
-%
-%
-% Code Example: 
-% after running singleModelAnalysis and modelsComparison this code can be
-% used: 
-% 
-% [rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["Pentose.* & g6p.*"; "Glycolysis.*"]);
-% visDiffMetSetUsageFBA(BRCAProject, compName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"],referenceModel)
-%
-
-% check project format: 
-% comparison specified is there ? has the required fields ? 
+% check project format
 
 if ~isfield(project, 'comparisons')
     error('Project object does not contain a comparison object. After running the singleModels analysis you still have to run modelsComparison before beeing able to use this function!')

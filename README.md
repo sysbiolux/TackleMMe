@@ -13,11 +13,11 @@ A documentation, including installation requirements, project layout description
 ## Storage of the data
 
 Everything is stored in a structure named `project`. The architecture looks like the below tree.
-A complete `project` can be downloaded from our [zenodo folder](https://zenodo.org/records/22209352?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjBkN2Y0ZTI3LTU0ODItNDQxYS05NGJhLTY1MWI2NTc4ODhlMCIsImRhdGEiOnt9LCJyYW5kb20iOiI0OWJjMzFmOWY4MGZkOGU4ZjVkZmI4NDY5NDhiZTQ3ZiJ9.ii7lRdgZ1I5C2fUK3J19wJUdFeSRUkJf7Vx-ttHiIR31ihqqXqc0EVUgcjaE7PN3Sw-BdNVWk6VxHlv-WzWm1w). The object shows how a project looks like after running the entire pipeline. This one specifically corresponds to the tutorial example on Breast Cancer data.
+A complete `project` can be downloaded from our [zenodo folder](https://zenodo.org/records/22209352?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjRjYzNkNDQ5LTQxNjUtNGI0Yy05NTUwLTBkMWVmYWMzNTQ0ZSIsImRhdGEiOnt9LCJyYW5kb20iOiJjMjE1ZmEyMTAwODRlNWMyNzBkYjZhNTU2NGUwYzVhNiJ9.puAZhYmsSncp1HasCN-igfMabHyGzJJW3ZAlou2d76_lICZ5vHo3wJmytpqy0bRFITK441eD9SaHTr2lZEgq5g). The object shows how a project looks like after running the entire pipeline. This one specifically corresponds to the tutorial example on Breast Cancer data.
 
 ## Running an example
 
-A running example is available in the BRCAexample folder. Associated data are provided in the data folder (to download the data correctly it needs to be pulled using git pull, zip download will not work). Associated workspaces and intermediate projects after each step of the pipeline can be downloaded from our [zenodo folder](https://zenodo.org/records/22209352?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjBkN2Y0ZTI3LTU0ODItNDQxYS05NGJhLTY1MWI2NTc4ODhlMCIsImRhdGEiOnt9LCJyYW5kb20iOiI0OWJjMzFmOWY4MGZkOGU4ZjVkZmI4NDY5NDhiZTQ3ZiJ9.ii7lRdgZ1I5C2fUK3J19wJUdFeSRUkJf7Vx-ttHiIR31ihqqXqc0EVUgcjaE7PN3Sw-BdNVWk6VxHlv-WzWm1w) as well.
+A running example is available in the BRCAexample folder. Associated data are provided in the data folder (to download the data correctly it needs to be pulled using git pull, zip download will not work). Associated workspaces and intermediate projects after each step of the pipeline can be downloaded from our [zenodo folder](https://zenodo.org/records/22209352?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjRjYzNkNDQ5LTQxNjUtNGI0Yy05NTUwLTBkMWVmYWMzNTQ0ZSIsImRhdGEiOnt9LCJyYW5kb20iOiJjMjE1ZmEyMTAwODRlNWMyNzBkYjZhNTU2NGUwYzVhNiJ9.puAZhYmsSncp1HasCN-igfMabHyGzJJW3ZAlou2d76_lICZ5vHo3wJmytpqy0bRFITK441eD9SaHTr2lZEgq5g) as well.
 
 
 

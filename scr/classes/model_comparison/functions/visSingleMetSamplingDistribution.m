@@ -1,4 +1,41 @@
-function [fluxSet,figs] = visSingleMetSamplingDistribution(project, compName, rxnSet,rxnSetLabel,referenceModel)
+function [fluxSet, figs] = visSingleMetSamplingDistribution(project, compName, rxnSet, rxnSetLabel, referenceModel)
+% Generates a violin plot showing the flux sum value distribution for
+% all metabolites participating in the defined reaction set. Each dot
+% in the violin plot represents one sampling solution.
+%
+% Arguments:
+%   project (struct): Project object from singleModelAnalysis and
+%       modelComparison. Both must have been run before calling this
+%       function.
+%   compName (string): Name of the comparison to visualize. Available
+%       comparisons can be listed with project.comparisons.
+%   rxnSet (cell): A single set of reaction indices to visualize,
+%       typically obtained via getRxnIDs.
+%   rxnSetLabel (string): Label displayed for this reaction set in the
+%       plot.
+%   referenceModel (string): Name of the reference model. Must match
+%       the reference model used in the specified comparison and when
+%       retrieving reaction IDs with getRxnIDs.
+%
+% Returns:
+%   fluxSet (struct): Flux sum data used to generate the violin plot.
+%   figs (figure): Figure object generated and displayed by the
+%       function.
+%
+% Examples:
+%   ```matlab
+%   % Retrieve reactions for one set, then visualize
+%   [rxnsMetId, producingMet, matched] = getRxnIDs(project, ...
+%       referenceModel, "Glycolysis.*");
+%   [fluxSet, figs] = visSingleMetSamplingDistribution(project, ...
+%       compName, rxnsMetId, "Glycolysis", referenceModel);
+%   ```
+%
+% Warning:
+%   The reference model must be the same one used when calling
+%   getRxnIDs to retrieve the reaction indices. Using a different
+%   reference model will cause index misalignment.
+
 arguments
     project 
     compName (1,1) string
@@ -7,37 +44,7 @@ arguments
     referenceModel (1,1) string
 end
 
-% 
-% This function generates one violin plot that shows the fluxsum value distribution for
-% all the metabolites taking part in the defined rxns. Each dot in the
-% violin plot is one sample.
-% USAGE: 
-%       visSingleMetSamplingDistribution(project, compName, rxnSet,rxnSetLabel,referenceModel) 
-% INPUT: 
-%       project:        object generated through the pipeline
-%                       (singleModelAnalysis and modelsComparison have to be run before)
-%       compName:       the comparison to visualize in this figure. The names
-%                       of the comparisons already present in the object can be seen using
-%                       project.comparisons
-%       rxnSet:        One set of rxns to be visualized 
-%       rxnSetLabel:   The label to be displayed for this rxnSet in the plot.
-%       referenceModel: The name of the reference model used.
-%
-% OUTPUT:
-%       figs:           Figure object generated and displayed by the
-%                       function
-%
-%
-% Code Example: 
-% after running singleModelAnalysis and modelsComparison this code can be
-% used: 
-% 
-% [rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["Pentose.* & g6p.*"; "Glycolysis.*"]);
-% visDiffMetSetUsageFBA(BRCAProject, compName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"],referenceModel)
-%
-
 % check project format: 
-% comparison specified is there ? has the required fields ? 
 
 if ~isfield(project, 'comparisons')
     error('Project object does not contain a comparison object. After running the singleModels analysis you still have to run modelsComparison before beeing able to use this function!')
@@ -64,7 +71,7 @@ end
 %
 rxnLabel    = matlab.lang.makeValidName(rxnSetLabel);  % used as field name
 
-[fluxSet,figs] = visualizeFluxsum(project, compName,[],rxnSet,rxnLabel,"violin",...
-                                       false,false,"orderedSamples","outgoing",referenceModel,'on')
+[fluxSet,figs] = visualizeFluxsum(project, compName, [], rxnSet, rxnLabel, "violin", ...
+                                       false, false, "orderedSamples", "outgoing", referenceModel, 'on')
 
 end

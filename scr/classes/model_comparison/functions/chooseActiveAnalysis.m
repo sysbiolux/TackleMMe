@@ -1,33 +1,52 @@
 function [project, activeAnalysisTable] = chooseActiveAnalysis(project, modelList, analysisIDs, overwriteActive)
-    % This function needs to be run in preparation for the modelsComparison
-    % function. For the loaded project object, multiple analysis with a
-    % different set of parameters can be performed. Before going into the
-    % comparison, an active analysis needs to be choosen out of all the
-    % singleModelAnalysis on grounds of which the comparison is then made.
-    % In order to do so this function moves the analysis performed one slot up
-    % in the struct structure so it is directly in the analysis slot.
-    % This way the downstream analysis can be performed without specifying
-    % the exact analysis name for every single model in the comparison.
-    %
-    % Inputs:
-    %   - project: the project (struct)
-    %   - modelList: list of models for which an active analysis should
-    %     be defined (cell or string array)
-    %   - analysisIDs: the name of the analysis for each of the models to
-    %     be set as the active analysis for the following comparison.
-    %     When no analysisIDs is given the most recent analysis performed
-    %     for each model will be set as active.
-    %   - overwriteActive: when using {'all'} (default) then before adding the
-    %     chosen analysis to the default slot, all the objects that are in
-    %     there are deleted. In case you want to just replace (for example)
-    %     the FBA in the current default then you can just overwrite the
-    %     FBA slot without deleting (for example the sampling) by setting
-    %     overwriteActive to {'FBA'}.
-    %
-    % Outputs:
-    %   - project: a project with a defined active analysis
-    %   - analysisIDs: get the analysisID used returned, in the same order
-    %     as the modelList given
+% Designates which analysis run to use for model comparison.
+%
+% This function must be run before modelComparison. Since multiple
+% analysis runs can coexist on the same model, this function selects which
+% one to use by copying it into an 'active' slot. This allows downstream
+% comparison functions to access results without specifying the exact
+% analysis ID for each model.
+%
+% Arguments:
+%   project (struct): Project structure with completed single model
+%       analyses.
+%   modelList (cell): Names of the models to define an active analysis
+%       for.
+%   analysisIDs (cell): Analysis ID to set as active for each model, in
+%       the same order as modelList. If empty, the most recent analysis
+%       (by timestamp) is automatically selected for each model.
+%   overwriteActive (cell): Fields to overwrite in the existing active
+%       slot. Use {'all'} (default) for full replacement, or specify
+%       individual fields (e.g. {'FBA'}) to selectively overwrite while
+%       preserving other results.
+%
+% Returns:
+%   project (struct): Project with an active analysis defined for each
+%       model.
+%   activeAnalysisTable (table): Summary of the active analysis IDs used
+%       per model.
+%
+% Examples:
+%   ```matlab
+%   % Use the most recent analysis for each model
+%   [project, activeTable] = chooseActiveAnalysis(project, ...
+%       {'model1', 'model2'});
+%
+%   % Specify explicit analysis IDs
+%   [project, activeTable] = chooseActiveAnalysis(project, ...
+%       {'model1', 'model2'}, ...
+%       {'analysis_20240815_1430', 'analysis_20240816_0900'});
+%
+%   % Selectively overwrite only FBA in the active slot
+%   [project, activeTable] = chooseActiveAnalysis(project, ...
+%       {'model1'}, {'analysis_20240815_1430'}, {'FBA'});
+%   ```
+%
+% Note:
+%   When overwriteActive is set to a specific field (e.g. {'FBA'}), the
+%   parameters table is automatically merged: rows corresponding to the
+%   overwritten analyses are replaced, while rows for other analyses are
+%   preserved.
 
     arguments
         project

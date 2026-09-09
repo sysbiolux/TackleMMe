@@ -1,15 +1,74 @@
-function fig_out = visualizeSamplingLandscape(project,comparison_name, rxn_to_visualize,options)
-    % This function will visualize your reaction of interest on the a
-    % dimension reduced space. 
-    % 
-    % Inputs: 
-    %   - project:          the object which is the output of the single_model_analysis
-    %                       entailing the results of fba,fva,sampling, single gene
-    %                       deletion etc. for a single model 
-    %   - comparison_name:  name of the comparsion the dimension reduction
-    %                       should be performed
-    %   - rxn_to_visualize: reaction values to be visualized as color on in the figure
-    %   - options:          
+function fig_out = visualizeSamplingLandscape(project, comparison_name, rxn_to_visualize, options)
+% Visualizes sampling solutions in a dimension-reduced space (PCA or
+% UMAP) with reaction flux or flux sum values overlaid as color. PCA is
+% always computed first; UMAP is then applied on the selected principal
+% components. Optionally, k-means clustering can be performed on the
+% PCA-reduced data.
+%
+% Arguments:
+%   project (struct): Project object from singleModelAnalysis and
+%       modelComparison.
+%   comparison_name (string): Name of the comparison containing the
+%       sampling results to visualize.
+%   rxn_to_visualize (string): Reaction name whose flux values are
+%       displayed as color in the reduced space. Default:
+%       "biomass_reaction".
+%   options.dim_reduction_type (string): Dimension reduction method,
+%       "PCA" or "UMAP". Default: "UMAP".
+%   options.pcs_vis (1-by-2 array): Principal components to display
+%       when using PCA. Default: [1, 2].
+%   options.sampling_feature (string): Feature space for reduction,
+%       "flux" (per-reaction) or "fluxsum" (per-metabolite). Default:
+%       "flux".
+%   options.num_clusters (numeric): Number of k-means clusters. If 0,
+%       defaults to the number of unique model labels. Default: 0.
+%   options.pcs_used_dim_red (numeric): Number of PCs fed into UMAP.
+%       If 0, automatically determined to reach 70 percent cumulative
+%       variance. Default: 0.
+%   options.perform_kmeans (numeric): If 1, run k-means clustering on
+%       the PCA-reduced data. Default: 0.
+%   options.thinning (numeric): Subsampling interval to reduce
+%       computational load. Every nth sample is kept. Default: 10.
+%   options.n_neighbors (numeric): UMAP n_neighbors parameter.
+%       Default: 50.
+%   options.overwrite (numeric): If 1, overwrite existing dimension
+%       reduction results. Default: 0.
+%   options.visible_plot (string): Figure visibility, "on" or "off".
+%       Default: "on".
+%
+% Returns:
+%   fig_out (struct): Struct containing the generated figures. Fields
+%       include "label" (model labels scatter), "cluster" (k-means
+%       cluster scatter, if performed), and a field named after the
+%       visualized reaction (flux value colored scatter).
+%
+% Examples:
+%   ```matlab
+%   % Default UMAP visualization with biomass reaction flux as color
+%   fig_out = visualizeSamplingLandscape(project, compName);
+%
+%   % Use PCA with custom components and fluxsum features
+%   fig_out = visualizeSamplingLandscape(project, compName, ...
+%       "EX_glc(e)", struct('dim_reduction_type', "PCA", ...
+%       'pcs_vis', [1, 3], 'sampling_feature', "fluxsum"));
+%
+%   % Run UMAP with k-means clustering
+%   fig_out = visualizeSamplingLandscape(project, compName, ...
+%       "biomass_reaction", struct('perform_kmeans', 1, ...
+%       'num_clusters', 3, 'thinning', 5));
+%   ```
+%
+% Note:
+%   PCA is always computed on z-scored, zero-variance-filtered samples.
+%   UMAP is applied on the first numPCs principal components of the
+%   thinned data. K-means clustering quality is assessed via silhouette
+%   score and label homogeneity.
+%
+% Warning:
+%   UMAP requires the UMAP toolbox, which is compatible with MATLAB
+%   R2019a through R2024b only. R2025a and later remove Java access to
+%   MATLAB figures, breaking the toolbox.
+
     arguments
         project 
         comparison_name
