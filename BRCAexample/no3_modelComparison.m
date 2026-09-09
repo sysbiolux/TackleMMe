@@ -12,7 +12,7 @@ feature astheightlimit 2000;
 
 %% define data folder path and add it to the path variable
 
-dataPath = "/Users/leonie.thomas/Documents/fastcore_workflow_with_vanille/data";
+dataPath = "local/absPath/to/data";
 addpath(genpath(dataPath))
 
 %% LOADING PROJECT AND PARAMETERS FOR ANALYSIS
@@ -34,15 +34,13 @@ comparisonList = ["structuralComparison", "functionalComparison", "samplingCompa
 
 compID = "tutorial_BRCA"; 
 
-rmpath("/Users/leonie.thomas/cobratoolbox/papers/2025_bioenergeticPD")
+rmpath("local/absPath/to/cobratoolbox/papers/2025_bioenergeticPD")
 [BRCAProject, comparisonName] = modelComparison(BRCAProject, modelsToCompare, referenceModel, compID, comparisonList);
 
 %% Showing the Default figures generated during comparison 
 
-%load('20262608_bigComparisonStructComparison.mat');
+load('workspaceTutoNo3.mat');
 
-%compName = "Control_vs_StageI_vs_StageII_vs_StageIII__full_test_finalObject";
-comparisonName = comparisonName;
 
 % --- Structural Analysis Plots
 

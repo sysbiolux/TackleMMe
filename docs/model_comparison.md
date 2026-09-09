@@ -339,9 +339,10 @@ The overlap between the models per subsystem in absolute(numbers writen in the t
 
 
 
-### Functional Model Comparison
+__Functional Model Comparison:__
 
 
+![imageoverview](assets/simFVA.svg)
 
 
 ### Sampling Comparison 
