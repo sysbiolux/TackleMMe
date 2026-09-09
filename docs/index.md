@@ -7,11 +7,11 @@
 ## Concept
 
 TackleMMe is based on the creation of one unique MATLAB object, called *project*. A *project* is made to store everything, from model building, to model analysis and model comparison.
-Tutorial scripts can be found in the [BRCA example folder of our github](https://github.com/sysbiolux/analysisPipelineLVT/tree/main/BRCAexample).
+Tutorial scripts can be found in the [BRCA example folder of our github](https://github.com/sysbiolux/TackleMMe/tree/main/BRCAexample).
 
 A complete `project` object after running the entire pipeline (`20262608_BRCAProject.mat`), as well as intermediate objects after running the several steps of the pipeline are available [here](https://zenodo.org/records/22209352?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjIyYmUwNDIxLWM2ZWQtNDFlYi1iYmUwLTQ1Y2Q1ZWIxMGVkNyIsImRhdGEiOnt9LCJyYW5kb20iOiIwNDBiMDRiNTM2MzNjODdkYzdjODk0MjQ4ODQyNWM5NiJ9.AaGq3zPqrzxOAdq4AtCyCkYjNYpDWlzp_JkbtYQgpUU5hq-cHXDmPp_BqpGvtHbRVlkrOpXiiNAFa5dTaEjKYQ). Workspaces associated with the tutorials are also included.
 
-The pipeline and [tutorials](https://github.com/sysbiolux/analysisPipelineLVT/tree/main/BRCAexample) has been organized in three main steps:
+The pipeline and [tutorials](https://github.com/sysbiolux/TackleMMe/tree/main/BRCAexample) has been organized in three main steps:
 
 1. **Model building and project initialization**
 
