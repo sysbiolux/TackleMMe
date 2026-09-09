@@ -10,13 +10,13 @@ initCobraToolbox();
 changeCobraSolver('gurobi');
 feature astheightlimit 2000;
 
-%% define data folder path and add it to the path variable
+%% DEFINE DATA FOLDER AND ADD IT TO THE PATH
 
 dataPath = "local/absPath/to/data";
 addpath(genpath(dataPath))
 
 %% LOADING PROJECT AND PARAMETERS FOR ANALYSIS
-load(dataPath + filesep +'BRCAProjectNo3a.mat')
+load(dataPath + filesep +'BRCAProjectNo3.mat')
 
 %% COMPUTING THE COMPARISON
 modelsToCompare = {'Control', 'StageI', 'StageII', 'StageIV'};
@@ -34,13 +34,14 @@ comparisonList = ["structuralComparison", "functionalComparison", "samplingCompa
 
 compID = "tutorial_BRCA"; 
 
+% this needs to be done since there is already a function named modelComparison in the CobraToolbox
 rmpath("local/absPath/to/cobratoolbox/papers/2025_bioenergeticPD")
+
 [BRCAProject, comparisonName] = modelComparison(BRCAProject, modelsToCompare, referenceModel, compID, comparisonList);
 
 %% Showing the Default figures generated during comparison 
 
 load('workspaceTutoNo3.mat');
-
 
 % --- Structural Analysis Plots
 
@@ -72,12 +73,12 @@ showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.d
 % lines as the discretization_ 
 % - how many of the reactions which were in the core made it into the model
 % (theoretically we would like 100 percent) but in practice we are around
-% 70/80 percent, this can be adjusted by setting differen thresholds 
+% 70/80 percent, this can be adjusted by setting different thresholds 
 showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.coreReactions)
 % the next question then is how many of those core reactions are specific
 % or are the all shared ? 
 % The models share a large amount of core reactions, which makes sense but we also see that the control samples have the highest number of specific rxns, 
-% while the overlab between the two cancer models are larger than between
+% while the overlap between the two cancer models are larger than between
 % the cancer models and control, stage I has the least number of specific
 % reactions
 
@@ -87,35 +88,27 @@ showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.c
 % is not only due to Transport or exchangers, but there is also other rxns
 % that make up the model specific core reactions
 
-
-
-%the next question is where do the differences between the models come from
-%in terms of rxns presecence, so structural difference
+% the next question is where do the differences between the models come from
+% in terms of rxns presence, so structural difference
 showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.reactionPathwayPresence)
-
 
 %%
 
-% Is there a difference in growth between the models ? 
+% Is it a difference in growth between the models ? 
 
 showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.objValue)
 
-% Is there a difference in what the models consume and how much ? 
+% Is it a difference in what the models consume and how much ? 
 showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.import)
 
-% Is there a difference in what the models export and how much ? 
+% Is it a difference in what the models export and how much ? 
 showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.export)
 
 % How similar are the models in terms of FVA boundaries ? 
-% TODO: go through the functions, check what I did, are those plots usefull ? 
 showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.fvaSim.overall)
-
 showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.fvaSim.hist)
 
-
-
-% How much is a given pathway used in our FBA 
-
+%% How much is a given pathway used in our FBA:
 % used in terms of Rxn activity 
 showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.fba.heatmapRxnFluxsum)
 
@@ -123,11 +116,9 @@ showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.f
 showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.fba.heatmapMetsFluxsum)
 
 % how is the cardinality in different subsystems ? 
-
 showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.fba.heatmapRxnActivityFba)
 
-
-%% sampling comparison
+%% SAMPLING COMPARISON
 
 % how much are metabolites used in a specific subsystem in sampling (average over samples)
 showFigure(BRCAProject.comparisons.(comparisonName).samplingComparison.plots.heatmapMetsFluxSum)
@@ -143,7 +134,7 @@ showFigure(BRCAProject.comparisons.(comparisonName).samplingComparison.plots.hea
 
 referenceModel = "consistentMediumConstrainedModel"
 
-% Questions to be answered by plotting data using the functions + getting to know the behaviour of the models in detail
+% Questions to be answered by plotting data using the functions + getting to know the behavior of the models in detail
 % - How active is a given set of rxns in the fba solution or the sampling solutions ?
 % - How much is a given set of metabolites used in the fba solution or the sampling solutions ?
 % - How much can the values of a given set of rxns be pushed ? 
@@ -154,41 +145,35 @@ referenceModel = "consistentMediumConstrainedModel"
 
 % heatmaps
 
-[rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel,["Pentose.* & g6p.*"; "Glycolysis.*"]);
+[rxnsMetId, producingMet, matched] = getRxnIDs(BRCAProject, referenceModel, ["Pentose.* & g6p.*"; "Glycolysis.*"]);
 
-visDiffRxnSetActivitySampling(BRCAProject, comparisonName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"],referenceModel)
-
-
-visDiffRxnSetActivityFBA(BRCAProject, comparisonName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"],referenceModel)
+visDiffRxnSetActivitySampling(BRCAProject, comparisonName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"], referenceModel)
 
 
-visDiffMetSetUsageSampling(BRCAProject, comparisonName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"],referenceModel)
+visDiffRxnSetActivityFBA(BRCAProject, comparisonName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"], referenceModel)
 
 
-visDiffMetSetUsageFBA(BRCAProject, comparisonName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"],referenceModel)
+visDiffMetSetUsageSampling(BRCAProject, comparisonName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"], referenceModel)
 
 
-visRxnSetVariability(BRCAProject, comparisonName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"],referenceModel)
+visDiffMetSetUsageFBA(BRCAProject, comparisonName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"], referenceModel)
 
 
-visMetSetVariability(BRCAProject, comparisonName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"],referenceModel)
+visRxnSetVariability(BRCAProject, comparisonName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"], referenceModel)
 
-% violins
 
-visSingleMetSamplingDistribution(BRCAProject, comparisonName, rxnsMetId(1), ["Pentose.* & g6p.*"],referenceModel)
+visMetSetVariability(BRCAProject, comparisonName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"], referenceModel)
 
-visSingleRxnSamplingDistribution(BRCAProject, comparisonName, rxnsMetId(1), ["Pentose.* & g6p.*"],referenceModel)
+% violin plots
+
+visSingleMetSamplingDistribution(BRCAProject, comparisonName, rxnsMetId(1), ["Pentose.* & g6p.*"], referenceModel)
+
+visSingleRxnSamplingDistribution(BRCAProject, comparisonName, rxnsMetId(1), ["Pentose.* & g6p.*"], referenceModel)
 
 % bar plots
 
-
-visSingleRxnFBA(BRCAProject, comparisonName, rxnsMetId(1),"FVA",true,"thresholdFlux","none")
+visSingleRxnFBA(BRCAProject, comparisonName, rxnsMetId(1), "FVA", true, "thresholdFlux", "none")
 
 %%
 
-
-
 visualizeSamplingLandscape(BRCAProject, comparisonName, BRCAProject.models.(referenceModel).model.rxns(rxnsMetId{1}(1)))
-
-
-%% Kld

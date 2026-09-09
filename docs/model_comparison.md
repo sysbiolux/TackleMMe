@@ -165,14 +165,14 @@ changeCobraSolver('gurobi');
 feature astheightlimit 2000;
 
 dataPath = "path/to/ProjectObject";
-load(dataPath + filesep +'BRCAProjectNo3a.mat')
+load(dataPath + filesep +'BRCAProjectNo3.mat')
 
 modelsToCompare = {'Control', 'StageI', 'StageII', 'StageIV'};
 [BRCAProject, analysisIDs] = chooseActiveAnalysis(BRCAProject, modelsToCompare);
 
 ```
 
-The only thing that is change in our BRCAProject now is that the analysis of all the models defined in `modelsToCompare` now have an active analysis slot. The data in this slot wll be used in the following to perform the comparative analysis.
+The only thing that is changed in our BRCAProject now is that the analysis of all the models defined in `modelsToCompare` now have an active analysis slot. The data in this slot wll be used in the following to perform the comparative analysis.
 
 So let's perform the comparative analysis next: 
 
@@ -227,8 +227,8 @@ After running there are two main steps left in this tutorial:
 
 The Visualizations created by default serve two main purposes: 
 
-1. Quality Control: Is the Import and Export Resonable & does the difference in objective value make sense for my different models ? 
-2. Determining Pathways of interest to follow up in more detail
+1. Quality Control: Are the imports and exports reasonable & does the difference in objective value make sense for my different models ? 
+2. Determining pathways of interest to follow up in more details
 
 
 __Quality Control:__ 
@@ -254,9 +254,9 @@ On what does the model grow/what does it produce ?
 
  
 
-As expected the cancer cells proliferate more compared to the Control model.
+As expected cancer cells proliferate more compared to the Control model.
 
-For models generated with rFastcormicsv2 there are additional QC metrics to look at
+For models generated with rFastcormics_v2 there are additional QC metrics to look at
 
 + How was our gene expression data discretized ? 
 + How does it translate to the discretization on rxn level ? 
@@ -344,11 +344,7 @@ __Functional Model Comparison:__
 
 ![imageoverview](assets/simFVA.svg)
 
-
-### Sampling Comparison 
-
-
-### Explorative model comparison with Tackel MMe
+### Explorative model comparison with TackleMMe
 
 ![imageoverview](assets/overviewVisualizations.png)
 
