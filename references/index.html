@@ -5595,6 +5595,165 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 
     <div class="doc doc-contents first">
 
+        <p>Generates a heatmap showing how active the defined reactions are, by
+computing the sum of all FBA flux values for each reaction set.</p>
+
+<p><span class="doc-section-title">Input arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Project object from singleModelAnalysis and
+  modelsComparison. Both must have been run before calling this
+  function.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>compName</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the comparison to visualize. Available
+  comparisons can be listed with project.comparisons.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSets</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Sets of reaction indices to visualize, typically
+  obtained via getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSetLabels</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Labels for each reaction set, displayed in
+  the figure. Must be the same length as rxnSets.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>referenceModel</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the reference model. Must match
+  the reference model used in the specified comparison and when
+  retrieving reaction IDs with getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Output arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>fluxSet</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Flux sum data used to generate the heatmap.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>figs</code>
+            </td>
+            <td>
+                  <code>figure</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Figure object generated and displayed by the
+  function.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="c">% Retrieve reactions for two sets, then visualize</span>
+<span class="p">[</span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="n">producingMet</span><span class="p">,</span><span class="w"> </span><span class="n">matched</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">getRxnIDs</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="n">referenceModel</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">"Pentose.* &amp; g6p.*"</span><span class="p">;</span><span class="w"> </span><span class="s">"Glycolysis.*"</span><span class="p">]);</span>
+<span class="p">[</span><span class="n">fluxSet</span><span class="p">,</span><span class="w"> </span><span class="n">figs</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visDiffRxnSetActivityFBA</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">"Pentose.* &amp; g6p.*"</span><span class="p">;</span><span class="w"> </span><span class="s">"Glycolysis.*"</span><span class="p">],</span><span class="w"> </span><span class="n">referenceModel</span><span class="p">);</span>
+</code></pre></div>
+
+
+<details class="warning" open>
+  <summary>Warning</summary>
+  <p>The reference model must be the same one used when calling
+getRxnIDs to retrieve the reaction indices. Using a different
+reference model will cause index misalignment.</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>scr/classes/model_comparison/functions/visDiffRxnSetActivityFBA.m</code></summary>
@@ -5670,7 +5829,49 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="normal">70</span>
 <span class="normal">71</span>
 <span class="normal">72</span>
-<span class="normal">73</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>fluxSet,figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visDiffRxnSetActivityFBA</span><span class="p">(</span>project, compName, rxnSets,rxnSetLabels,referenceModel<span class="p">)</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>fluxSet,figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visDiffRxnSetActivityFBA</span><span class="p">(</span>project, compName, rxnSets, rxnSetLabels, referenceModel<span class="p">)</span>
+<span class="c">% Generates a heatmap showing how active the defined reactions are, by</span>
+<span class="c">% computing the sum of all FBA flux values for each reaction set.</span>
+<span class="c">%</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   project (struct): Project object from singleModelAnalysis and</span>
+<span class="c">%       modelsComparison. Both must have been run before calling this</span>
+<span class="c">%       function.</span>
+<span class="c">%   compName (string): Name of the comparison to visualize. Available</span>
+<span class="c">%       comparisons can be listed with project.comparisons.</span>
+<span class="c">%   rxnSets (cell): Sets of reaction indices to visualize, typically</span>
+<span class="c">%       obtained via getRxnIDs.</span>
+<span class="c">%   rxnSetLabels (string): Labels for each reaction set, displayed in</span>
+<span class="c">%       the figure. Must be the same length as rxnSets.</span>
+<span class="c">%   referenceModel (string): Name of the reference model. Must match</span>
+<span class="c">%       the reference model used in the specified comparison and when</span>
+<span class="c">%       retrieving reaction IDs with getRxnIDs.</span>
+<span class="c">%</span>
+<span class="c">% Returns:</span>
+<span class="c">%   fluxSet (struct): Flux sum data used to generate the heatmap.</span>
+<span class="c">%   figs (figure): Figure object generated and displayed by the</span>
+<span class="c">%       function.</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   % Retrieve reactions for two sets, then visualize</span>
+<span class="c">%   [rxnsMetId, producingMet, matched] = getRxnIDs(project, ...</span>
+<span class="c">%       referenceModel, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"]);</span>
+<span class="c">%   [fluxSet, figs] = visDiffRxnSetActivityFBA(project, compName, ...</span>
+<span class="c">%       rxnsMetId, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"], referenceModel);</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Warning:</span>
+<span class="c">%   The reference model must be the same one used when calling</span>
+<span class="c">%   getRxnIDs to retrieve the reaction indices. Using a different</span>
+<span class="c">%   reference model will cause index misalignment.</span>
+
 <span class="nb">arguments</span>
 <span class="w">    </span><span class="n">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">compName</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
@@ -5678,38 +5879,8 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="w">    </span><span class="n">rxnSetLabels</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="w"> </span><span class="nb">string</span>
 <span class="w">    </span><span class="n">referenceModel</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
 <span class="k">end</span>
-<span class="c">% </span>
-<span class="c">% This function generates a heatmap that shows how active the defined rxns</span>
-<span class="c">% are, by building the sum of all the FBA values. </span>
-<span class="c">% The usage here is defined as the flux sum of all the rxns that consume</span>
-<span class="c">% this metabolite in the defined rxnSet. </span>
-<span class="c">% USAGE: </span>
-<span class="c">%       visDiffMetSetUsageSampling(project, compName, rxnSets,rxnSetLabels,referenceModel) </span>
-<span class="c">% INPUT: </span>
-<span class="c">%       project:        object generated through the pipeline</span>
-<span class="c">%                       (singleModelAnalysis and modelsComparison have to be run before)</span>
-<span class="c">%       compName:       the comparison to visualize in this figure. The names</span>
-<span class="c">%                       of the comparisons already present in the object can be seen using</span>
-<span class="c">%                       project.comparisons</span>
-<span class="c">%       rxnSets:        The sets of rxns to be visualized </span>
-<span class="c">%       rxnSetLabels:   The Labels that should be used in the figure</span>
-<span class="c">%       referenceModel: The name of the reference model used.</span>
-<span class="c">%</span>
-<span class="c">% OUTPUT:</span>
-<span class="c">%       figs:           Figure object generated and displayed by the</span>
-<span class="c">%                       function</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">% Code Example: </span>
-<span class="c">% after running singleModelAnalysis and modelsComparison this code can be</span>
-<span class="c">% used: </span>
-<span class="c">% </span>
-<span class="c">% [rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"]);</span>
-<span class="c">% visDiffMetSetUsageFBA(BRCAProject, compName, rxnsMetId, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"],referenceModel)</span>
-<span class="c">%</span>
 
-<span class="c">% check project format: </span>
-<span class="c">% comparison specified is there ? has the required fields ? </span>
+<span class="c">%% check project format</span>
 
 <span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="s">'comparisons'</span><span class="p">)</span>
 <span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">'Project object does not contain a comparison object. After running the singleModels analysis you still have to run modelsComparison before beeing able to use this function!'</span><span class="p">)</span>
@@ -5760,6 +5931,183 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 
     <div class="doc doc-contents first">
 
+        <p>Generates a heatmap showing how active the defined reactions are
+across sampling solutions. For each reaction set, the sum of flux
+values is computed per sample, then averaged over all samples to
+produce one value per reaction set in the heatmap.</p>
+
+<p><span class="doc-section-title">Input arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Project object from singleModelAnalysis and
+  modelsComparison. Both must have been run before calling this
+  function.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>compName</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the comparison to visualize. Available
+  comparisons can be listed with project.comparisons.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSets</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Sets of reaction indices to visualize, typically
+  obtained via getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSetLabels</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Labels for each reaction set, displayed in
+  the figure. Must be the same length as rxnSets.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>referenceModel</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the reference model. Must match
+  the reference model used in the specified comparison and when
+  retrieving reaction IDs with getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>metIdx</code>
+            </td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional metabolite indices for filtering.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Output arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>fluxSet</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Flux sum data used to generate the heatmap.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>figs</code>
+            </td>
+            <td>
+                  <code>figure</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Figure object generated and displayed by the
+  function.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="c">% Retrieve reactions for two sets, then visualize</span>
+<span class="p">[</span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="n">producingMet</span><span class="p">,</span><span class="w"> </span><span class="n">matched</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">getRxnIDs</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="n">referenceModel</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">"Pentose.* &amp; g6p.*"</span><span class="p">;</span><span class="w"> </span><span class="s">"Glycolysis.*"</span><span class="p">]);</span>
+<span class="p">[</span><span class="n">fluxSet</span><span class="p">,</span><span class="w"> </span><span class="n">figs</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visDiffRxnSetActivitySampling</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="p">[</span><span class="s">"Pentose.* &amp; g6p.*"</span><span class="p">;</span><span class="w"> </span><span class="s">"Glycolysis.*"</span><span class="p">],</span><span class="w"> </span><span class="n">referenceModel</span><span class="p">);</span>
+</code></pre></div>
+
+
+<details class="warning" open>
+  <summary>Warning</summary>
+  <p>The reference model must be the same one used when calling
+getRxnIDs to retrieve the reaction indices. Using a different
+reference model will cause index misalignment.</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>scr/classes/model_comparison/functions/visDiffRxnSetActivitySampling.m</code></summary>
@@ -5840,7 +6188,52 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="normal">75</span>
 <span class="normal">76</span>
 <span class="normal">77</span>
-<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>fluxSet,figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visDiffRxnSetActivitySampling</span><span class="p">(</span>project, compName, rxnSets,rxnSetLabels,referenceModel,metIdx<span class="p">)</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>fluxSet, figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visDiffRxnSetActivitySampling</span><span class="p">(</span>project, compName, rxnSets, rxnSetLabels, referenceModel, metIdx<span class="p">)</span>
+<span class="c">% Generates a heatmap showing how active the defined reactions are</span>
+<span class="c">% across sampling solutions. For each reaction set, the sum of flux</span>
+<span class="c">% values is computed per sample, then averaged over all samples to</span>
+<span class="c">% produce one value per reaction set in the heatmap.</span>
+<span class="c">%</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   project (struct): Project object from singleModelAnalysis and</span>
+<span class="c">%       modelsComparison. Both must have been run before calling this</span>
+<span class="c">%       function.</span>
+<span class="c">%   compName (string): Name of the comparison to visualize. Available</span>
+<span class="c">%       comparisons can be listed with project.comparisons.</span>
+<span class="c">%   rxnSets (cell): Sets of reaction indices to visualize, typically</span>
+<span class="c">%       obtained via getRxnIDs.</span>
+<span class="c">%   rxnSetLabels (string): Labels for each reaction set, displayed in</span>
+<span class="c">%       the figure. Must be the same length as rxnSets.</span>
+<span class="c">%   referenceModel (string): Name of the reference model. Must match</span>
+<span class="c">%       the reference model used in the specified comparison and when</span>
+<span class="c">%       retrieving reaction IDs with getRxnIDs.</span>
+<span class="c">%   metIdx: Optional metabolite indices for filtering.</span>
+<span class="c">%</span>
+<span class="c">% Returns:</span>
+<span class="c">%   fluxSet (struct): Flux sum data used to generate the heatmap.</span>
+<span class="c">%   figs (figure): Figure object generated and displayed by the</span>
+<span class="c">%       function.</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   % Retrieve reactions for two sets, then visualize</span>
+<span class="c">%   [rxnsMetId, producingMet, matched] = getRxnIDs(project, ...</span>
+<span class="c">%       referenceModel, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"]);</span>
+<span class="c">%   [fluxSet, figs] = visDiffRxnSetActivitySampling(project, ...</span>
+<span class="c">%       compName, rxnsMetId, ...</span>
+<span class="c">%       ["Pentose.* &amp; g6p.*"; "Glycolysis.*"], referenceModel);</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Warning:</span>
+<span class="c">%   The reference model must be the same one used when calling</span>
+<span class="c">%   getRxnIDs to retrieve the reaction indices. Using a different</span>
+<span class="c">%   reference model will cause index misalignment.</span>
+
 <span class="nb">arguments</span>
 <span class="w">    </span><span class="n">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">compName</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
@@ -5849,42 +6242,7 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="w">    </span><span class="n">referenceModel</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
 <span class="k">end</span>
 
-<span class="c">% </span>
-<span class="c">% This function generates a heatmap that shows how active the defined rxns</span>
-<span class="c">% are, by building the sum of all the values for those reactions in one</span>
-<span class="c">% sample. The resulting heatmap entail one value for a RxnSet for one sample.</span>
-<span class="c">% This is calculated based on all solutions from the performed sampling,</span>
-<span class="c">% and an average is build over all samples to get one value per rxnSet in</span>
-<span class="c">% the heatmap.</span>
-<span class="c">% The usage here is defined as the flux sum of all the rxns that consume</span>
-<span class="c">% this metabolite in the defined rxnSet. </span>
-<span class="c">% USAGE: </span>
-<span class="c">%       visDiffMetSetUsageSampling(project, compName, rxnSets,rxnSetLabels,referenceModel) </span>
-<span class="c">% INPUT: </span>
-<span class="c">%       project:        object generated through the pipeline</span>
-<span class="c">%                       (singleModelAnalysis and modelsComparison have to be run before)</span>
-<span class="c">%       compName:       the comparison to visualize in this figure. The names</span>
-<span class="c">%                       of the comparisons already present in the object can be seen using</span>
-<span class="c">%                       project.comparisons</span>
-<span class="c">%       rxnSets:        The sets of rxns to be visualized </span>
-<span class="c">%       rxnSetLabels:   The Labels that should be used in the figure</span>
-<span class="c">%       referenceModel: The name of the reference model used.</span>
-<span class="c">%</span>
-<span class="c">% OUTPUT:</span>
-<span class="c">%       figs:           Figure object generated and displayed by the</span>
-<span class="c">%                       function</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">% Code Example: </span>
-<span class="c">% after running singleModelAnalysis and modelsComparison this code can be</span>
-<span class="c">% used: </span>
-<span class="c">% </span>
-<span class="c">% [rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"]);</span>
-<span class="c">% visDiffMetSetUsageFBA(BRCAProject, compName, rxnsMetId, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"],referenceModel)</span>
-<span class="c">%</span>
-
 <span class="c">% check project format: </span>
-<span class="c">% comparison specified is there ? has the required fields ? </span>
 
 <span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="s">'comparisons'</span><span class="p">)</span>
 <span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">'Project object does not contain a comparison object. After running the singleModels analysis you still have to run modelsComparison before beeing able to use this function!'</span><span class="p">)</span>
@@ -5935,6 +6293,155 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 
     <div class="doc doc-contents first">
 
+        <p>Heatmap of metabolite usage across reaction sets based on FBA.</p>
+<p>Generates a heatmap showing how much each metabolite participating in
+the defined reaction sets is used, based on FBA flux values. Usage is
+defined as the flux sum of all reactions that consume the metabolite
+within each reaction set.</p>
+
+<p><span class="doc-section-title">Input arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Project object from singleModelAnalysis and
+  modelsComparison. Both must have been run before calling this
+  function.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>compName</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the comparison to visualize. Available
+  comparisons can be listed with project.comparisons.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSets</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Sets of reaction indices to visualize, typically
+  obtained via getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSetLabels</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Labels for each reaction set, displayed in
+  the figure. Must be the same length as rxnSets.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>referenceModel</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the reference model. Must match
+  the reference model used in the specified comparison and when
+  retrieving reaction IDs with getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Output arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>figs</code>
+            </td>
+            <td>
+                  <code>figure</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Figure object generated and displayed by the
+  function.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="c">% Retrieve reactions for two sets, then visualize</span>
+<span class="p">[</span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="n">producingMet</span><span class="p">,</span><span class="w"> </span><span class="n">matched</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">getRxnIDs</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="n">referenceModel</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">"Pentose.* &amp; g6p.*"</span><span class="p">;</span><span class="w"> </span><span class="s">"Glycolysis.*"</span><span class="p">]);</span>
+<span class="n">figs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visDiffMetSetUsageFBA</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="p">[</span><span class="s">"Pentose.* &amp; g6p.*"</span><span class="p">;</span><span class="w"> </span><span class="s">"Glycolysis.*"</span><span class="p">],</span><span class="w"> </span><span class="n">referenceModel</span><span class="p">);</span>
+</code></pre></div>
+
+
+<details class="warning" open>
+  <summary>Warning</summary>
+  <p>The reference model must be the same one used when calling
+getRxnIDs to retrieve the reaction indices. Using a different
+reference model will cause index misalignment.</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>scr/classes/model_comparison/functions/visDiffMetSetUsageFBA.m</code></summary>
@@ -6012,7 +6519,52 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="normal">72</span>
 <span class="normal">73</span>
 <span class="normal">74</span>
-<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visDiffMetSetUsageFBA</span><span class="p">(</span>project, compName, rxnSets,rxnSetLabels,referenceModel<span class="p">)</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visDiffMetSetUsageFBA</span><span class="p">(</span>project, compName, rxnSets, rxnSetLabels, referenceModel<span class="p">)</span>
+<span class="c">% Heatmap of metabolite usage across reaction sets based on FBA.</span>
+<span class="c">%</span>
+<span class="c">% Generates a heatmap showing how much each metabolite participating in</span>
+<span class="c">% the defined reaction sets is used, based on FBA flux values. Usage is</span>
+<span class="c">% defined as the flux sum of all reactions that consume the metabolite</span>
+<span class="c">% within each reaction set.</span>
+<span class="c">%</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   project (struct): Project object from singleModelAnalysis and</span>
+<span class="c">%       modelsComparison. Both must have been run before calling this</span>
+<span class="c">%       function.</span>
+<span class="c">%   compName (string): Name of the comparison to visualize. Available</span>
+<span class="c">%       comparisons can be listed with project.comparisons.</span>
+<span class="c">%   rxnSets (cell): Sets of reaction indices to visualize, typically</span>
+<span class="c">%       obtained via getRxnIDs.</span>
+<span class="c">%   rxnSetLabels (string): Labels for each reaction set, displayed in</span>
+<span class="c">%       the figure. Must be the same length as rxnSets.</span>
+<span class="c">%   referenceModel (string): Name of the reference model. Must match</span>
+<span class="c">%       the reference model used in the specified comparison and when</span>
+<span class="c">%       retrieving reaction IDs with getRxnIDs.</span>
+<span class="c">%</span>
+<span class="c">% Returns:</span>
+<span class="c">%   figs (figure): Figure object generated and displayed by the</span>
+<span class="c">%       function.</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   % Retrieve reactions for two sets, then visualize</span>
+<span class="c">%   [rxnsMetId, producingMet, matched] = getRxnIDs(project, ...</span>
+<span class="c">%       referenceModel, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"]);</span>
+<span class="c">%   figs = visDiffMetSetUsageFBA(project, compName, rxnsMetId, ...</span>
+<span class="c">%       ["Pentose.* &amp; g6p.*"; "Glycolysis.*"], referenceModel);</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Warning:</span>
+<span class="c">%   The reference model must be the same one used when calling</span>
+<span class="c">%   getRxnIDs to retrieve the reaction indices. Using a different</span>
+<span class="c">%   reference model will cause index misalignment.</span>
+
 <span class="nb">arguments</span>
 <span class="w">    </span><span class="n">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">compName</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
@@ -6020,39 +6572,6 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="w">    </span><span class="n">rxnSetLabels</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="w"> </span><span class="nb">string</span>
 <span class="w">    </span><span class="n">referenceModel</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
 <span class="k">end</span>
-<span class="c">% </span>
-<span class="c">% This function generates a heatmap that shows how much all Metabolites</span>
-<span class="c">% that participate in the defined Rxns are used in the defined rxnSets.</span>
-<span class="c">% This is calculated based on the FBA.</span>
-<span class="c">% The usage here is defined as the flux sum of all the rxns that consume</span>
-<span class="c">% this metabolite in the defined rxnSet. </span>
-<span class="c">% USAGE: </span>
-<span class="c">%       visDiffMetSetUsageSampling(project, compName, rxnSets,rxnSetLabels,referenceModel) </span>
-<span class="c">% INPUT: </span>
-<span class="c">%       project:        object generated through the pipeline</span>
-<span class="c">%                       (singleModelAnalysis and modelsComparison have to be run before)</span>
-<span class="c">%       compName:       the comparison to visualize in this figure. The names</span>
-<span class="c">%                       of the comparisons already present in the object can be seen using</span>
-<span class="c">%                       project.comparisons</span>
-<span class="c">%       rxnSets:        The sets of rxns to be visualized </span>
-<span class="c">%       rxnSetLabels:   The Labels that should be used in the figure</span>
-<span class="c">%       referenceModel: The name of the reference model used.</span>
-<span class="c">%</span>
-<span class="c">% OUTPUT:</span>
-<span class="c">%       figs:           Figure object generated and displayed by the</span>
-<span class="c">%                       function</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">% Code Example: </span>
-<span class="c">% after running singleModelAnalysis and modelsComparison this code can be</span>
-<span class="c">% used: </span>
-<span class="c">% </span>
-<span class="c">% [rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"]);</span>
-<span class="c">% visDiffMetSetUsageFBA(BRCAProject, compName, rxnsMetId, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"],referenceModel)</span>
-<span class="c">%</span>
-
-<span class="c">% check project format: </span>
-<span class="c">% comparison specified is there ? has the required fields ? </span>
 
 <span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="s">'comparisons'</span><span class="p">)</span>
 <span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">'Project object does not contain a comparison object. After running the singleModels analysis you still have to run modelsComparison before beeing able to use this function!'</span><span class="p">)</span>
@@ -6104,6 +6623,155 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 
     <div class="doc doc-contents first">
 
+        <p>Generates a heatmap showing how much each metabolite participating in
+the defined reaction sets is used, based on sampling solutions. An
+average is computed over all samples to produce one value per reaction
+set in the heatmap. Usage is defined as the flux sum of all reactions
+that consume the metabolite within each reaction set.</p>
+
+<p><span class="doc-section-title">Input arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Project object from singleModelAnalysis and
+  modelsComparison. Both must have been run before calling this
+  function.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>compName</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the comparison to visualize. Available
+  comparisons can be listed with project.comparisons.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSets</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Sets of reaction indices to visualize, typically
+  obtained via getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSetLabels</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Labels for each reaction set, displayed in
+  the figure. Must be the same length as rxnSets.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>referenceModel</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the reference model. Must match
+  the reference model used in the specified comparison and when
+  retrieving reaction IDs with getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Output arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>figs</code>
+            </td>
+            <td>
+                  <code>figure</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Figure object generated and displayed by the
+  function.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="c">% Retrieve reactions for two sets, then visualize</span>
+<span class="p">[</span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="n">producingMet</span><span class="p">,</span><span class="w"> </span><span class="n">matched</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">getRxnIDs</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="n">referenceModel</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">"Pentose.* &amp; g6p.*"</span><span class="p">;</span><span class="w"> </span><span class="s">"Glycolysis.*"</span><span class="p">]);</span>
+<span class="n">figs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visDiffMetSetUsageSampling</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="p">[</span><span class="s">"Pentose.* &amp; g6p.*"</span><span class="p">;</span><span class="w"> </span><span class="s">"Glycolysis.*"</span><span class="p">],</span><span class="w"> </span><span class="n">referenceModel</span><span class="p">);</span>
+</code></pre></div>
+
+
+<details class="warning" open>
+  <summary>Warning</summary>
+  <p>The reference model must be the same one used when calling
+getRxnIDs to retrieve the reaction indices. Using a different
+reference model will cause index misalignment.</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>scr/classes/model_comparison/functions/visDiffMetSetUsageSampling.m</code></summary>
@@ -6184,7 +6852,47 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="normal">75</span>
 <span class="normal">76</span>
 <span class="normal">77</span>
-<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visDiffMetSetUsageSampling</span><span class="p">(</span>project, compName, rxnSets,rxnSetLabels,referenceModel<span class="p">)</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visDiffMetSetUsageSampling</span><span class="p">(</span>project, compName, rxnSets, rxnSetLabels, referenceModel<span class="p">)</span>
+<span class="c">% Generates a heatmap showing how much each metabolite participating in</span>
+<span class="c">% the defined reaction sets is used, based on sampling solutions. An</span>
+<span class="c">% average is computed over all samples to produce one value per reaction</span>
+<span class="c">% set in the heatmap. Usage is defined as the flux sum of all reactions</span>
+<span class="c">% that consume the metabolite within each reaction set.</span>
+<span class="c">%</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   project (struct): Project object from singleModelAnalysis and</span>
+<span class="c">%       modelsComparison. Both must have been run before calling this</span>
+<span class="c">%       function.</span>
+<span class="c">%   compName (string): Name of the comparison to visualize. Available</span>
+<span class="c">%       comparisons can be listed with project.comparisons.</span>
+<span class="c">%   rxnSets (cell): Sets of reaction indices to visualize, typically</span>
+<span class="c">%       obtained via getRxnIDs.</span>
+<span class="c">%   rxnSetLabels (string): Labels for each reaction set, displayed in</span>
+<span class="c">%       the figure. Must be the same length as rxnSets.</span>
+<span class="c">%   referenceModel (string): Name of the reference model. Must match</span>
+<span class="c">%       the reference model used in the specified comparison and when</span>
+<span class="c">%       retrieving reaction IDs with getRxnIDs.</span>
+<span class="c">%</span>
+<span class="c">% Returns:</span>
+<span class="c">%   figs (figure): Figure object generated and displayed by the</span>
+<span class="c">%       function.</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   % Retrieve reactions for two sets, then visualize</span>
+<span class="c">%   [rxnsMetId, producingMet, matched] = getRxnIDs(project, ...</span>
+<span class="c">%       referenceModel, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"]);</span>
+<span class="c">%   figs = visDiffMetSetUsageSampling(project, compName, rxnsMetId, ...</span>
+<span class="c">%       ["Pentose.* &amp; g6p.*"; "Glycolysis.*"], referenceModel);</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Warning:</span>
+<span class="c">%   The reference model must be the same one used when calling</span>
+<span class="c">%   getRxnIDs to retrieve the reaction indices. Using a different</span>
+<span class="c">%   reference model will cause index misalignment.</span>
+
 <span class="nb">arguments</span>
 <span class="w">    </span><span class="n">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">compName</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
@@ -6192,42 +6900,6 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="w">    </span><span class="n">rxnSetLabels</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,:)</span><span class="w"> </span><span class="nb">string</span>
 <span class="w">    </span><span class="n">referenceModel</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
 <span class="k">end</span>
-
-<span class="c">% </span>
-<span class="c">% This function generates a heatmap that shows how much all Metabolites</span>
-<span class="c">% that participate in the defined Rxns are used in the defined rxnSets.</span>
-<span class="c">% This is calculated based on all solutions from the performed sampling,</span>
-<span class="c">% and an average is build over all samples to get one value per rxnSet in</span>
-<span class="c">% the heatmap.</span>
-<span class="c">% The usage here is defined as the flux sum of all the rxns that consume</span>
-<span class="c">% this metabolite in the defined rxnSet. </span>
-<span class="c">% USAGE: </span>
-<span class="c">%       visDiffMetSetUsageSampling(project, compName, rxnSets,rxnSetLabels,referenceModel) </span>
-<span class="c">% INPUT: </span>
-<span class="c">%       project:        object generated through the pipeline</span>
-<span class="c">%                       (singleModelAnalysis and modelsComparison have to be run before)</span>
-<span class="c">%       compName:       the comparison to visualize in this figure. The names</span>
-<span class="c">%                       of the comparisons already present in the object can be seen using</span>
-<span class="c">%                       project.comparisons</span>
-<span class="c">%       rxnSets:        The sets of rxns to be visualized </span>
-<span class="c">%       rxnSetLabels:   The Labels that should be used in the figure</span>
-<span class="c">%       referenceModel: The name of the reference model used.</span>
-<span class="c">%</span>
-<span class="c">% OUTPUT:</span>
-<span class="c">%       figs:           Figure object generated and displayed by the</span>
-<span class="c">%                       function</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">% Code Example: </span>
-<span class="c">% after running singleModelAnalysis and modelsComparison this code can be</span>
-<span class="c">% used: </span>
-<span class="c">% </span>
-<span class="c">% [rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"]);</span>
-<span class="c">% visDiffMetSetUsageFBA(BRCAProject, compName, rxnsMetId, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"],referenceModel)</span>
-<span class="c">%</span>
-
-<span class="c">% check project format: </span>
-<span class="c">% comparison specified is there ? has the required fields ? </span>
 
 <span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="s">'comparisons'</span><span class="p">)</span>
 <span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">'Project object does not contain a comparison object. After running the singleModels analysis you still have to run modelsComparison before beeing able to use this function!'</span><span class="p">)</span>
@@ -6279,6 +6951,168 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 
     <div class="doc doc-contents first">
 
+        <p>Generates a heatmap showing how active the defined reactions are
+across sampling solutions. For each reaction set, the sum of flux
+values is computed per sample, then averaged over all samples to
+display one value per model and reaction set in the heatmap.</p>
+
+<p><span class="doc-section-title">Input arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Project object from singleModelAnalysis and
+  modelsComparison. Both must have been run before calling this
+  function.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>compName</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the comparison to visualize. Available
+  comparisons can be listed with project.comparisons.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSets</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Sets of reaction indices to visualize, typically
+  obtained via getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSetLabels</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Labels for each reaction set, displayed in
+  the figure. Must be the same length as rxnSets.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>referenceModel</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the reference model. Must match
+  the reference model used in the specified comparison and when
+  retrieving reaction IDs with getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Output arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>fluxSet</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Flux sum data used to generate the heatmap.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>figs</code>
+            </td>
+            <td>
+                  <code>figure</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Figure object generated and displayed by the
+  function.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="c">% Retrieve reactions for two sets, then visualize</span>
+<span class="p">[</span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="n">producingMet</span><span class="p">,</span><span class="w"> </span><span class="n">matched</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">getRxnIDs</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="n">referenceModel</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">"Pentose.* &amp; g6p.*"</span><span class="p">;</span><span class="w"> </span><span class="s">"Glycolysis.*"</span><span class="p">]);</span>
+<span class="p">[</span><span class="n">fluxSet</span><span class="p">,</span><span class="w"> </span><span class="n">figs</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visDiffRxnSetActivitySampling</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="p">[</span><span class="s">"Pentose.* &amp; g6p.*"</span><span class="p">;</span><span class="w"> </span><span class="s">"Glycolysis.*"</span><span class="p">],</span><span class="w"> </span><span class="n">referenceModel</span><span class="p">);</span>
+</code></pre></div>
+
+
+<details class="warning" open>
+  <summary>Warning</summary>
+  <p>The reference model must be the same one used when calling
+getRxnIDs to retrieve the reaction indices. Using a different
+reference model will cause index misalignment.</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>scr/classes/model_comparison/functions/visRxnSetVariability.m</code></summary>
@@ -6360,7 +7194,49 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="normal">76</span>
 <span class="normal">77</span>
 <span class="normal">78</span>
-<span class="normal">79</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>fluxSet,figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visDiffRxnSetActivitySampling</span><span class="p">(</span>project, compName, rxnSets,rxnSetLabels,referenceModel<span class="p">)</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>fluxSet, figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visDiffRxnSetActivitySampling</span><span class="p">(</span>project, compName, rxnSets, rxnSetLabels, referenceModel<span class="p">)</span>
+<span class="c">% Generates a heatmap showing how active the defined reactions are</span>
+<span class="c">% across sampling solutions. For each reaction set, the sum of flux</span>
+<span class="c">% values is computed per sample, then averaged over all samples to</span>
+<span class="c">% display one value per model and reaction set in the heatmap.</span>
+<span class="c">%</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   project (struct): Project object from singleModelAnalysis and</span>
+<span class="c">%       modelsComparison. Both must have been run before calling this</span>
+<span class="c">%       function.</span>
+<span class="c">%   compName (string): Name of the comparison to visualize. Available</span>
+<span class="c">%       comparisons can be listed with project.comparisons.</span>
+<span class="c">%   rxnSets (cell): Sets of reaction indices to visualize, typically</span>
+<span class="c">%       obtained via getRxnIDs.</span>
+<span class="c">%   rxnSetLabels (string): Labels for each reaction set, displayed in</span>
+<span class="c">%       the figure. Must be the same length as rxnSets.</span>
+<span class="c">%   referenceModel (string): Name of the reference model. Must match</span>
+<span class="c">%       the reference model used in the specified comparison and when</span>
+<span class="c">%       retrieving reaction IDs with getRxnIDs.</span>
+<span class="c">%</span>
+<span class="c">% Returns:</span>
+<span class="c">%   fluxSet (struct): Flux sum data used to generate the heatmap.</span>
+<span class="c">%   figs (figure): Figure object generated and displayed by the</span>
+<span class="c">%       function.</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   % Retrieve reactions for two sets, then visualize</span>
+<span class="c">%   [rxnsMetId, producingMet, matched] = getRxnIDs(project, ...</span>
+<span class="c">%       referenceModel, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"]);</span>
+<span class="c">%   [fluxSet, figs] = visDiffRxnSetActivitySampling(project, ...</span>
+<span class="c">%       compName, rxnsMetId, ...</span>
+<span class="c">%       ["Pentose.* &amp; g6p.*"; "Glycolysis.*"], referenceModel);</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Warning:</span>
+<span class="c">%   The reference model must be the same one used when calling</span>
+<span class="c">%   getRxnIDs to retrieve the reaction indices. Using a different</span>
+<span class="c">%   reference model will cause index misalignment.</span>
+
 <span class="nb">arguments</span>
 <span class="w">    </span><span class="n">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">compName</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
@@ -6369,43 +7245,7 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="w">    </span><span class="n">referenceModel</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
 <span class="k">end</span>
 
-<span class="c">% </span>
-<span class="c">% This function generates a heatmap that shows how active the defined rxns</span>
-<span class="c">% are, by building the sum of all the values for those reactions in one</span>
-<span class="c">% sample. That value is then averaged over all samples to display one value</span>
-<span class="c">% for one model &amp; rxnSet in the heatmap.</span>
-<span class="c">% This is calculated based on all solutions from the performed sampling,</span>
-<span class="c">% and an average is build over all samples to get one value per rxnSet in</span>
-<span class="c">% the heatmap.</span>
-<span class="c">% The usage here is defined as the flux sum of all the rxns that consume</span>
-<span class="c">% this metabolite in the defined rxnSet. </span>
-<span class="c">% USAGE: </span>
-<span class="c">%       visDiffMetSetUsageSampling(project, compName, rxnSets,rxnSetLabels,referenceModel) </span>
-<span class="c">% INPUT: </span>
-<span class="c">%       project:        object generated through the pipeline</span>
-<span class="c">%                       (singleModelAnalysis and modelsComparison have to be run before)</span>
-<span class="c">%       compName:       the comparison to visualize in this figure. The names</span>
-<span class="c">%                       of the comparisons already present in the object can be seen using</span>
-<span class="c">%                       project.comparisons</span>
-<span class="c">%       rxnSets:        The sets of rxns to be visualized </span>
-<span class="c">%       rxnSetLabels:   The Labels that should be used in the figure</span>
-<span class="c">%       referenceModel: The name of the reference model used.</span>
-<span class="c">%</span>
-<span class="c">% OUTPUT:</span>
-<span class="c">%       figs:           Figure object generated and displayed by the</span>
-<span class="c">%                       function</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">% Code Example: </span>
-<span class="c">% after running singleModelAnalysis and modelsComparison this code can be</span>
-<span class="c">% used: </span>
-<span class="c">% </span>
-<span class="c">% [rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"]);</span>
-<span class="c">% visDiffMetSetUsageFBA(BRCAProject, compName, rxnsMetId, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"],referenceModel)</span>
-<span class="c">%</span>
-
 <span class="c">% check project format: </span>
-<span class="c">% comparison specified is there ? has the required fields ? </span>
 
 <span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="s">'comparisons'</span><span class="p">)</span>
 <span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">'Project object does not contain a comparison object. After running the singleModels analysis you still have to run modelsComparison before beeing able to use this function!'</span><span class="p">)</span>
@@ -6456,6 +7296,155 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 
     <div class="doc doc-contents first">
 
+        <p>Generates a heatmap showing how much each metabolite participating in
+the defined reaction sets is used, based on all sampling solutions.
+The resulting heatmap contains one value per metabolite set per
+sample. Usage is defined as the flux sum of all reactions that
+consume the metabolite within each reaction set.</p>
+
+<p><span class="doc-section-title">Input arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Project object from singleModelAnalysis and
+  modelsComparison. Both must have been run before calling this
+  function.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>compName</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the comparison to visualize. Available
+  comparisons can be listed with project.comparisons.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSets</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Sets of reaction indices to visualize, typically
+  obtained via getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSetLabels</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Labels for each reaction set, displayed in
+  the figure. Must be the same length as rxnSets.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>referenceModel</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the reference model. Must match
+  the reference model used in the specified comparison and when
+  retrieving reaction IDs with getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Output arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>figs</code>
+            </td>
+            <td>
+                  <code>figure</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Figure object generated and displayed by the
+  function.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="c">% Retrieve reactions for two sets, then visualize</span>
+<span class="p">[</span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="n">producingMet</span><span class="p">,</span><span class="w"> </span><span class="n">matched</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">getRxnIDs</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="n">referenceModel</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s">"Pentose.* &amp; g6p.*"</span><span class="p">;</span><span class="w"> </span><span class="s">"Glycolysis.*"</span><span class="p">]);</span>
+<span class="n">figs</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visMetSetVariability</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="p">[</span><span class="s">"Pentose.* &amp; g6p.*"</span><span class="p">;</span><span class="w"> </span><span class="s">"Glycolysis.*"</span><span class="p">],</span><span class="w"> </span><span class="n">referenceModel</span><span class="p">);</span>
+</code></pre></div>
+
+
+<details class="warning" open>
+  <summary>Warning</summary>
+  <p>The reference model must be the same one used when calling
+getRxnIDs to retrieve the reaction indices. Using a different
+reference model will cause index misalignment.</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>scr/classes/model_comparison/functions/visMetSetVariability.m</code></summary>
@@ -6535,7 +7524,50 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="normal">74</span>
 <span class="normal">75</span>
 <span class="normal">76</span>
-<span class="normal">77</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visMetSetVariability</span><span class="p">(</span>project, compName, rxnSets,rxnSetLabels,referenceModel<span class="p">)</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visMetSetVariability</span><span class="p">(</span>project, compName, rxnSets, rxnSetLabels, referenceModel<span class="p">)</span>
+<span class="c">% Generates a heatmap showing how much each metabolite participating in</span>
+<span class="c">% the defined reaction sets is used, based on all sampling solutions.</span>
+<span class="c">% The resulting heatmap contains one value per metabolite set per</span>
+<span class="c">% sample. Usage is defined as the flux sum of all reactions that</span>
+<span class="c">% consume the metabolite within each reaction set.</span>
+<span class="c">%</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   project (struct): Project object from singleModelAnalysis and</span>
+<span class="c">%       modelsComparison. Both must have been run before calling this</span>
+<span class="c">%       function.</span>
+<span class="c">%   compName (string): Name of the comparison to visualize. Available</span>
+<span class="c">%       comparisons can be listed with project.comparisons.</span>
+<span class="c">%   rxnSets (cell): Sets of reaction indices to visualize, typically</span>
+<span class="c">%       obtained via getRxnIDs.</span>
+<span class="c">%   rxnSetLabels (string): Labels for each reaction set, displayed in</span>
+<span class="c">%       the figure. Must be the same length as rxnSets.</span>
+<span class="c">%   referenceModel (string): Name of the reference model. Must match</span>
+<span class="c">%       the reference model used in the specified comparison and when</span>
+<span class="c">%       retrieving reaction IDs with getRxnIDs.</span>
+<span class="c">%</span>
+<span class="c">% Returns:</span>
+<span class="c">%   figs (figure): Figure object generated and displayed by the</span>
+<span class="c">%       function.</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   % Retrieve reactions for two sets, then visualize</span>
+<span class="c">%   [rxnsMetId, producingMet, matched] = getRxnIDs(project, ...</span>
+<span class="c">%       referenceModel, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"]);</span>
+<span class="c">%   figs = visMetSetVariability(project, compName, rxnsMetId, ...</span>
+<span class="c">%       ["Pentose.* &amp; g6p.*"; "Glycolysis.*"], referenceModel);</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Warning:</span>
+<span class="c">%   The reference model must be the same one used when calling</span>
+<span class="c">%   getRxnIDs to retrieve the reaction indices. Using a different</span>
+<span class="c">%   reference model will cause index misalignment.</span>
+
 <span class="nb">arguments</span>
 <span class="w">    </span><span class="n">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">compName</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
@@ -6544,40 +7576,7 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="w">    </span><span class="n">referenceModel</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
 <span class="k">end</span>
 
-<span class="c">% </span>
-<span class="c">% This function generates a heatmap that shows how much all Metabolites</span>
-<span class="c">% that participate in the defined Rxns are used in the defined rxnSets.</span>
-<span class="c">% This is calculated based on all solutions from the performed sampling.</span>
-<span class="c">% The resulting heatmap entail one value for a MetSet for one sample.</span>
-<span class="c">% The usage here is defined as the flux sum of all the rxns that consume</span>
-<span class="c">% this metabolite in the defined rxnSet. </span>
-<span class="c">% USAGE: </span>
-<span class="c">%       visDiffMetSetUsageSampling(project, compName, rxnSets,rxnSetLabels,referenceModel) </span>
-<span class="c">% INPUT: </span>
-<span class="c">%       project:        object generated through the pipeline</span>
-<span class="c">%                       (singleModelAnalysis and modelsComparison have to be run before)</span>
-<span class="c">%       compName:       the comparison to visualize in this figure. The names</span>
-<span class="c">%                       of the comparisons already present in the object can be seen using</span>
-<span class="c">%                       project.comparisons</span>
-<span class="c">%       rxnSets:        The sets of rxns to be visualized </span>
-<span class="c">%       rxnSetLabels:   The Labels that should be used in the figure</span>
-<span class="c">%       referenceModel: The name of the reference model used.</span>
-<span class="c">%</span>
-<span class="c">% OUTPUT:</span>
-<span class="c">%       figs:           Figure object generated and displayed by the</span>
-<span class="c">%                       function</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">% Code Example: </span>
-<span class="c">% after running singleModelAnalysis and modelsComparison this code can be</span>
-<span class="c">% used: </span>
-<span class="c">% </span>
-<span class="c">% [rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"]);</span>
-<span class="c">% visDiffMetSetUsageFBA(BRCAProject, compName, rxnsMetId, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"],referenceModel)</span>
-<span class="c">%</span>
-
-<span class="c">% check project format: </span>
-<span class="c">% comparison specified is there ? has the required fields ? </span>
+<span class="c">% check project format</span>
 
 <span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="s">'comparisons'</span><span class="p">)</span>
 <span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">'Project object does not contain a comparison object. After running the singleModels analysis you still have to run modelsComparison before beeing able to use this function!'</span><span class="p">)</span>
@@ -6629,6 +7628,188 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 
     <div class="doc doc-contents first">
 
+        <p>Generates violin plots showing the distribution of flux values across
+all sampling solutions for each reaction in the defined set. One
+violin plot is produced per reaction index in rxnSet.</p>
+
+<p><span class="doc-section-title">Input arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Project object from singleModelAnalysis and
+  modelsComparison. Both must have been run before calling this
+  function.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>compName</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the comparison to visualize. Available
+  comparisons can be listed with project.comparisons.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSet</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Set of reaction indices to visualize, typically
+  obtained via getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSetLabel</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Label displayed for this reaction set in the
+  figure.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>referenceModel</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the reference model. Must match
+  the reference model used in the specified comparison and when
+  retrieving reaction IDs with getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>addKLDValues</code>
+            </td>
+            <td>
+                  <code>logical</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If true, display the Kullback-Leibler
+  divergence significance between sampling distributions on the
+  violin plots. Default: false.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Output arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>fluxSet</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Flux data used to generate the violin plots.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>figs</code>
+            </td>
+            <td>
+                  <code>figure</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Figure object generated and displayed by the
+  function.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="c">% Visualize sampling distribution for a set of reactions</span>
+<span class="p">[</span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="n">producingMet</span><span class="p">,</span><span class="w"> </span><span class="n">matched</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">getRxnIDs</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="n">referenceModel</span><span class="p">,</span><span class="w"> </span><span class="s">"Glycolysis.*"</span><span class="p">);</span>
+<span class="p">[</span><span class="n">fluxSet</span><span class="p">,</span><span class="w"> </span><span class="n">figs</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visSingleRxnSamplingDistribution</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="s">"Glycolysis"</span><span class="p">,</span><span class="w"> </span><span class="n">referenceModel</span><span class="p">);</span>
+
+<span class="c">% Include KLD significance values</span>
+<span class="p">[</span><span class="n">fluxSet</span><span class="p">,</span><span class="w"> </span><span class="n">figs</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visSingleRxnSamplingDistribution</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="s">"Glycolysis"</span><span class="p">,</span><span class="w"> </span><span class="n">referenceModel</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">);</span>
+</code></pre></div>
+
+
+<details class="warning" open>
+  <summary>Warning</summary>
+  <p>The reference model must be the same one used when calling
+getRxnIDs to retrieve the reaction indices. Using a different
+reference model will cause index misalignment.</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>scr/classes/model_comparison/functions/visSingleRxnSamplingDistribution.m</code></summary>
@@ -6706,7 +7887,61 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="normal">72</span>
 <span class="normal">73</span>
 <span class="normal">74</span>
-<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>fluxSet,figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visSingleRxnSamplingDistribution</span><span class="p">(</span>project, compName, rxnSet,rxnSetLabel,referenceModel,addKLDValues<span class="p">)</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>fluxSet, figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visSingleRxnSamplingDistribution</span><span class="p">(</span>project, compName, rxnSet, rxnSetLabel, referenceModel, addKLDValues<span class="p">)</span>
+<span class="c">% Generates violin plots showing the distribution of flux values across</span>
+<span class="c">% all sampling solutions for each reaction in the defined set. One</span>
+<span class="c">% violin plot is produced per reaction index in rxnSet.</span>
+<span class="c">%</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   project (struct): Project object from singleModelAnalysis and</span>
+<span class="c">%       modelsComparison. Both must have been run before calling this</span>
+<span class="c">%       function.</span>
+<span class="c">%   compName (string): Name of the comparison to visualize. Available</span>
+<span class="c">%       comparisons can be listed with project.comparisons.</span>
+<span class="c">%   rxnSet (cell): Set of reaction indices to visualize, typically</span>
+<span class="c">%       obtained via getRxnIDs.</span>
+<span class="c">%   rxnSetLabel (string): Label displayed for this reaction set in the</span>
+<span class="c">%       figure.</span>
+<span class="c">%   referenceModel (string): Name of the reference model. Must match</span>
+<span class="c">%       the reference model used in the specified comparison and when</span>
+<span class="c">%       retrieving reaction IDs with getRxnIDs.</span>
+<span class="c">%   addKLDValues (logical): If true, display the Kullback-Leibler</span>
+<span class="c">%       divergence significance between sampling distributions on the</span>
+<span class="c">%       violin plots. Default: false.</span>
+<span class="c">%</span>
+<span class="c">% Returns:</span>
+<span class="c">%   fluxSet (struct): Flux data used to generate the violin plots.</span>
+<span class="c">%   figs (figure): Figure object generated and displayed by the</span>
+<span class="c">%       function.</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   % Visualize sampling distribution for a set of reactions</span>
+<span class="c">%   [rxnsMetId, producingMet, matched] = getRxnIDs(project, ...</span>
+<span class="c">%       referenceModel, "Glycolysis.*");</span>
+<span class="c">%   [fluxSet, figs] = visSingleRxnSamplingDistribution(project, ...</span>
+<span class="c">%       compName, rxnsMetId, "Glycolysis", referenceModel);</span>
+<span class="c">%</span>
+<span class="c">%   % Include KLD significance values</span>
+<span class="c">%   [fluxSet, figs] = visSingleRxnSamplingDistribution(project, ...</span>
+<span class="c">%       compName, rxnsMetId, "Glycolysis", referenceModel, true);</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Warning:</span>
+<span class="c">%   The reference model must be the same one used when calling</span>
+<span class="c">%   getRxnIDs to retrieve the reaction indices. Using a different</span>
+<span class="c">%   reference model will cause index misalignment.</span>
+
 <span class="nb">arguments</span>
 <span class="w">    </span><span class="n">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">compName</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
@@ -6716,41 +7951,7 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="w">    </span><span class="n">addKLDValues</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">logical</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">false</span>
 <span class="k">end</span>
 
-<span class="c">% </span>
-<span class="c">% This function generates a violin that shows the distribution of flux</span>
-<span class="c">% values overall samples for one rxns. One violin plot per defined index in</span>
-<span class="c">% rxnSet is generated.</span>
-<span class="c">% USAGE: </span>
-<span class="c">%       visSingleRxnSamplingDistribution(project, compName, rxnSet,rxnSetLabel,referenceModel) </span>
-<span class="c">% INPUT: </span>
-<span class="c">%       project:        object generated through the pipeline</span>
-<span class="c">%                       (singleModelAnalysis and modelsComparison have to be run before)</span>
-<span class="c">%       compName:       the comparison to visualize in this figure. The names</span>
-<span class="c">%                       of the comparisons already present in the object can be seen using</span>
-<span class="c">%                       project.comparisons</span>
-<span class="c">%       rxnSet:        The sets of rxns to be visualized </span>
-<span class="c">%       rxnSetLabel:   The Labels that should be used in the figure</span>
-<span class="c">%       referenceModel: The name of the reference model used.</span>
-<span class="c">%   optional: </span>
-<span class="c">%       addKLDValue:    Specify whether you want the significance of</span>
-<span class="c">%                       dissimilarity between the sampling distribution to</span>
-<span class="c">%                       be displayed in the violin plot. (default:false)</span>
-<span class="c">%</span>
-<span class="c">% OUTPUT:</span>
-<span class="c">%       figs:           Figure object generated and displayed by the</span>
-<span class="c">%                       function</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">% Code Example: </span>
-<span class="c">% after running singleModelAnalysis and modelsComparison this code can be</span>
-<span class="c">% used: </span>
-<span class="c">% </span>
-<span class="c">% [rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"]);</span>
-<span class="c">% visDiffMetSetUsageFBA(BRCAProject, compName, rxnsMetId, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"],referenceModel)</span>
-<span class="c">%</span>
-
 <span class="c">% check project format: </span>
-<span class="c">% comparison specified is there ? has the required fields ? </span>
 
 <span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="s">'comparisons'</span><span class="p">)</span>
 <span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">'Project object does not contain a comparison object. After running the singleModels analysis you still have to run modelsComparison before beeing able to use this function!'</span><span class="p">)</span>
@@ -6758,7 +7959,7 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">project</span><span class="p">.</span><span class="n">comparisons</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">)</span>
 <span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">'The comparison name you gave as an input is not available in the object. Check your spelling!'</span><span class="p">)</span>
 <span class="k">end</span>
-<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">project</span><span class="p">.</span><span class="n">comparisons</span><span class="p">.(</span><span class="n">compName</span><span class="p">),</span><span class="s">'samplingComparison'</span><span class="p">)</span>
+<span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">project</span><span class="p">.</span><span class="n">comparisons</span><span class="p">.(</span><span class="n">compName</span><span class="p">),</span><span class="w"> </span><span class="s">'samplingComparison'</span><span class="p">)</span>
 <span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">'The comparison object you specified does not entail a samplingComparison. Run modelsComparison(project, modelsToCompare, referenceModel, compID, ["samplingComparison"]).'</span><span class="p">)</span>
 <span class="k">end</span>
 <span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">project</span><span class="p">.</span><span class="n">comparisons</span><span class="p">.(</span><span class="n">compName</span><span class="p">).</span><span class="n">samplingComparison</span><span class="p">,</span><span class="w"> </span><span class="s">'orderedSamples'</span><span class="p">)</span>
@@ -6778,7 +7979,7 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="c">%</span>
 <span class="n">rxnLabel</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="nb">matlab.lang.makeValidName</span><span class="p">(</span><span class="n">rxnSetLabel</span><span class="p">);</span><span class="w">  </span><span class="c">% used as field name</span>
 
-<span class="p">[</span><span class="n">fluxSet</span><span class="p">,</span><span class="n">figs</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visualizeFlux</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">,</span><span class="n">rxnSet</span><span class="p">,</span><span class="n">rxnLabel</span><span class="p">,</span><span class="s">"orderedSamples"</span><span class="p">,</span><span class="s">"all"</span><span class="p">,</span><span class="s">'on'</span><span class="p">,</span><span class="n">addKLDValues</span><span class="p">)</span>
+<span class="p">[</span><span class="n">fluxSet</span><span class="p">,</span><span class="w"> </span><span class="n">figs</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visualizeFlux</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="n">rxnSet</span><span class="p">,</span><span class="w"> </span><span class="n">rxnLabel</span><span class="p">,</span><span class="w"> </span><span class="s">"orderedSamples"</span><span class="p">,</span><span class="w"> </span><span class="s">"all"</span><span class="p">,</span><span class="w"> </span><span class="s">'on'</span><span class="p">,</span><span class="w"> </span><span class="n">addKLDValues</span><span class="p">)</span>
 
 <span class="k">end</span>
 </code></pre></div></td></tr></table></div>
@@ -6798,6 +7999,166 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 
     <div class="doc doc-contents first">
 
+        <p>Generates a violin plot showing the flux sum value distribution for
+all metabolites participating in the defined reaction set. Each dot
+in the violin plot represents one sampling solution.</p>
+
+<p><span class="doc-section-title">Input arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Project object from singleModelAnalysis and
+  modelsComparison. Both must have been run before calling this
+  function.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>compName</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the comparison to visualize. Available
+  comparisons can be listed with project.comparisons.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSet</code>
+            </td>
+            <td>
+                  <code>cell</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A single set of reaction indices to visualize,
+  typically obtained via getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxnSetLabel</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Label displayed for this reaction set in the
+  plot.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>referenceModel</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the reference model. Must match
+  the reference model used in the specified comparison and when
+  retrieving reaction IDs with getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Output arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>fluxSet</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Flux sum data used to generate the violin plot.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>figs</code>
+            </td>
+            <td>
+                  <code>figure</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Figure object generated and displayed by the
+  function.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="c">% Retrieve reactions for one set, then visualize</span>
+<span class="p">[</span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="n">producingMet</span><span class="p">,</span><span class="w"> </span><span class="n">matched</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">getRxnIDs</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="n">referenceModel</span><span class="p">,</span><span class="w"> </span><span class="s">"Glycolysis.*"</span><span class="p">);</span>
+<span class="p">[</span><span class="n">fluxSet</span><span class="p">,</span><span class="w"> </span><span class="n">figs</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visSingleMetSamplingDistribution</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="n">rxnsMetId</span><span class="p">,</span><span class="w"> </span><span class="s">"Glycolysis"</span><span class="p">,</span><span class="w"> </span><span class="n">referenceModel</span><span class="p">);</span>
+</code></pre></div>
+
+
+<details class="warning" open>
+  <summary>Warning</summary>
+  <p>The reference model must be the same one used when calling
+getRxnIDs to retrieve the reaction indices. Using a different
+reference model will cause index misalignment.</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>scr/classes/model_comparison/functions/visSingleMetSamplingDistribution.m</code></summary>
@@ -6870,7 +8231,51 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="normal">67</span>
 <span class="normal">68</span>
 <span class="normal">69</span>
-<span class="normal">70</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>fluxSet,figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visSingleMetSamplingDistribution</span><span class="p">(</span>project, compName, rxnSet,rxnSetLabel,referenceModel<span class="p">)</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="p">[</span>fluxSet, figs<span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visSingleMetSamplingDistribution</span><span class="p">(</span>project, compName, rxnSet, rxnSetLabel, referenceModel<span class="p">)</span>
+<span class="c">% Generates a violin plot showing the flux sum value distribution for</span>
+<span class="c">% all metabolites participating in the defined reaction set. Each dot</span>
+<span class="c">% in the violin plot represents one sampling solution.</span>
+<span class="c">%</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   project (struct): Project object from singleModelAnalysis and</span>
+<span class="c">%       modelsComparison. Both must have been run before calling this</span>
+<span class="c">%       function.</span>
+<span class="c">%   compName (string): Name of the comparison to visualize. Available</span>
+<span class="c">%       comparisons can be listed with project.comparisons.</span>
+<span class="c">%   rxnSet (cell): A single set of reaction indices to visualize,</span>
+<span class="c">%       typically obtained via getRxnIDs.</span>
+<span class="c">%   rxnSetLabel (string): Label displayed for this reaction set in the</span>
+<span class="c">%       plot.</span>
+<span class="c">%   referenceModel (string): Name of the reference model. Must match</span>
+<span class="c">%       the reference model used in the specified comparison and when</span>
+<span class="c">%       retrieving reaction IDs with getRxnIDs.</span>
+<span class="c">%</span>
+<span class="c">% Returns:</span>
+<span class="c">%   fluxSet (struct): Flux sum data used to generate the violin plot.</span>
+<span class="c">%   figs (figure): Figure object generated and displayed by the</span>
+<span class="c">%       function.</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   % Retrieve reactions for one set, then visualize</span>
+<span class="c">%   [rxnsMetId, producingMet, matched] = getRxnIDs(project, ...</span>
+<span class="c">%       referenceModel, "Glycolysis.*");</span>
+<span class="c">%   [fluxSet, figs] = visSingleMetSamplingDistribution(project, ...</span>
+<span class="c">%       compName, rxnsMetId, "Glycolysis", referenceModel);</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Warning:</span>
+<span class="c">%   The reference model must be the same one used when calling</span>
+<span class="c">%   getRxnIDs to retrieve the reaction indices. Using a different</span>
+<span class="c">%   reference model will cause index misalignment.</span>
+
 <span class="nb">arguments</span>
 <span class="w">    </span><span class="n">project</span><span class="w"> </span>
 <span class="w">    </span><span class="n">compName</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
@@ -6879,37 +8284,7 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="w">    </span><span class="n">referenceModel</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="nb">string</span>
 <span class="k">end</span>
 
-<span class="c">% </span>
-<span class="c">% This function generates one violin plot that shows the fluxsum value distribution for</span>
-<span class="c">% all the metabolites taking part in the defined rxns. Each dot in the</span>
-<span class="c">% violin plot is one sample.</span>
-<span class="c">% USAGE: </span>
-<span class="c">%       visSingleMetSamplingDistribution(project, compName, rxnSet,rxnSetLabel,referenceModel) </span>
-<span class="c">% INPUT: </span>
-<span class="c">%       project:        object generated through the pipeline</span>
-<span class="c">%                       (singleModelAnalysis and modelsComparison have to be run before)</span>
-<span class="c">%       compName:       the comparison to visualize in this figure. The names</span>
-<span class="c">%                       of the comparisons already present in the object can be seen using</span>
-<span class="c">%                       project.comparisons</span>
-<span class="c">%       rxnSet:        One set of rxns to be visualized </span>
-<span class="c">%       rxnSetLabel:   The label to be displayed for this rxnSet in the plot.</span>
-<span class="c">%       referenceModel: The name of the reference model used.</span>
-<span class="c">%</span>
-<span class="c">% OUTPUT:</span>
-<span class="c">%       figs:           Figure object generated and displayed by the</span>
-<span class="c">%                       function</span>
-<span class="c">%</span>
-<span class="c">%</span>
-<span class="c">% Code Example: </span>
-<span class="c">% after running singleModelAnalysis and modelsComparison this code can be</span>
-<span class="c">% used: </span>
-<span class="c">% </span>
-<span class="c">% [rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"]);</span>
-<span class="c">% visDiffMetSetUsageFBA(BRCAProject, compName, rxnsMetId, ["Pentose.* &amp; g6p.*"; "Glycolysis.*"],referenceModel)</span>
-<span class="c">%</span>
-
 <span class="c">% check project format: </span>
-<span class="c">% comparison specified is there ? has the required fields ? </span>
 
 <span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">isfield</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="s">'comparisons'</span><span class="p">)</span>
 <span class="w">    </span><span class="nb">error</span><span class="p">(</span><span class="s">'Project object does not contain a comparison object. After running the singleModels analysis you still have to run modelsComparison before beeing able to use this function!'</span><span class="p">)</span>
@@ -6936,8 +8311,8 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 <span class="c">%</span>
 <span class="n">rxnLabel</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="nb">matlab.lang.makeValidName</span><span class="p">(</span><span class="n">rxnSetLabel</span><span class="p">);</span><span class="w">  </span><span class="c">% used as field name</span>
 
-<span class="p">[</span><span class="n">fluxSet</span><span class="p">,</span><span class="n">figs</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visualizeFluxsum</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">,[],</span><span class="n">rxnSet</span><span class="p">,</span><span class="n">rxnLabel</span><span class="p">,</span><span class="s">"violin"</span><span class="p">,</span><span class="k">...</span>
-<span class="w">                                       </span><span class="nb">false</span><span class="p">,</span><span class="nb">false</span><span class="p">,</span><span class="s">"orderedSamples"</span><span class="p">,</span><span class="s">"outgoing"</span><span class="p">,</span><span class="n">referenceModel</span><span class="p">,</span><span class="s">'on'</span><span class="p">)</span>
+<span class="p">[</span><span class="n">fluxSet</span><span class="p">,</span><span class="n">figs</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visualizeFluxsum</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="p">[],</span><span class="w"> </span><span class="n">rxnSet</span><span class="p">,</span><span class="w"> </span><span class="n">rxnLabel</span><span class="p">,</span><span class="w"> </span><span class="s">"violin"</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">                                       </span><span class="nb">false</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">,</span><span class="w"> </span><span class="s">"orderedSamples"</span><span class="p">,</span><span class="w"> </span><span class="s">"outgoing"</span><span class="p">,</span><span class="w"> </span><span class="n">referenceModel</span><span class="p">,</span><span class="w"> </span><span class="s">'on'</span><span class="p">)</span>
 
 <span class="k">end</span>
 </code></pre></div></td></tr></table></div>
@@ -6957,29 +8332,11 @@ other identifiers. A pattern cannot contain both &amp; and | operators.</p>
 
     <div class="doc doc-contents first">
 
-        <p>This function visualizes the values of FVA and FBA for
-the choosen rxns_ids between different models.
-As an input a singlemodelanalysis needs to be
-given, the name of the comparison for which this plot is to be
-displayed, and the indices of the rxns to be displayed. In the
-options you can choose which values you want to be displayed, by
-default only the FBA values are displayed in the barplot. But in
-the options it can additionally be specified that the FVA boundaries
-(as a grey box) and the reduced cost per reaction (as color of the
-FBA dot) can be displayed. 
-Input: 
-- project:                project object which is the output of
-                          single_model_analysis script
-- comparison_name:        name of the comparison as a string
-- idxToVis:             positions of the rxns to be displayed in the
-                          choosen reference model
-- options:                - FVA = true (default false) to display the FVA boundaries
-                            around the FBA solution as a grey box.                      <br />
-                          - thresholdFlux= wether to apply an upper
-                            lower ,no upper or lower or to include 
-                            also the fba =0 reactions(all) to the selected
-                            reaction fba values</p>
-<p>Output:                   Display of figure</p>
+        <p>Visualizes FBA and FVA values for selected reactions across models in
+a comparison. By default, only FBA values are shown as a grouped
+horizontal bar plot. Optionally, FVA boundaries can be displayed as
+grey boxes around the FBA dots. Reactions are split into a high-flux
+and low-flux panel using 1D k-means clustering for readability.</p>
 
 <p><span class="doc-section-title">Input arguments:</span></p>
     <table>
@@ -6997,10 +8354,12 @@ Input:
                 <code>project</code>
             </td>
             <td>
+                  <code>struct</code>
             </td>
             <td>
               <div class="doc-md-description">
-                
+                <p>Project object from singleModelAnalysis and
+  modelsComparison.</p>
               </div>
             </td>
             <td>
@@ -7016,7 +8375,7 @@ Input:
             </td>
             <td>
               <div class="doc-md-description">
-                
+                <p>Name of the comparison to visualize.</p>
               </div>
             </td>
             <td>
@@ -7032,7 +8391,78 @@ Input:
             </td>
             <td>
               <div class="doc-md-description">
-                
+                <p>Indices of the reactions to display in the
+  reference model, typically obtained via getRxnIDs.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>options.FVA</code>
+            </td>
+            <td>
+                  <code>logical</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If true, display FVA boundaries as grey
+  boxes around the FBA dots. Default: false.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>options.thresholdFlux</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Flux filtering mode. Valid values:
+  "lower" (positive flux only), "upper" (negative flux only),
+  "none" (non-zero flux only), "all" (include zero-flux
+  reactions). Default: "none".</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>options.titlePlots</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Custom title for the plots. Used when
+  thresholdFlux is "none" or "all". Default: "".</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>options.visiblePlots</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Figure visibility, "on" or "off".
+  Default: "on".</p>
               </div>
             </td>
             <td>
@@ -7042,82 +8472,54 @@ Input:
       </tbody>
     </table>
 
-<p><span class="doc-section-title">Name-value arguments:</span></p>
+<p><span class="doc-section-title">Output arguments:</span></p>
     <table>
       <thead>
         <tr>
           <th>Name</th>
           <th>Type</th>
           <th>Description</th>
-          <th>Default</th>
         </tr>
       </thead>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>FVA</code>
+                <code>fig</code>
             </td>
             <td>
-                  <code>logical</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>options.reducedCost (1,1) logical = false</p>
-              </div>
-            </td>
-            <td>
-                  <code>false</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>thresholdFlux</code>
-            </td>
-            <td>
-                  <code>string</code>
+                  <code>figure</code>
             </td>
             <td>
               <div class="doc-md-description">
-                
+                <p>Figure object containing the bar plot and optional
+  table with reaction formulas, medium constraints, model
+  mappings, and gene-protein-reaction rules.</p>
               </div>
-            </td>
-            <td>
-                  <code>&#34;none&#34;</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>titlePlots</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                
-              </div>
-            </td>
-            <td>
-                  <code>&#34;&#34;</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>visiblePlots</code>
-            </td>
-            <td>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                
-              </div>
-            </td>
-            <td>
-                  <code>&#34;on&#34;</code>
             </td>
           </tr>
       </tbody>
     </table>
 
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="c">% Visualize FBA values for selected reactions</span>
+<span class="n">fig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visSingleRxnFBA</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="n">rxnIDs</span><span class="p">);</span>
+
+<span class="c">% Include FVA boundaries and show only positive flux reactions</span>
+<span class="n">fig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visSingleRxnFBA</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="n">rxnIDs</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="nb">struct</span><span class="p">(</span><span class="s">'FVA'</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="s">'thresholdFlux'</span><span class="p">,</span><span class="w"> </span><span class="s">"lower"</span><span class="p">));</span>
+
+<span class="c">% Show all reactions including zero-flux ones</span>
+<span class="n">fig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visSingleRxnFBA</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="n">rxnIDs</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="nb">struct</span><span class="p">(</span><span class="s">'thresholdFlux'</span><span class="p">,</span><span class="w"> </span><span class="s">"all"</span><span class="p">,</span><span class="w"> </span><span class="s">'titlePlots'</span><span class="p">,</span><span class="w"> </span><span class="s">"All reactions"</span><span class="p">));</span>
+</code></pre></div>
+
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>When all models share the same medium composition, a table is
+displayed alongside the plot showing reaction formulas, medium
+constraints, model-specific reaction mappings, and symbol GPR rules.</p>
+</details>
 
             <details class="quote">
               <summary>Source code in <code>scr/classes/model_comparison/functions/visSingleRxnFBA.m</code></summary>
@@ -7686,32 +9088,74 @@ Input:
 <span class="normal">563</span>
 <span class="normal">564</span>
 <span class="normal">565</span>
-<span class="normal">566</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span>fig<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visSingleRxnFBA</span><span class="p">(</span>project, comparisonName, idxToVis, options<span class="p">)</span>
-<span class="w">    </span><span class="c">% This function visualizes the values of FVA and FBA for</span>
-<span class="w">    </span><span class="c">% the choosen rxns_ids between different models.</span>
-<span class="w">    </span><span class="c">% As an input a singlemodelanalysis needs to be</span>
-<span class="w">    </span><span class="c">% given, the name of the comparison for which this plot is to be</span>
-<span class="w">    </span><span class="c">% displayed, and the indices of the rxns to be displayed. In the</span>
-<span class="w">    </span><span class="c">% options you can choose which values you want to be displayed, by</span>
-<span class="w">    </span><span class="c">% default only the FBA values are displayed in the barplot. But in</span>
-<span class="w">    </span><span class="c">% the options it can additionally be specified that the FVA boundaries</span>
-<span class="w">    </span><span class="c">% (as a grey box) and the reduced cost per reaction (as color of the</span>
-<span class="w">    </span><span class="c">% FBA dot) can be displayed. </span>
-<span class="w">    </span><span class="c">% Input: </span>
-<span class="w">    </span><span class="c">% - project:                project object which is the output of</span>
-<span class="w">    </span><span class="c">%                           single_model_analysis script</span>
-<span class="w">    </span><span class="c">% - comparison_name:        name of the comparison as a string</span>
-<span class="w">    </span><span class="c">% - idxToVis:             positions of the rxns to be displayed in the</span>
-<span class="w">    </span><span class="c">%                           choosen reference model</span>
-<span class="w">    </span><span class="c">% - options:                - FVA = true (default false) to display the FVA boundaries</span>
-<span class="w">    </span><span class="c">%                             around the FBA solution as a grey box.                        </span>
-<span class="w">    </span><span class="c">%                           - thresholdFlux= wether to apply an upper</span>
-<span class="w">    </span><span class="c">%                             lower ,no upper or lower or to include </span>
-<span class="w">    </span><span class="c">%                             also the fba =0 reactions(all) to the selected</span>
-<span class="w">    </span><span class="c">%                             reaction fba values</span>
-<span class="w">    </span><span class="c">% </span>
-<span class="w">    </span><span class="c">% Output:                   Display of figure                </span>
-<span class="w">    </span><span class="c">% </span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span>fig<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visSingleRxnFBA</span><span class="p">(</span>project, comparisonName, idxToVis, options<span class="p">)</span>
+<span class="c">% Visualizes FBA and FVA values for selected reactions across models in</span>
+<span class="c">% a comparison. By default, only FBA values are shown as a grouped</span>
+<span class="c">% horizontal bar plot. Optionally, FVA boundaries can be displayed as</span>
+<span class="c">% grey boxes around the FBA dots. Reactions are split into a high-flux</span>
+<span class="c">% and low-flux panel using 1D k-means clustering for readability.</span>
+<span class="c">%</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   project (struct): Project object from singleModelAnalysis and</span>
+<span class="c">%       modelsComparison.</span>
+<span class="c">%   comparisonName (string): Name of the comparison to visualize.</span>
+<span class="c">%   idxToVis (cell): Indices of the reactions to display in the</span>
+<span class="c">%       reference model, typically obtained via getRxnIDs.</span>
+<span class="c">%   options.FVA (logical): If true, display FVA boundaries as grey</span>
+<span class="c">%       boxes around the FBA dots. Default: false.</span>
+<span class="c">%   options.thresholdFlux (string): Flux filtering mode. Valid values:</span>
+<span class="c">%       "lower" (positive flux only), "upper" (negative flux only),</span>
+<span class="c">%       "none" (non-zero flux only), "all" (include zero-flux</span>
+<span class="c">%       reactions). Default: "none".</span>
+<span class="c">%   options.titlePlots (string): Custom title for the plots. Used when</span>
+<span class="c">%       thresholdFlux is "none" or "all". Default: "".</span>
+<span class="c">%   options.visiblePlots (string): Figure visibility, "on" or "off".</span>
+<span class="c">%       Default: "on".</span>
+<span class="c">%</span>
+<span class="c">% Returns:</span>
+<span class="c">%   fig (figure): Figure object containing the bar plot and optional</span>
+<span class="c">%       table with reaction formulas, medium constraints, model</span>
+<span class="c">%       mappings, and gene-protein-reaction rules.</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   % Visualize FBA values for selected reactions</span>
+<span class="c">%   fig = visSingleRxnFBA(project, compName, rxnIDs);</span>
+<span class="c">%</span>
+<span class="c">%   % Include FVA boundaries and show only positive flux reactions</span>
+<span class="c">%   fig = visSingleRxnFBA(project, compName, rxnIDs, ...</span>
+<span class="c">%       struct('FVA', true, 'thresholdFlux', "lower"));</span>
+<span class="c">%</span>
+<span class="c">%   % Show all reactions including zero-flux ones</span>
+<span class="c">%   fig = visSingleRxnFBA(project, compName, rxnIDs, ...</span>
+<span class="c">%       struct('thresholdFlux', "all", 'titlePlots', "All reactions"));</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Note:</span>
+<span class="c">%   When all models share the same medium composition, a table is</span>
+<span class="c">%   displayed alongside the plot showing reaction formulas, medium</span>
+<span class="c">%   constraints, model-specific reaction mappings, and symbol GPR rules.</span>
 
 <span class="w">    </span><span class="nb">arguments</span>
 <span class="w">        </span><span class="n">project</span>
@@ -8269,21 +9713,308 @@ Input:
 
     <div class="doc doc-contents first">
 
-        <p>This function will visualize your reaction of interest on the a
-dimension reduced space. </p>
+        <p>Visualizes sampling solutions in a dimension-reduced space (PCA or
+UMAP) with reaction flux or flux sum values overlaid as color. PCA is
+always computed first; UMAP is then applied on the selected principal
+components. Optionally, k-means clustering can be performed on the
+PCA-reduced data.</p>
+
+<p><span class="doc-section-title">Input arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>project</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Project object from singleModelAnalysis and
+  modelComparison.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>comparison_name</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Name of the comparison containing the
+  sampling results to visualize.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>rxn_to_visualize</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Reaction name whose flux values are
+  displayed as color in the reduced space. Default:
+  "biomass_reaction".</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>options.dim_reduction_type</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Dimension reduction method,
+  "PCA" or "UMAP". Default: "UMAP".</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>options.pcs_vis</code>
+            </td>
+            <td>
+                  <code>1-by-2 array</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Principal components to display
+  when using PCA. Default: [1, 2].</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>options.sampling_feature</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Feature space for reduction,
+  "flux" (per-reaction) or "fluxsum" (per-metabolite). Default:
+  "flux".</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>options.num_clusters</code>
+            </td>
+            <td>
+                  <code>numeric</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Number of k-means clusters. If 0,
+  defaults to the number of unique model labels. Default: 0.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>options.pcs_used_dim_red</code>
+            </td>
+            <td>
+                  <code>numeric</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Number of PCs fed into UMAP.
+  If 0, automatically determined to reach 70 percent cumulative
+  variance. Default: 0.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>options.perform_kmeans</code>
+            </td>
+            <td>
+                  <code>numeric</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If 1, run k-means clustering on
+  the PCA-reduced data. Default: 0.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>options.thinning</code>
+            </td>
+            <td>
+                  <code>numeric</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Subsampling interval to reduce
+  computational load. Every nth sample is kept. Default: 10.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>options.n_neighbors</code>
+            </td>
+            <td>
+                  <code>numeric</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>UMAP n_neighbors parameter.
+  Default: 50.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>options.overwrite</code>
+            </td>
+            <td>
+                  <code>numeric</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If 1, overwrite existing dimension
+  reduction results. Default: 0.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>options.visible_plot</code>
+            </td>
+            <td>
+                  <code>string</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Figure visibility, "on" or "off".
+  Default: "on".</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Output arguments:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>fig_out</code>
+            </td>
+            <td>
+                  <code>struct</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Struct containing the generated figures. Fields
+  include "label" (model labels scatter), "cluster" (k-means
+  cluster scatter, if performed), and a field named after the
+  visualized reaction (flux value colored scatter).</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="c">% Default UMAP visualization with biomass reaction flux as color</span>
+<span class="n">fig_out</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visualizeSamplingLandscape</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">);</span>
+
+<span class="c">% Use PCA with custom components and fluxsum features</span>
+<span class="n">fig_out</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visualizeSamplingLandscape</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="s">"EX_glc(e)"</span><span class="p">,</span><span class="w"> </span><span class="nb">struct</span><span class="p">(</span><span class="s">'dim_reduction_type'</span><span class="p">,</span><span class="w"> </span><span class="s">"PCA"</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="s">'pcs_vis'</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">],</span><span class="w"> </span><span class="s">'sampling_feature'</span><span class="p">,</span><span class="w"> </span><span class="s">"fluxsum"</span><span class="p">));</span>
+
+<span class="c">% Run UMAP with k-means clustering</span>
+<span class="n">fig_out</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">visualizeSamplingLandscape</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="s">"biomass_reaction"</span><span class="p">,</span><span class="w"> </span><span class="nb">struct</span><span class="p">(</span><span class="s">'perform_kmeans'</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
+<span class="w">    </span><span class="s">'num_clusters'</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="s">'thinning'</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">));</span>
+</code></pre></div>
 
 
-<details class="inputs" open>
-  <summary>Inputs</summary>
-  <ul>
-<li>project:          the object which is the output of the single_model_analysis
-                    entailing the results of fba,fva,sampling, single gene
-                    deletion etc. for a single model </li>
-<li>comparison_name:  name of the comparsion the dimension reduction
-                    should be performed</li>
-<li>rxn_to_visualize: reaction values to be visualized as color on in the figure</li>
-<li>options:</li>
-</ul>
+<details class="note" open>
+  <summary>Note</summary>
+  <p>PCA is always computed on z-scored, zero-variance-filtered samples.
+UMAP is applied on the first numPCs principal components of the
+thinned data. K-means clustering quality is assessed via silhouette
+score and label homogeneity.</p>
+</details>
+
+<details class="warning" open>
+  <summary>Warning</summary>
+  <p>UMAP requires the UMAP toolbox, which is compatible with MATLAB
+R2019a through R2024b only. R2025a and later remove Java access to
+MATLAB figures, breaking the toolbox.</p>
 </details>
 
             <details class="quote">
@@ -8569,18 +10300,136 @@ dimension reduced space. </p>
 <span class="normal">279</span>
 <span class="normal">280</span>
 <span class="normal">281</span>
-<span class="normal">282</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span>fig_out<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visualizeSamplingLandscape</span><span class="p">(</span>project,comparison_name, rxn_to_visualize,options<span class="p">)</span>
-<span class="w">    </span><span class="c">% This function will visualize your reaction of interest on the a</span>
-<span class="w">    </span><span class="c">% dimension reduced space. </span>
-<span class="w">    </span><span class="c">% </span>
-<span class="w">    </span><span class="c">% Inputs: </span>
-<span class="w">    </span><span class="c">%   - project:          the object which is the output of the single_model_analysis</span>
-<span class="w">    </span><span class="c">%                       entailing the results of fba,fva,sampling, single gene</span>
-<span class="w">    </span><span class="c">%                       deletion etc. for a single model </span>
-<span class="w">    </span><span class="c">%   - comparison_name:  name of the comparsion the dimension reduction</span>
-<span class="w">    </span><span class="c">%                       should be performed</span>
-<span class="w">    </span><span class="c">%   - rxn_to_visualize: reaction values to be visualized as color on in the figure</span>
-<span class="w">    </span><span class="c">%   - options:          </span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span>fig_out<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">visualizeSamplingLandscape</span><span class="p">(</span>project, comparison_name, rxn_to_visualize, options<span class="p">)</span>
+<span class="c">% Visualizes sampling solutions in a dimension-reduced space (PCA or</span>
+<span class="c">% UMAP) with reaction flux or flux sum values overlaid as color. PCA is</span>
+<span class="c">% always computed first; UMAP is then applied on the selected principal</span>
+<span class="c">% components. Optionally, k-means clustering can be performed on the</span>
+<span class="c">% PCA-reduced data.</span>
+<span class="c">%</span>
+<span class="c">% Arguments:</span>
+<span class="c">%   project (struct): Project object from singleModelAnalysis and</span>
+<span class="c">%       modelComparison.</span>
+<span class="c">%   comparison_name (string): Name of the comparison containing the</span>
+<span class="c">%       sampling results to visualize.</span>
+<span class="c">%   rxn_to_visualize (string): Reaction name whose flux values are</span>
+<span class="c">%       displayed as color in the reduced space. Default:</span>
+<span class="c">%       "biomass_reaction".</span>
+<span class="c">%   options.dim_reduction_type (string): Dimension reduction method,</span>
+<span class="c">%       "PCA" or "UMAP". Default: "UMAP".</span>
+<span class="c">%   options.pcs_vis (1-by-2 array): Principal components to display</span>
+<span class="c">%       when using PCA. Default: [1, 2].</span>
+<span class="c">%   options.sampling_feature (string): Feature space for reduction,</span>
+<span class="c">%       "flux" (per-reaction) or "fluxsum" (per-metabolite). Default:</span>
+<span class="c">%       "flux".</span>
+<span class="c">%   options.num_clusters (numeric): Number of k-means clusters. If 0,</span>
+<span class="c">%       defaults to the number of unique model labels. Default: 0.</span>
+<span class="c">%   options.pcs_used_dim_red (numeric): Number of PCs fed into UMAP.</span>
+<span class="c">%       If 0, automatically determined to reach 70 percent cumulative</span>
+<span class="c">%       variance. Default: 0.</span>
+<span class="c">%   options.perform_kmeans (numeric): If 1, run k-means clustering on</span>
+<span class="c">%       the PCA-reduced data. Default: 0.</span>
+<span class="c">%   options.thinning (numeric): Subsampling interval to reduce</span>
+<span class="c">%       computational load. Every nth sample is kept. Default: 10.</span>
+<span class="c">%   options.n_neighbors (numeric): UMAP n_neighbors parameter.</span>
+<span class="c">%       Default: 50.</span>
+<span class="c">%   options.overwrite (numeric): If 1, overwrite existing dimension</span>
+<span class="c">%       reduction results. Default: 0.</span>
+<span class="c">%   options.visible_plot (string): Figure visibility, "on" or "off".</span>
+<span class="c">%       Default: "on".</span>
+<span class="c">%</span>
+<span class="c">% Returns:</span>
+<span class="c">%   fig_out (struct): Struct containing the generated figures. Fields</span>
+<span class="c">%       include "label" (model labels scatter), "cluster" (k-means</span>
+<span class="c">%       cluster scatter, if performed), and a field named after the</span>
+<span class="c">%       visualized reaction (flux value colored scatter).</span>
+<span class="c">%</span>
+<span class="c">% Examples:</span>
+<span class="c">%   ```matlab</span>
+<span class="c">%   % Default UMAP visualization with biomass reaction flux as color</span>
+<span class="c">%   fig_out = visualizeSamplingLandscape(project, compName);</span>
+<span class="c">%</span>
+<span class="c">%   % Use PCA with custom components and fluxsum features</span>
+<span class="c">%   fig_out = visualizeSamplingLandscape(project, compName, ...</span>
+<span class="c">%       "EX_glc(e)", struct('dim_reduction_type', "PCA", ...</span>
+<span class="c">%       'pcs_vis', [1, 3], 'sampling_feature', "fluxsum"));</span>
+<span class="c">%</span>
+<span class="c">%   % Run UMAP with k-means clustering</span>
+<span class="c">%   fig_out = visualizeSamplingLandscape(project, compName, ...</span>
+<span class="c">%       "biomass_reaction", struct('perform_kmeans', 1, ...</span>
+<span class="c">%       'num_clusters', 3, 'thinning', 5));</span>
+<span class="c">%   ```</span>
+<span class="c">%</span>
+<span class="c">% Note:</span>
+<span class="c">%   PCA is always computed on z-scored, zero-variance-filtered samples.</span>
+<span class="c">%   UMAP is applied on the first numPCs principal components of the</span>
+<span class="c">%   thinned data. K-means clustering quality is assessed via silhouette</span>
+<span class="c">%   score and label homogeneity.</span>
+<span class="c">%</span>
+<span class="c">% Warning:</span>
+<span class="c">%   UMAP requires the UMAP toolbox, which is compatible with MATLAB</span>
+<span class="c">%   R2019a through R2024b only. R2025a and later remove Java access to</span>
+<span class="c">%   MATLAB figures, breaking the toolbox.</span>
+
 <span class="w">    </span><span class="nb">arguments</span>
 <span class="w">        </span><span class="n">project</span><span class="w"> </span>
 <span class="w">        </span><span class="n">comparison_name</span>
