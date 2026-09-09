@@ -65,16 +65,17 @@ showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.i
 showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.dataDiscretization)
 % this is more a QC measure, can be observed that roughly 1/3 of all genes
 % which are in the model where discretized to be active
-% this gives us an indication on how many of the genes,rxns are actually
+% this gives us an indication on how many of the genes, rxns are actually
 % backed up by expression data
 
 % Next lets answer two questions: 
 % - how many of the reactions in the model are in the core (along the same
-% lines as the discretization_ 
+% lines as the discretization) 
 % - how many of the reactions which were in the core made it into the model
-% (theoretically we would like 100 percent) but in practice we are around
-% 70/80 percent, this can be adjusted by setting different thresholds 
+% (theoretically we would like 100%) but in practice we are around
+% 70/80%, this can be adjusted by setting different thresholds 
 showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.coreReactions)
+
 % the next question then is how many of those core reactions are specific
 % or are the all shared ? 
 % The models share a large amount of core reactions, which makes sense but we also see that the control samples have the highest number of specific rxns, 
@@ -82,10 +83,10 @@ showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.c
 % the cancer models and control, stage I has the least number of specific
 % reactions
 
-% where do those core reactions come from, pathway wise 
+% where do those core reactions come from, pathway wise? 
 showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.coreReactionsIntersections)
 % the important observation here is that the differences in core reaction
-% is not only due to Transport or exchangers, but there is also other rxns
+% is not only due to Transport or exchangers, but there are also other rxns
 % that make up the model specific core reactions
 
 % the next question is where do the differences between the models come from
@@ -125,7 +126,7 @@ showFigure(BRCAProject.comparisons.(comparisonName).samplingComparison.plots.hea
 % is this trend consistent within the model, or highly variable between samples ? 
 showFigure(BRCAProject.comparisons.(comparisonName).samplingComparison.plots.heatmapMetsFluxSumSamples)
 
-% how active are rxns in the different subsystem
+% how active are rxns in the different subsystems
 showFigure(BRCAProject.comparisons.(comparisonName).samplingComparison.plots.heatmapRxnFluxSum)
 % is this trend consistent within the model, or highly variable between samples ? 
 showFigure(BRCAProject.comparisons.(comparisonName).samplingComparison.plots.heatmapRxnFluxSumSamples)

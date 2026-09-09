@@ -1,32 +1,57 @@
 function [project, comparisonName] = modelsComparison(project, modelList, referenceModel, identifier, analyses)
-% MODELSCOMPARISON Runs a set of analyses for the comparison of the specified models.
+% Compares multiple models on structural, functional, and sampling levels.
 %
-% A number of analyses are run:
-% - structural analysis: based on the differential presence of
-%   metabolites, genes and reactions in the different models
-% - functional analysis: based on the quantitative values like FVA, FBA
-% - sampling analysis: comparative analysis based on the sampling results
+% This function runs a set of comparative analyses on the specified
+% models. Three types of comparison are available: structural (presence
+% or absence of reactions, metabolites, and genes), functional (FBA and
+% FVA flux differences), and sampling (solution space comparison).
+% Structural comparison is always run first as a prerequisite for the
+% others.
 %
-% Inputs:
-% - project: the object which is the output of the single_model_analysis
-%   entailing the results of fba, fva, sampling, single gene
-%   deletion etc. for a single model
-% - modelList: the list of Model names to be included in the comparison
-% - referenceModel: the reference model used to compute the relative reaction presence
-% - analyses: the list of analyses which should be performed
-%   + structuralComparison: investigates the differences between the models
-%     on a structural level, is a gene, metabolite, or rxn present or not?
-%   + functionalComparison: investigates the differences between models on a
-%     functional level, how much flux do reactions carry in FVA, FBA solutions?
-%   + samplingComparison: investigates the differences between models sampling
-%     solutions, investigates samples solution space
-% - identifier: a string, will be added as a postfix to the analysis name,
-%   can be chosen freely (default: current timestamp)
+% Arguments:
+%   project (struct): Project structure with single model analyses
+%       completed and active analyses set via chooseActiveAnalysis.
+%   modelList (string): Names of the models to compare.
+%   referenceModel (string): Reference model used to compute relative
+%       reaction presence.
+%   identifier (string): Postfix appended to the comparison name.
+%       Default: current timestamp.
+%   analyses (string): Analyses to perform. Valid values:
+%       structuralComparison, functionalComparison, samplingComparison,
+%       IDAREoutput. Default: structuralComparison.
 %
-% Output:
-% - project: project object with an added comparison field entailing
-%   all the output, modelcomparison information
-% - comparisonName: gives back the name of the comparison added
+% Returns:
+%   project (struct): Project with a comparisons field containing all
+%       results and plots.
+%   comparisonName (string): Name of the created comparison.
+%
+% Examples:
+%   ```matlab
+%   % Run only the structural comparison (default)
+%   [project, compName] = modelsComparison(project, ...
+%       ["model1", "model2"], "model1");
+%
+%   % Run structural and functional comparisons
+%   [project, compName] = modelsComparison(project, ...
+%       ["model1", "model2"], "model1", "batchA", ...
+%       ["structuralComparison", "functionalComparison"]);
+%
+%   % Run all three comparisons
+%   [project, compName] = modelsComparison(project, ...
+%       ["model1", "model2", "model3"], "model1", "fullRun", ...
+%       ["structuralComparison", "functionalComparison", "samplingComparison"]);
+%   ```
+%
+% Note:
+%   The comparison name is built as model1_vs_model2_vs_...__identifier.
+%   Models are ordered by their appearance in project.models. If a
+%   comparison with the same name already exists and the structural
+%   analysis was already run, only the newly requested analyses are
+%   performed.
+%
+% Warning:
+%   If a comparison with the same name exists but uses a different
+%   reference model, the user is prompted to confirm overwriting.
 
 arguments
     project        (1,1) struct

@@ -1,34 +1,47 @@
-function [rxnID,producing,matchedAll] = getRxnIDs(project,referenceModel, pattern)
-    % This function allow you to filter for reactions to visualize using a
-    % pattern. You can give in the pattern for a subsystem/gene/rxns or
-    % metabolite and the function will find the rxns that are associated
-    % with the pattern given as an input. 
-    % Additionally you can define multiple patterns to be matched. 
-    % If you want the rxns to be associated to both patterns (for example a
-    % rxns that produces/consumes lactate  in the Glycolysis) then you can
-    % give in a pattern like this "^lac_.* & ^Glycolysis.*". If you want
-    % to find rxns that are assocated with multiple patterns (for example
-    % all reactions that are consuming/producing lactate and pyruvate) you
-    % can write it like this: "^lac.* | ^pyr.*". 
-    % USAGE:
-    %
-    %   [rxnID,producing,matched] = getRxnIDs(project,referenceModel, pattern)
-    % INPUTS:
-    %   project:                project object which is the output of
-    %                           singleModelAnalysis and modelsComparison
-    %   referenceModel:         the reference model according to which the
-    %                           idx should be obtained
-    %   pattern:                the regex pattern that is matched to find
-    %                           genes/rxns/mets participating in a rxns
-    % OUTPUTS: 
-    %   rxnID:                  idx of the models in the reference model
-    %   producing:              logical vector indicating if the mets
-    %                           specified in the pattern are produced or consumed in the reaction
-    %                           (according to stochiometry)
-    %   matched:                returning the actuall strings the pattern
-    %                           were matched to (so the name of the
-    %                           rxns/genes/mets/subSystems detected by
-    %                           givin the pattern)
+function [rxnID, producing,matchedAll] = getRxnIDs(project, referenceModel, pattern)
+% Finds reactions matching a pattern across model fields.
+%
+% This function filters reactions for visualization using a regex pattern.
+% The pattern can match subsystems, genes, reaction names, or metabolites.
+% Multiple patterns can be combined with & (AND) or | (OR) operators.
+%
+% Arguments:
+%   project (struct): Project object from singleModelAnalysis and
+%       modelsComparison.
+%   referenceModel (string): Reference model to search in.
+%   pattern (string): Regex pattern(s) to match. Use & to require
+%       multiple patterns simultaneously (e.g. "^lac_.* & ^Glycolysis.*")
+%       or | to match any of several patterns (e.g. "^lac.* | ^pyr.*").
+%
+% Returns:
+%   rxnID (cell): Reaction indices in the reference model for each
+%       pattern.
+%   producing (cell): Logical vector indicating whether matched
+%       metabolites are produced or consumed in each reaction, based on
+%       stoichiometry.
+%   matchedAll (cell): Actual strings matched by each pattern (reaction,
+%       gene, metabolite, or subsystem names).
+%
+% Examples:
+%   ```matlab
+%   % Find reactions in Glycolysis involving lactate
+%   [rxnID, producing, matched] = getRxnIDs(project, "model1", ...
+%       "^lac_.* & ^Glycolysis.*");
+%
+%   % Find reactions involving lactate or pyruvate
+%   [rxnID, producing, matched] = getRxnIDs(project, "model1", ...
+%       "^lac.* | ^pyr.*");
+%
+%   % Find reactions in a single subsystem
+%   [rxnID, producing, matched] = getRxnIDs(project, "model1", ...
+%       "^TCA cycle.*");
+%   ```
+%
+% Note:
+%   If no match is found in model fields, the function searches the
+%   gene ID dictionary (settings.dico) to match gene names, symbols, or
+%   other identifiers. A pattern cannot contain both & and | operators.
+
     arguments
         project (1,1) struct
         referenceModel (1,1) string

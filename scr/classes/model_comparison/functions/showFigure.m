@@ -1,10 +1,29 @@
 function newFig = showFigure(figHandle)
-% DUPLICATEFIGURE Creates a copy of a figure safely.
-%   newFig = duplicateFigure(figHandle) duplicates the figure given by
-%   figHandle. Works for figures with UIAxes, tables, clustergrams, etc.
+% Creates a copy of a figure safely.
 %
-% Example:
-%   newFig = duplicateFigure(plots.funct.import);
+% This function duplicates a figure given by its handle. It attempts
+% several copy strategies in sequence: direct copyobj, children-only
+% copyobj, and finally save-and-reopen via a temporary .fig file. This
+% ensures compatibility with figures containing UIAxes, tables,
+% clustergrams, and other complex objects.
+%
+% Arguments:
+%   figHandle (figure): Handle of the figure to duplicate.
+%
+% Returns:
+%   newFig (figure): Handle of the newly created figure copy.
+%
+% Examples:
+%   ```matlab
+%   newFig = showFigure(plots.funct.import);
+%   ```
+%
+% Note:
+%   The function tries three strategies in order of preference:
+%   1. Direct copyobj of the entire figure
+%   2. copyobj of children only into a new figure
+%   3. Save to temporary .fig file and reopen
+
     try
         
         % tf = any(arrayfun(@(x) isa(x, 'matlab.ui.control.UIAxes'), figHandle.Children));
