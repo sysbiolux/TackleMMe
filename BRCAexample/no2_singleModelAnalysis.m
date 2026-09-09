@@ -59,9 +59,9 @@ writeAnalysisReport(BRCAProject, 'StageIV', 'analysis_20260902_1704', ...
 
 
 %% ADDING AN ANALYSIS TO AN EXISTING ONE
-BRCAProject = addAnalysisToExistingOne(BRCAProject, defaultParametersAnalysis, 'StageI', 'sampling', 'analysis_20260908_0118');
+BRCAProject = addAnalysisToExistingOne(BRCAProject, defaultParametersAnalysis, 'StageI', 'kld', 'analysis_20260908_0118');
 BRCAProject = addAnalysisToExistingOne(BRCAProject, defaultParametersAnalysis, 'StageII', 'sampling', 'analysis_20260908_0126');
-BRCAProject = addAnalysisToExistingOne(BRCAProject, defaultParametersAnalysis, 'StageIV', 'sampling', 'analysis_20260908_0134');
+BRCAProject = addAnalysisToExistingOne(BRCAProject, defaultParametersAnalysis, 'StageIV', 'kld', 'analysis_20260908_0134');
 BRCAProject = addAnalysisToExistingOne(BRCAProject, defaultParametersAnalysis, 'Control', 'sampling', 'analysis_20260908_0112');
 
 

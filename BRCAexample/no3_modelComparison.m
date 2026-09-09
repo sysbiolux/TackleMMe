@@ -42,8 +42,8 @@ rmpath("/Users/leonie.thomas/cobratoolbox/papers/2025_bioenergeticPD")
 
 %load('20262608_bigComparisonStructComparison.mat');
 
-%compName = "Control_vs_StageI_vs_StageIV__test_tuto3";
-compName = comparisonName;
+compName = "Control_vs_StageI_vs_StageII_vs_StageIII__full_test_finalObject";
+%compName = comparisonName;
 
 % --- Structural Analysis Plots
 
@@ -185,7 +185,7 @@ visSingleRxnSamplingDistribution(BRCAProject, compName, rxnsMetId(1), ["Pentose.
 % bar plots
 
 
-visSingleRxnFBA(BRCAProject, compName, rxnsMetId(1),"FVA",false,"thresholdFlux","none")
+visSingleRxnFBA(BRCAProject, compName, rxnsMetId(1),"FVA",true,"thresholdFlux","none")
 
 %%
 

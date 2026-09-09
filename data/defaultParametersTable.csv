@@ -16,7 +16,7 @@ options.countSampleProcesses,sampling,5
 options.nPointsReturned,sampling,5000
 options.nFiles,sampling,10
 Options.nWorkers,sampling,5
-options.numCores,sampling,10
+options.numCores,sampling,5
 options.maxTime,sampling,36000
 options.nWarmupPoints,sampling,"10*size(model.S, 2)"
 options.nStepsPerPoint,sampling,"round(size(model.S, 2))"
