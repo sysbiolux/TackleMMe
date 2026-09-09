@@ -1,5 +1,7 @@
 site_name: TackleMMe Documentation
 site_url: https://sysbiolux.github.io/analysisPipelineLVT/
+watch:
+  - scr/
 theme:
   name: material
   logo: assets/logoWhite.svg
