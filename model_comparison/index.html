@@ -816,21 +816,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#sampling-comparison" class="md-nav__link">
+  <a href="#explorative-model-comparison-with-tacklemme" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Sampling Comparison
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#explorative-model-comparison-with-tackel-mme" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Explorative model comparison with Tackel MMe
+        Explorative model comparison with TackleMMe
       
     </span>
   </a>
@@ -1139,12 +1128,12 @@ changeCobraSolver('gurobi');
 feature astheightlimit 2000;
 
 dataPath = "path/to/ProjectObject";
-load(dataPath + filesep +'BRCAProjectNo3a.mat')
+load(dataPath + filesep +'BRCAProjectNo3.mat')
 
 modelsToCompare = {'Control', 'StageI', 'StageII', 'StageIV'};
 [BRCAProject, analysisIDs] = chooseActiveAnalysis(BRCAProject, modelsToCompare);
 </code></pre></div>
-<p>The only thing that is change in our BRCAProject now is that the analysis of all the models defined in <code>modelsToCompare</code> now have an active analysis slot. The data in this slot wll be used in the following to perform the comparative analysis.</p>
+<p>The only thing that is changed in our BRCAProject now is that the analysis of all the models defined in <code>modelsToCompare</code> now have an active analysis slot. The data in this slot wll be used in the following to perform the comparative analysis.</p>
 <p>So let's perform the comparative analysis next: </p>
 <div class="highlight"><pre><span></span><code>% we define which model in our project.models slot is the model that was used to generate the context specific models from
 referenceModel = "consistentMediumConstrainedModel"; 
@@ -1184,8 +1173,8 @@ rmpath("local/path/to/cobratoolbox/papers/2025_bioenergeticPD")
 <h4 id="visualizations-created-by-default-by-tacklemme">Visualizations created by default by TackleMMe</h4>
 <p>The Visualizations created by default serve two main purposes: </p>
 <ol>
-<li>Quality Control: Is the Import and Export Resonable &amp; does the difference in objective value make sense for my different models ? </li>
-<li>Determining Pathways of interest to follow up in more detail</li>
+<li>Quality Control: Are the imports and exports reasonable &amp; does the difference in objective value make sense for my different models ? </li>
+<li>Determining pathways of interest to follow up in more details</li>
 </ol>
 <p><strong>Quality Control:</strong> </p>
 <p>Growth rate in our models: </p>
@@ -1203,8 +1192,8 @@ rmpath("local/path/to/cobratoolbox/papers/2025_bioenergeticPD")
 </div>
 </div>
 </div>
-<p>As expected the cancer cells proliferate more compared to the Control model.</p>
-<p>For models generated with rFastcormicsv2 there are additional QC metrics to look at</p>
+<p>As expected cancer cells proliferate more compared to the Control model.</p>
+<p>For models generated with rFastcormics_v2 there are additional QC metrics to look at</p>
 <ul>
 <li>How was our gene expression data discretized ? </li>
 <li>How does it translate to the discretization on rxn level ? </li>
@@ -1270,8 +1259,7 @@ After sesing how big the inter and outersection between the core rxns in the dif
 <p><img alt="overlap" src="../assets/overlapSubsystems.svg" /></p>
 <p><strong>Functional Model Comparison:</strong></p>
 <p><img alt="imageoverview" src="../assets/simFVA.svg" /></p>
-<h3 id="sampling-comparison">Sampling Comparison</h3>
-<h3 id="explorative-model-comparison-with-tackel-mme">Explorative model comparison with Tackel MMe</h3>
+<h3 id="explorative-model-comparison-with-tacklemme">Explorative model comparison with TackleMMe</h3>
 <p><img alt="imageoverview" src="../assets/overviewVisualizations.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">Upcoming features</p>
