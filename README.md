@@ -7,7 +7,7 @@
   2. **Single Model Analysis**
   3. **Model Comparison**
 
-A documentation, including installation requirements, project layout description and functions documentation is available on our [website](https://sysbiolux.github.io/analysisPipelineLVT/). 
+A documentation, including installation requirements, project layout description and functions documentation is available on our [website](https://sysbiolux.github.io/TackleMMe/). 
 
 
 ## Storage of the data
