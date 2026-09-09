@@ -1,8 +1,41 @@
 function project = addAnalysisToExistingOne(project, parameterTable, modelName, analyses, analysisId)
-% Add one or several analyses to an already existing field in a project. Be
-% careful, parameterTable will be overwritten. In case of rerunning an
-% already existing test in a already existing analysis field, test results
-% will be overwritten as well.
+% Adds analyses to an already existing analysis run.
+%
+% This function adds one or more analyses to an existing analysis field
+% identified by its analysis ID, without creating a new timestamped
+% entry. It is useful for supplementing a previous run with additional
+% analyses or re-running existing ones with updated parameters.
+%
+% Arguments:
+%   project (struct): Project structure with an existing analysis field.
+%   parameterTable (table): Parameter table containing settings for the
+%       analyses to add.
+%   modelName (char): Name of the model.
+%   analyses (char): Analysis key(s) to add (e.g. 'FBA', 'sampling').
+%       Can be a single string or a cell array of strings.
+%   analysisId (char): Existing analysis ID to add to (e.g.
+%       'analysis_20240815_1430').
+%
+% Returns:
+%   project (struct): The input project with updated analysis results.
+%
+% Examples:
+%   ```matlab
+%   % Add gene deletion analyses to an existing run
+%   project = addAnalysisToExistingOne(project, parameterTable, ...
+%       'model1', {'singleGeneDeletion', 'doubleGeneDeletion'}, ...
+%       'analysis_20240815_1430');
+%
+%   % Re-run FVA with updated parameters
+%   project = addAnalysisToExistingOne(project, parameterTable, ...
+%       'model1', 'FVA', 'analysis_20240815_1430');
+%   ```
+%
+% Warning:
+%   When re-running an existing analysis, results and the corresponding
+%   rows in the stored parameters table are overwritten after user
+%   confirmation. Parameters for other analyses are preserved.
+%
 arguments
     project struct
     parameterTable table

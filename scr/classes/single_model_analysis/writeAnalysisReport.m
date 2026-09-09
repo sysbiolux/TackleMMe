@@ -1,6 +1,48 @@
 function [] = writeAnalysisReport(project, modelName, analysisId, varargin)
-
-%% (Optional) arguments
+% Generates a PDF report summarizing analysis results.
+%
+% This function creates a PDF report for a single analysis run, including
+% model characteristics, exchange fluxes, and pathway- or metabolite-level
+% flux details. It requires that FBA and FVA have been performed on the
+% model.
+%
+% Arguments:
+%   project (struct): Project structure containing analysis results.
+%   modelName (char): Name of the model to report on.
+%   analysisId (char): Analysis ID (e.g. 'analysis_20240815_1430').
+%   path (char): Output directory for the PDF file. Default: current
+%       folder. Passed as name-value pair.
+%   pathwaysOfInterest (cell): Pathway names to include in the report.
+%       Default: empty. Passed as name-value pair.
+%   metsOfInterest (cell): Metabolite IDs to include in the report.
+%       Default: empty. Passed as name-value pair.
+%
+% Returns:
+%   None. The PDF file is saved to the specified directory.
+%
+% Examples:
+%   ```matlab
+%   % Generate a report with default settings
+%   writeAnalysisReport(project, 'model1', 'analysis_20240815_1430', ...
+%       'path', './results/reports/');
+%
+%   % Include specific pathways and metabolites
+%   writeAnalysisReport(project, 'model1', 'analysis_20240815_1430', ...
+%       'path', './results/reports/', ...
+%       'pathwaysOfInterest', {'Glycolysis', 'TCA cycle'}, ...
+%       'metsOfInterest', {'glc_D', 'o2', 'ac'});
+%   ```
+%
+% Warning:
+%   FBA and FVA must have been performed on the model. If these analyses
+%   are not present, the function will error.
+%
+% Note:
+%   The output file is named <modelName>_AnalysisReport_<analysisId>.pdf.
+%   If the output directory does not exist, it is created automatically.
+%   Pathway names must match the subSystems field of the model. Metabolite
+%   IDs are matched using a prefix pattern (e.g. 'glc_D' matches 'glc_D[e]').
+%
 p = inputParser;
 addParameter(p,'path','');
 addParameter(p,'pathwaysOfInterest',{});
@@ -510,7 +552,7 @@ close(rpt);
 % 
 % 
 % 
-% % Crée la figure
+% % Crï¿½e la figure
 % f = figure;
 % plot(1:10,(1:10).^2);
 % title("Quadratic plot");
