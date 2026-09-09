@@ -1,29 +1,32 @@
 function project = addModelsToProject(project, params)
-% this function adds one or several model to an already existing project.
-
-% all fields 
-% - modelName
-% - contextSpecificModel (rFastcormics)
-% - expressionData
-% - discretized (rFastcormics)
-% - dico (rFastcormics)
-% - objFunction (rFastcormics)
-% - consensusProportion (rFastcormics)
-% - optionalSettings: (rFastcormics)
-%      - medium
-%      - notMediumConstrained
-%      - .func
-% - referenceModel (rFastcormics)
-% - mapping (rFastcormics)
-% - coreReactions (rFastcormics)
-% - mediumComposition
-% - manuallySetBoundaries:
-%      - closedImport
-%      - closedExport
-%      - openedImport
-%      - openedExport
-% - sampleMetadata
-% - sampleLabeling
+% Adds one or more models to an already existing project.
+%
+% This function extends an existing project by adding new models. Each
+% model is validated and formatted before being added. If a model with
+% the same name already exists, the user is prompted to confirm
+% overwriting.
+%
+% Arguments:
+%   project (struct): Existing project structure created by createProject.
+%   params (cell): 1-by-N cell array, one struct per model to add. See
+%       the Project Initialization page for the full list of available
+%       fields. Required fields: modelName, contextSpecificModel.
+%
+% Returns:
+%   project (struct): The input project with new models added.
+%
+% Examples:
+%   ```matlab
+%   project = addModelsToProject(project, ...
+%       {struct('modelName', 'model2', 'contextSpecificModel', model2)});
+%
+%   % Add multiple models
+%   project = addModelsToProject(project, {struct(...), struct(...)});
+%   ```
+%
+% Note:
+%   The project format is validated with checkProjectFormat before
+%   adding any model. Fields specific to rFASTCORMICS are optional.
 
 arguments
     project

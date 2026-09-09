@@ -1,19 +1,53 @@
 function project = singleModelAnalysis(project, parameterTable, modelList, analyses, saveCheckpoint, resumeFromCheckpoint)
-% This function runs the analysis on a model or a list or models and stores
-% the results in a structure.
-% Inputs: Project, Parameter Table (at least the default one), Names of the models, List of wanted analysis (all by
-% default)
-% Available analysis:
-% FBA
-% FVA
-% Sampling
-% Loopless sampling
-% FDR correction for sampling
-% SingleGeneDeletion
-% DoubleGeneDeletion
-% Enrichment % needs to be added
-% Output : project with an analysis field
-%% Arguments block
+% Runs analyses on one or multiple models and stores results.
+%
+% This function performs one or several analyses on each model in the
+% provided list and stores the results under a timestamped analysis ID
+% in the project structure. A checkpoint system is available to resume
+% after a crash.
+%
+% Arguments:
+%   project (struct): Project structure created by createProject.
+%   parameterTable (table): Parameter table defining analysis settings.
+%       See the Single Model Analysis page for details.
+%   modelList (cell): Names of the models to analyze. If empty, all
+%       models in the project are used.
+%   analyses (cell): List of analyses to perform. If empty, all
+%       available analyses are run. Valid keys: FBA, FVA, sampling,
+%       loopless, kld, singleGeneDeletion, doubleGeneDeletion.
+%   saveCheckpoint (logical): Whether to save a checkpoint after each
+%       model. Default: true.
+%   resumeFromCheckpoint (logical): Whether to resume from the last
+%       saved checkpoint. Default: false.
+%
+% Returns:
+%   project (struct): The input project with an analysis field added
+%       to each analyzed model.
+%
+% Examples:
+%   ```matlab
+%   % Run all analyses on all models
+%   project = singleModelAnalysis(project, parameterTable);
+%
+%   % Run FBA and sampling on specific models
+%   project = singleModelAnalysis(project, parameterTable, ...
+%       {"model1", "model2"}, {"FBA", "sampling"});
+%
+%   % Resume after a crash
+%   project = singleModelAnalysis(project, parameterTable, ...
+%       resumeFromCheckpoint = true);
+%   ```
+%
+% Note:
+%   When loopless is requested without sampling, a samplingToUse
+%   parameter must be provided in the parameter table, referencing a
+%   previous sampling analysis ID. The IDs must be listed in the same
+%   order as the models in modelList.
+%
+% Warning:
+%   Unimplemented analyses requested in the analyses list are skipped
+%   with a console warning.
+%
 arguments
     project struct
     parameterTable table
