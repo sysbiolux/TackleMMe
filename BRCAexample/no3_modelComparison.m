@@ -157,7 +157,7 @@ referenceModel = "consistentMediumConstrainedModel"
 
 % heatmaps
 
-[rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["Pentose.*"; "Glycolysis.*"]);
+[rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["Citric acid.*"]);
 
 visDiffRxnSetActivitySampling(BRCAProject, compName, rxnsMetId, ["Pentose.* & g6p.*"; "Glycolysis.*"],referenceModel)
 
