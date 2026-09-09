@@ -279,7 +279,7 @@ For models generated with rFastcormics_v2 there are additional QC metrics to loo
     `showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.dataDiscretization)`
     
     <figure>
-        <img src="../assets/overviewdiscretized.svg" alt="overviewdiscretized">
+        <img src="../assets/overviewDiscretized.svg" alt="overviewDiscretized">
         <figcaption><strong>Figure4:</strong> Discretization Values for all genes per sample(left)/rxns per samples(middle)/rxns per model(right) for the genes/rxns that made it into the models.</figcaption>
     </figure>
 
@@ -527,7 +527,7 @@ visSingleRxnSamplingDistribution(BRCAProject, comparisonName, rxnsMetId(1), ["TC
 === "Figure4"
     ![image](./assets/TCArxns4.png)
 === "Rxn Table"
-    ![image](./assets/TCArxnstable.png)
+    ![image](./assets/TCAstable.png)
 
 
 ```{matlab}
