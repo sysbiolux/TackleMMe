@@ -2,7 +2,7 @@ site_name: TackleMMe Documentation
 site_url: https://sysbiolux.github.io/analysisPipelineLVT/
 theme:
   name: material
-  logo: assets/logo.svg
+  logo: assets/logoWhite.svg
   #font:
     #text: Merriweather Sans
     #code: Red Hat Mono
