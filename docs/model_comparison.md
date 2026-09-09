@@ -9,7 +9,7 @@ The `modelComparison` function compares multiple context-specific models built f
 
 ### Choosing the active analysis
 
-Since multiple analysis runs (with different parameters) can coexist on the same model, the `chooseActiveAnalysis` function must be called before running `modelsComparison`. It designates which analysis run to use for each model in the comparison by copying it into an `active` slot under `project.models.<modelName>.analysis.active`. This way, downstream comparison functions can access results without needing to know the exact analysis ID for each model.
+Since multiple analysis runs (with different parameters) can coexist on the same model, the `chooseActiveAnalysis` function must be called before running `modelComparison`. It designates which analysis run to use for each model in the comparison by copying it into an `active` slot under `project.models.<modelName>.analysis.active`. This way, downstream comparison functions can access results without needing to know the exact analysis ID for each model.
 
 ```matlab
 [project, activeAnalysisTable] = chooseActiveAnalysis(project, modelList, analysisIDs, overwriteActive)
@@ -71,7 +71,7 @@ Three types of comparison are available, each investigating a different aspect o
 ## Function signature
 
 ```matlab
-[project, comparisonName] = modelsComparison(project, modelList, referenceModel, identifier, analyses)
+[project, comparisonName] = modelComparison(project, modelList, referenceModel, identifier, analyses)
 ```
 
 ### Input arguments
@@ -130,34 +130,115 @@ If a comparison with the same name already exists:
 
 ## Example Comparative Analysis 
 
-```matlab
+### Running the comparative metabolic model comparison
+
+In the following we are gonna work on a breast cancer dataset in order to show how TackleMMe can be used to explore metabolic models. 
+The bulkRNAseq data the models are based on can be found [here](https://portal.gdc.cancer.gov/projects/TCGA-BRCA). The samples in this dataset stem from Breast cancer patients in different stages of disease. For the purpose of this tutorial the patient samples were split by their disease staging. The comparative analysis performed in the following therefore is meant to give frist insights into the metabolic differences seen due to breast cancer disease progression. 
+
+> The models shown here are generated based on data generated in whole by the TCGA Research Network: https://www.cancer.gov/tcga.
+
+The prerequisits are that the Project Initialization and Single Model Analysis were run beforehand. Let's walk through this example step by step: 
+
+The Single Model Analysis function added analysis slots to our models, which can be found here: 
+
+```{matlab}
+BRCAProject
+ -> models
+    -> StageI
+        -> analysis
+    -> StageII
+        -> analysis
+  ...
+```
+
+In order to see which analysis are available in each model you can visualize the analysis object: 
+
+```{matlab}
+BRCAProject.models.StageI.analysis
+```
+
+Let's chooose the analysis we want to compare with one another first. 
+
+```{matlab}
+initCobraToolbox();
+changeCobraSolver('gurobi');
+feature astheightlimit 2000;
+
+dataPath = "path/to/ProjectObject";
+load(dataPath + filesep +'BRCAProjectNo3a.mat')
+
+modelsToCompare = {'Control', 'StageI', 'StageII', 'StageIV'};
+[BRCAProject, analysisIDs] = chooseActiveAnalysis(BRCAProject, modelsToCompare);
+
+```
+
+The only thing that is change in our BRCAProject now is that the analysis of all the models defined in `modelsToCompare` now have an active analysis slot. The data in this slot wll be used in the following to perform the comparative analysis.
+
+So let's perform the comparative analysis next: 
+
+```{matlab}
+
+% we define which model in our project.models slot is the model that was used to generate the context specific models from
+referenceModel = "consistentMediumConstrainedModel"; 
+% define which of the analysis you want to perform, by default the structuralComparison is always performed
+comparisonList = ["structuralComparison", "functionalComparison", "samplingComparison"];
+
+compID = "tutorial_BRCA_TackleMMe"; 
+
+% this needs to be done since in the cobratoolbox there is already a function named modelComparison
+rmpath("local/path/to/cobratoolbox/papers/2025_bioenergeticPD")
+
+% and this is our main comparison function
+[BRCAProject, comparisonName] = modelComparison(BRCAProject, modelsToCompare, referenceModel, compID, comparisonList);
+
+```
+
+This might take some time depending on which comparisons are run. While the structural and functional are quite quick, the samplingComparison takes some time to compute.
+
+Here some additional examples on how the function can be used: 
+
+```{matlab}
 % Run only the structural comparison (default)
-[project, compName] = modelsComparison(project, ...
+[project, compName] = modelComparison(project, ...
     ["model1", "model2", "model3"], "model1");
 
 % Run structural and functional comparisons with a custom identifier
-[project, compName] = modelsComparison(project, ...
+[project, compName] = modelComparison(project, ...
     ["model1", "model2"], "model1", "batchA", ...
     ["structuralComparison", "functionalComparison"]);
 
 % Run all three comparisons
-[project, compName] = modelsComparison(project, ...
+[project, compName] = modelComparison(project, ...
     ["model1", "model2", "model3"], "model1", "fullRun", ...
     ["structuralComparison", "functionalComparison", "samplingComparison"]);
 ```
 
-### Example for comparative Analysis 
 
-In the following we are gonna work on a breast cancer dataset in order to show how TackleMMe can be used to explore metabolic models. 
-The leading question is what are the alterations within the metabolism with increasing breast cancer stage ? 
 
-The comparative Analysis function explained in detail in above, is the framework for the comparative analysis, it provides a few default visualizations. Based on these default visualizations + biological questions of interest the following explorative analysis is highly individual, TackleMMe will help you to go through the network and analyze and visualze the differences. 
+### Downstream Investigation of the metabolic modelling comparison 
 
-Before we start, lets look at some QC figures. 
+After running there are two main steps left in this tutorial: 
 
-### Quality Control
++ Checking out the visualizations that are generated by default by the pipeline
++ Generating additional figures with the pipeline function, for a more guided exploration
 
-For the QC we are asking some questions: 
+
+#### Visualizations created by default by TackleMMe
+
+The Visualizations created by default serve two main purposes: 
+
+1. Quality Control: Is the Import and Export Resonable & does the difference in objective value make sense for my different models ? 
+2. Determining Pathways of interest to follow up in more detail
+
+
+__Quality Control:__ 
+
+Growth rate in our models: 
+
+![overlap](assets/objValue.svg)
+
+As expected the cancer cells proliferate more compared to the Control model.
+
 
 + How was our gene expression data discretized? 
 + How does it translate to the discretization on rxn level ? 
@@ -227,7 +308,6 @@ For the QC we are asking some questions:
     ![overlap](assets/Export.png)
 
 
-![overlap](assets/objValue.svg)
 
 
 ### Sampling Comparison 
