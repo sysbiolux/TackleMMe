@@ -777,10 +777,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example-for-comparative-analysis" class="md-nav__link">
+  <a href="#running-the-comparative-metabolic-model-comparison" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example for comparative Analysis
+        Running the comparative metabolic model comparison
       
     </span>
   </a>
@@ -788,13 +788,30 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#quality-control" class="md-nav__link">
+  <a href="#downstream-investigation-of-the-metabolic-modelling-comparison" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quality Control
+        Downstream Investigation of the metabolic modelling comparison
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Downstream Investigation of the metabolic modelling comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#visualizations-created-by-default-by-tacklemme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualizations created by default by TackleMMe
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -897,7 +914,7 @@
 <p><code>singleModelAnalysis</code> must have been run on all models included in the comparison, and the <strong>active analysis</strong> must have been set for each model using <code>chooseActiveAnalysisForComparison</code>. The active analysis provides the FBA, FVA, and sampling results used by the functional and sampling comparisons.</p>
 </div>
 <h3 id="choosing-the-active-analysis">Choosing the active analysis</h3>
-<p>Since multiple analysis runs (with different parameters) can coexist on the same model, the <code>chooseActiveAnalysis</code> function must be called before running <code>modelsComparison</code>. It designates which analysis run to use for each model in the comparison by copying it into an <code>active</code> slot under <code>project.models.&lt;modelName&gt;.analysis.active</code>. This way, downstream comparison functions can access results without needing to know the exact analysis ID for each model.</p>
+<p>Since multiple analysis runs (with different parameters) can coexist on the same model, the <code>chooseActiveAnalysis</code> function must be called before running <code>modelComparison</code>. It designates which analysis run to use for each model in the comparison by copying it into an <code>active</code> slot under <code>project.models.&lt;modelName&gt;.analysis.active</code>. This way, downstream comparison functions can access results without needing to know the exact analysis ID for each model.</p>
 <div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">activeAnalysisTable</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">chooseActiveAnalysis</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">modelList</span><span class="p">,</span><span class="w"> </span><span class="n">analysisIDs</span><span class="p">,</span><span class="w"> </span><span class="n">overwriteActive</span><span class="p">)</span>
 </code></pre></div>
 <h4 id="input-arguments">Input arguments</h4>
@@ -1014,7 +1031,7 @@
 <p>The structural comparison is always run, even if only <code>functionalComparison</code> or <code>samplingComparison</code> is requested. If a comparison with the same name and reference model already exists and the structural analysis has already been completed, it is not re-run — only the newly requested analyses are performed.</p>
 </div>
 <h2 id="function-signature">Function signature</h2>
-<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">comparisonName</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">modelsComparison</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">modelList</span><span class="p">,</span><span class="w"> </span><span class="n">referenceModel</span><span class="p">,</span><span class="w"> </span><span class="n">identifier</span><span class="p">,</span><span class="w"> </span><span class="n">analyses</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">comparisonName</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">modelComparison</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">modelList</span><span class="p">,</span><span class="w"> </span><span class="n">referenceModel</span><span class="p">,</span><span class="w"> </span><span class="n">identifier</span><span class="p">,</span><span class="w"> </span><span class="n">analyses</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="input-arguments_1">Input arguments</h3>
 <table>
@@ -1136,27 +1153,83 @@
 <li><strong>Different reference model</strong> — a warning is issued and the user is prompted to confirm overwriting. Answering <code>n</code> aborts the operation. To create a separate comparison instead, use a different <code>identifier</code>.</li>
 </ul>
 <h2 id="example-comparative-analysis">Example Comparative Analysis</h2>
-<div class="highlight"><pre><span></span><code><span class="c">% Run only the structural comparison (default)</span>
-<span class="p">[</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">modelsComparison</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
-<span class="w">    </span><span class="p">[</span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="s">"model2"</span><span class="p">,</span><span class="w"> </span><span class="s">"model3"</span><span class="p">],</span><span class="w"> </span><span class="s">"model1"</span><span class="p">);</span>
-
-<span class="c">% Run structural and functional comparisons with a custom identifier</span>
-<span class="p">[</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">modelsComparison</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
-<span class="w">    </span><span class="p">[</span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="s">"model2"</span><span class="p">],</span><span class="w"> </span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="s">"batchA"</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
-<span class="w">    </span><span class="p">[</span><span class="s">"structuralComparison"</span><span class="p">,</span><span class="w"> </span><span class="s">"functionalComparison"</span><span class="p">]);</span>
-
-<span class="c">% Run all three comparisons</span>
-<span class="p">[</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="n">compName</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">modelsComparison</span><span class="p">(</span><span class="n">project</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
-<span class="w">    </span><span class="p">[</span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="s">"model2"</span><span class="p">,</span><span class="w"> </span><span class="s">"model3"</span><span class="p">],</span><span class="w"> </span><span class="s">"model1"</span><span class="p">,</span><span class="w"> </span><span class="s">"fullRun"</span><span class="p">,</span><span class="w"> </span><span class="k">...</span>
-<span class="w">    </span><span class="p">[</span><span class="s">"structuralComparison"</span><span class="p">,</span><span class="w"> </span><span class="s">"functionalComparison"</span><span class="p">,</span><span class="w"> </span><span class="s">"samplingComparison"</span><span class="p">]);</span>
-</code></pre></div>
-<h3 id="example-for-comparative-analysis">Example for comparative Analysis</h3>
+<h3 id="running-the-comparative-metabolic-model-comparison">Running the comparative metabolic model comparison</h3>
 <p>In the following we are gonna work on a breast cancer dataset in order to show how TackleMMe can be used to explore metabolic models. 
-The leading question is what are the alterations within the metabolism with increasing breast cancer stage ? </p>
-<p>The comparative Analysis function explained in detail in above, is the framework for the comparative analysis, it provides a few default visualizations. Based on these default visualizations + biological questions of interest the following explorative analysis is highly individual, TackleMMe will help you to go through the network and analyze and visualze the differences. </p>
-<p>Before we start, lets look at some QC figures. </p>
-<h3 id="quality-control">Quality Control</h3>
-<p>For the QC we are asking some questions: </p>
+The bulkRNAseq data the models are based on can be found <a href="https://portal.gdc.cancer.gov/projects/TCGA-BRCA">here</a>. The samples in this dataset stem from Breast cancer patients in different stages of disease. For the purpose of this tutorial the patient samples were split by their disease staging. The comparative analysis performed in the following therefore is meant to give frist insights into the metabolic differences seen due to breast cancer disease progression. </p>
+<blockquote>
+<p>The models shown here are generated based on data generated in whole by the TCGA Research Network: https://www.cancer.gov/tcga.</p>
+</blockquote>
+<p>The prerequisits are that the Project Initialization and Single Model Analysis were run beforehand. Let's walk through this example step by step: </p>
+<p>The Single Model Analysis function added analysis slots to our models, which can be found here: </p>
+<div class="highlight"><pre><span></span><code>BRCAProject
+ -&gt; models
+    -&gt; StageI
+        -&gt; analysis
+    -&gt; StageII
+        -&gt; analysis
+  ...
+</code></pre></div>
+<p>In order to see which analysis are available in each model you can visualize the analysis object: </p>
+<div class="highlight"><pre><span></span><code>BRCAProject.models.StageI.analysis
+</code></pre></div>
+<p>Let's chooose the analysis we want to compare with one another first. </p>
+<div class="highlight"><pre><span></span><code>initCobraToolbox();
+changeCobraSolver('gurobi');
+feature astheightlimit 2000;
+
+dataPath = "path/to/ProjectObject";
+load(dataPath + filesep +'BRCAProjectNo3a.mat')
+
+modelsToCompare = {'Control', 'StageI', 'StageII', 'StageIV'};
+[BRCAProject, analysisIDs] = chooseActiveAnalysis(BRCAProject, modelsToCompare);
+</code></pre></div>
+<p>The only thing that is change in our BRCAProject now is that the analysis of all the models defined in <code>modelsToCompare</code> now have an active analysis slot. The data in this slot wll be used in the following to perform the comparative analysis.</p>
+<p>So let's perform the comparative analysis next: </p>
+<div class="highlight"><pre><span></span><code>% we define which model in our project.models slot is the model that was used to generate the context specific models from
+referenceModel = "consistentMediumConstrainedModel"; 
+% define which of the analysis you want to perform, by default the structuralComparison is always performed
+comparisonList = ["structuralComparison", "functionalComparison", "samplingComparison"];
+
+compID = "tutorial_BRCA_TackleMMe"; 
+
+% this needs to be done since in the cobratoolbox there is already a function named modelComparison
+rmpath("local/path/to/cobratoolbox/papers/2025_bioenergeticPD")
+
+% and this is our main comparison function
+[BRCAProject, comparisonName] = modelComparison(BRCAProject, modelsToCompare, referenceModel, compID, comparisonList);
+</code></pre></div>
+<p>This might take some time depending on which comparisons are run. While the structural and functional are quite quick, the samplingComparison takes some time to compute.</p>
+<p>Here some additional examples on how the function can be used: </p>
+<div class="highlight"><pre><span></span><code>% Run only the structural comparison (default)
+[project, compName] = modelComparison(project, ...
+    ["model1", "model2", "model3"], "model1");
+
+% Run structural and functional comparisons with a custom identifier
+[project, compName] = modelComparison(project, ...
+    ["model1", "model2"], "model1", "batchA", ...
+    ["structuralComparison", "functionalComparison"]);
+
+% Run all three comparisons
+[project, compName] = modelComparison(project, ...
+    ["model1", "model2", "model3"], "model1", "fullRun", ...
+    ["structuralComparison", "functionalComparison", "samplingComparison"]);
+</code></pre></div>
+<h3 id="downstream-investigation-of-the-metabolic-modelling-comparison">Downstream Investigation of the metabolic modelling comparison</h3>
+<p>After running there are two main steps left in this tutorial: </p>
+<ul>
+<li>Checking out the visualizations that are generated by default by the pipeline</li>
+<li>Generating additional figures with the pipeline function, for a more guided exploration</li>
+</ul>
+<h4 id="visualizations-created-by-default-by-tacklemme">Visualizations created by default by TackleMMe</h4>
+<p>The Visualizations created by default serve two main purposes: </p>
+<ol>
+<li>Quality Control: Is the Import and Export Resonable &amp; does the difference in objective value make sense for my different models ? </li>
+<li>Determining Pathways of interest to follow up in more detail</li>
+</ol>
+<p><strong>Quality Control:</strong> </p>
+<p>Growth rate in our models: </p>
+<p><img alt="overlap" src="../assets/objValue.svg" /></p>
+<p>As expected the cancer cells proliferate more compared to the Control model.</p>
 <ul>
 <li>How was our gene expression data discretized? </li>
 <li>How does it translate to the discretization on rxn level ? </li>
@@ -1214,7 +1287,6 @@ The leading question is what are the alterations within the metabolism with incr
 </div>
 </div>
 </div>
-<p><img alt="overlap" src="../assets/objValue.svg" /></p>
 <h3 id="sampling-comparison">Sampling Comparison</h3>
 <h3 id="explorative-model-comparison-with-tackel-mme">Explorative model comparison with Tackel MMe</h3>
 <p><img alt="imageoverview" src="../assets/overviewVisualizations.png" /></p>
