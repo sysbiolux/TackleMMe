@@ -19,7 +19,7 @@ The following analyses are currently implemented:
 | Flux Variability Analysis | `FVA` | Determines the range of feasible fluxes for each reaction under given constraints |
 | Sampling | `sampling` | Uniform random sampling of the feasible flux space |
 | Loopless sampling | `loopless` | Sampling with thermodynamic constraints eliminating internal loops |
-| KL divergence | `kld` | Computes Kullback-Leibler divergence between sampling distributions |
+| KL divergence | `kld` | Computes Kullback-Leibler divergence between sampling distributions (https://doi.org/10.1016/j.jbi.2024.104597) |
 | Single gene deletion | `singleGeneDeletion` | Evaluates the effect of individually knocking out each gene |
 | Double gene deletion | `doubleGeneDeletion` | Evaluates the effect of pairwise gene knockouts |
 
