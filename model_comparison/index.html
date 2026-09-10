@@ -793,19 +793,19 @@
   <a href="#downstream-investigation-of-the-metabolic-modelling-comparison" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Downstream Investigation of the metabolic modelling comparison
+        Downstream Investigation of the Metabolic Modelling Comparison
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Downstream Investigation of the metabolic modelling comparison">
+    <nav class="md-nav" aria-label="Downstream Investigation of the Metabolic Modelling Comparison">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#visualizations-created-by-default-by-tacklemme" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Visualizations created by default by TackleMMe
+        Visualizations Created by Default by TackleMMe
       
     </span>
   </a>
@@ -1106,13 +1106,13 @@
 </ul>
 <h2 id="example-comparative-analysis">Example Comparative Analysis</h2>
 <h3 id="running-the-comparative-metabolic-model-comparison">Running the comparative metabolic model comparison</h3>
-<p>In the following we are gonna work on a breast cancer dataset in order to show how TackleMMe can be used to explore metabolic models. 
-The bulkRNAseq data the models are based on can be found <a href="https://portal.gdc.cancer.gov/projects/TCGA-BRCA">here</a>. The samples in this dataset stem from Breast cancer patients in different stages of disease. For the purpose of this tutorial the patient samples were split by their disease staging. The comparative analysis performed in the following therefore is meant to give frist insights into the metabolic differences seen due to breast cancer disease progression. </p>
+<p>In the following, we are going to work with a breast cancer dataset to demonstrate how TackleMMe can be used to explore metabolic models.</p>
+<p>The bulk RNA-seq data on which the models are based can be found <a href="https://portal.gdc.cancer.gov/projects/TCGA-BRCA">here</a>. The samples in this dataset were obtained from breast cancer patients at different stages of the disease. For the purpose of this tutorial, the patient samples were divided according to their disease stage. The comparative analysis performed in the following sections is therefore intended to provide initial insights into the metabolic differences associated with breast cancer disease progression.</p>
 <blockquote>
-<p>The models shown here are generated based on data generated in whole by the TCGA Research Network: https://www.cancer.gov/tcga.</p>
+<p>The models shown here were generated based on data generated entirely by the TCGA Research Network: https://www.cancer.gov/tcga.</p>
 </blockquote>
-<p>The prerequisits are that the Project Initialization and Single Model Analysis were run beforehand. Let's walk through this example step by step: </p>
-<p>The Single Model Analysis function added analysis slots to our models, which can be found here: </p>
+<p>The prerequisites are that the Project Initialization and Single Model Analysis have been run beforehand. Let's walk through this example step by step.</p>
+<p>The Single Model Analysis function added analysis slots to our models, which can be found here:</p>
 <div class="highlight"><pre><span></span><code>BRCAProject
  -&gt; models
     -&gt; StageI
@@ -1121,10 +1121,10 @@ The bulkRNAseq data the models are based on can be found <a href="https://portal
         -&gt; analysis
   ...
 </code></pre></div>
-<p>In order to see which analysis are available in each model you can visualize the analysis object: </p>
+<p>To see which analyses are available for each model, you can visualize the analysis object:</p>
 <div class="highlight"><pre><span></span><code>BRCAProject.models.StageI.analysis
 </code></pre></div>
-<p>Let's chooose the analysis we want to compare with one another first. </p>
+<p>Let's choose the analyses we want to compare with one another first.</p>
 <div class="highlight"><pre><span></span><code>initCobraToolbox();
 changeCobraSolver('gurobi');
 feature astheightlimit 2000;
@@ -1135,8 +1135,8 @@ load(dataPath + filesep +'BRCAProjectNo3.mat')
 modelsToCompare = {'Control', 'StageI', 'StageII', 'StageIV'};
 [BRCAProject, analysisIDs] = chooseActiveAnalysis(BRCAProject, modelsToCompare);
 </code></pre></div>
-<p>The only thing that is changed in our BRCAProject now is that the analysis of all the models defined in <code>modelsToCompare</code> now have an active analysis slot. The data in this slot wll be used in the following to perform the comparative analysis.</p>
-<p>So let's perform the comparative analysis next: </p>
+<p>The only thing that has changed in our <code>BRCAProject</code> is that the analysis of all the models defined in <code>modelsToCompare</code> now has an active analysis slot. The data in this slot will be used in the following steps to perform the comparative analysis.</p>
+<p>So, let's perform the comparative analysis next:</p>
 <div class="highlight"><pre><span></span><code>% we define which model in our project.models slot is the model that was used to generate the context specific models from
 referenceModel = "consistentMediumConstrainedModel"; 
 % define which of the analysis you want to perform, by default the structuralComparison is always performed
@@ -1150,8 +1150,8 @@ rmpath("local/path/to/cobratoolbox/papers/2025_bioenergeticPD")
 % and this is our main comparison function
 [BRCAProject, comparisonName] = modelComparison(BRCAProject, modelsToCompare, referenceModel, compID, comparisonList);
 </code></pre></div>
-<p>This might take some time depending on which comparisons are run. While the structural and functional are quite quick, the samplingComparison takes some time to compute.</p>
-<p>Here some additional examples on how the function can be used: </p>
+<p>This might take some time, depending on which comparisons are run. While the structural and functional comparisons are relatively quick, the <code>samplingComparison</code> can take some time to compute.</p>
+<p>Here are some additional examples of how the function can be used:</p>
 <div class="highlight"><pre><span></span><code>% Run only the structural comparison (default)
 [project, compName] = modelComparison(project, ...
     ["model1", "model2", "model3"], "model1");
@@ -1166,17 +1166,17 @@ rmpath("local/path/to/cobratoolbox/papers/2025_bioenergeticPD")
     ["model1", "model2", "model3"], "model1", "fullRun", ...
     ["structuralComparison", "functionalComparison", "samplingComparison"]);
 </code></pre></div>
-<h3 id="downstream-investigation-of-the-metabolic-modelling-comparison">Downstream Investigation of the metabolic modelling comparison</h3>
-<p>After running there are two main steps left in this tutorial: </p>
+<h3 id="downstream-investigation-of-the-metabolic-modelling-comparison">Downstream Investigation of the Metabolic Modelling Comparison</h3>
+<p>After running the pipeline, there are two main steps left in this tutorial:</p>
 <ul>
-<li>Default: Checking out the visualizations that are generated by default by the pipeline</li>
-<li>Exploration: Generating additional figures with the pipeline function, for a more guided exploration</li>
+<li><strong>Default:</strong> Checking the visualizations that are generated by default by the pipeline</li>
+<li><strong>Exploration:</strong> Generating additional figures using the pipeline functions for a more in depth exploration</li>
 </ul>
-<h4 id="visualizations-created-by-default-by-tacklemme">Visualizations created by default by TackleMMe</h4>
-<p>The Visualizations created by default serve two main purposes: </p>
+<h4 id="visualizations-created-by-default-by-tacklemme">Visualizations Created by Default by TackleMMe</h4>
+<p>The visualizations created by default serve two main purposes:</p>
 <ol>
-<li>Quality Control: Are the imports and exports reasonable &amp; does the difference in objective value make sense for my different models ? </li>
-<li>Determining pathways of interest to follow up in more details</li>
+<li><strong>Quality Control:</strong> Are the imports and exports reasonable, and does the difference in objective value make sense for the different models?</li>
+<li><strong>Determining pathways of interest:</strong> Identifying pathways that may be of interest for further investigation.</li>
 </ol>
 <p><strong>Quality Control:</strong> </p>
 <p>Growth rate in our models: </p>
@@ -1187,7 +1187,8 @@ rmpath("local/path/to/cobratoolbox/papers/2025_bioenergeticPD")
     <figcaption><strong>Figure1:</strong> Objective value obtained from FBA.</figcaption>
 </figure>
 
-<p>On what does the model grow/what does it produce ?</p>
+<p>As expected, cancer cells proliferate more compared to the Control model.</p>
+<p>The next question is: On what does the model grow/what does it produce ?</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Import of metabolites</label><label for="__tabbed_1_2">Export of metabolites</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1204,12 +1205,11 @@ rmpath("local/path/to/cobratoolbox/papers/2025_bioenergeticPD")
 </div>
 </div>
 </div>
-<p>As expected cancer cells proliferate more compared to the Control model.</p>
-<p>For models generated with rFastcormics_v2 there are additional QC metrics to look at</p>
+<p>For models generated with <code>rFASTCORMICS_v2</code>, there are additional QC metrics to consider:</p>
 <ul>
-<li>How was our gene expression data discretized ? </li>
-<li>How does it translate to the discretization on rxn level ? </li>
-<li>How many of the rxns are defined to be active per model ? </li>
+<li>How was our gene expression data discretized?</li>
+<li>How does this translate to the discretization at the reaction level?</li>
+<li>How many of the reactions are defined as active in each model?</li>
 </ul>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Gene/Rxn discretization per sample and model</label><label for="__tabbed_2_2">Core reactions in the Model</label><label for="__tabbed_2_3">Core reactions in Pathways</label></div>
 <div class="tabbed-content">
@@ -1219,8 +1219,8 @@ rmpath("local/path/to/cobratoolbox/papers/2025_bioenergeticPD")
     <img src="../assets/overviewDiscretized.svg" alt="overviewDiscretized">
     <figcaption><strong>Figure4:</strong> Discretization Values for all genes per sample(left)/rxns per samples(middle)/rxns per model(right) for the genes/rxns that made it into the models.</figcaption>
 </figure></p>
-<p>Here you want to have a good part of your genes(left)/rxns(middle) to be discretized to be 1. If you observe a high percentage of the genes to be discretized as -1 (like 80% being -1) then something went wrong in the discretization. In this case you should go back and check the discretization Figures generated by <code>discretizeFPKM.m</code> (see code <a href="https://github.com/sysbiolux/rFASTCORMICS/blob/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2/scripts/rFASTCORMICS/discretizeFPKM.m">here</a>) which is run as part of tutorial script no1 (see <a href="https://github.com/sysbiolux/TackleMMe/blob/main/BRCAexample/no1_modelBuildingAndProjectInit.m">here</a>).
-The percentage for the discretization status per rxns for each model (right subfigure) is influenzed by the rxn mapping (middle figure) as well as the applied consensus proportion (percentage of samples that need to be 1 for the rxns to be categorized as core (1) reaction). Therefore if the percentage is low for the right subfigures for the rxns = 1, you can go back to apply a different consensus proportion (default used is 90 percent).</p>
+<p>Here, you want a substantial proportion of your genes (left) and reactions (middle) to be discretized as 1. If you observe a high percentage of genes being discretized as -1 (e.g., 80% being -1), then something may have gone wrong during the discretization. In this case, you should go back and check the discretization figures generated by <code>discretizeFPKM.m</code> (see the code <a href="https://github.com/sysbiolux/rFASTCORMICS/blob/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2/scripts/rFASTCORMICS/discretizeFPKM.m">here</a>), which is run as part of Tutorial Script No. 1 (see <a href="https://github.com/sysbiolux/TackleMMe/blob/main/BRCAexample/no1_modelBuildingAndProjectInit.m">here</a>).
+The percentage of reactions assigned to each discretization status for each model (right subfigure) is influenced by both the reaction mapping (middle figure) and the applied consensus proportion. The consensus proportion defines the percentage of samples that need to have a value of 1 for a reaction to be categorized as a core (1) reaction. Therefore, if the percentage of reactions classified as 1 is low in the right subfigures, you can go back and apply a different consensus proportion. The default value is 90%.</p>
 </div>
 <div class="tabbed-block">
 <p><code>showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.coreReactions)</code></p>
@@ -1233,8 +1233,11 @@ The percentage for the discretization status per rxns for each model (right subf
 <li>How many of the rxns in a model are core reactions ? -&gt; left upper figure</li>
 <li>How many of the rxns that were defined to be core reactions made it into the model ? -&gt; right upper figure</li>
 </ol>
-<p>Optimally we would like all our core reactions to be in our model, but in reality this is not the case. Here a tradeoff between the size of the models and the number of core reactions included needs to be found. The more core rxns included in the model the bigger the model gets, since to force in all the core reactions, more non-core rxns need to be added in order to make the model consistent. 
-The overlap of the core reactions between the models is shown in the lower plot. Since the core reactions influence the construction of the model heavily (besides the medium), this figure gives a first impression on how big the outersections between the models are, so an impression on how many reactions are responsible for the overall structural difference we see in our models.</p>
+<p>Optimally, we would like all of our core reactions to be included in our models, but in reality, this is not the case.
+Therefore, a trade-off between the size of the models and the number of core reactions included needs to be found.
+The more core reactions that are included in the model, the larger the model becomes, since forcing all core reactions into the model requires additional non-core reactions to be added in order to maintain model consistency.
+The overlap of the core reactions between the models is shown in the lower plot.
+Since the core reactions heavily influence the construction of the model (in addition to the medium), this figure provides a first impression of the extent of the differences between the models. In particular, it gives an indication of how many reactions are responsible for the overall structural differences observed between the models.</p>
 </div>
 <div class="tabbed-block">
 <p><code>showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.coreReactionsIntersections)</code></p>
@@ -1242,13 +1245,14 @@ The overlap of the core reactions between the models is shown in the lower plot.
     <img src="../assets/coreReactionsInModelIntersection.svg" alt="coreReactionsInModelIntersection">
     <figcaption><strong>Figure6:</strong> Stacked Barplot showing the subsystems which the inter and outersections seen in Figure 5 are from.</figcaption>
 </figure>
-After sesing how big the inter and outersection between the core rxns in the different models are, the next question is to ask which pathway those reactions are part of. On the x axis therefore all the outer and intersections are listed and the nested barplot shows to which subsystems the core reactions belong. The key question here is: Are those interesting subsystems, or only the transport reactions?  </p>
+After seeing how large the intersections and differences between the core reactions in the different models are, the next question is which pathways those reactions are part of. Therefore, the x-axis lists all the intersections and differences, while the nested bar plot shows which subsystems the core reactions belong to.
+The key question here is: <strong>Are these interesting subsystems, or do they mainly consist of transport reactions?</strong></p>
 </div>
 </div>
 </div>
 <p><strong>Structural Model Comparison:</strong></p>
-<p>After making sure that the QC metrics of our models look good. Let's move on to take a closer look on what makes our models structurally different. </p>
-<p>Inter/Outersection between models in absolute numbers:</p>
+<p>After making sure that the QC metrics of our models look good, let's move on to take a closer look at what makes our models structurally different.</p>
+<p><strong>Intersection between models in absolute numbers:</strong></p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">genes in the model</label><label for="__tabbed_3_2">rxns in the model</label><label for="__tabbed_3_3">metabolites in the model</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1300,20 +1304,22 @@ After sesing how big the inter and outersection between the core rxns in the dif
 </div>
 </div>
 </div>
-<p>The overlap between the models per subsystem in absolute(numbers writen in the tile) &amp; relative numbers(coloring of the tiles) in context of the pathway size (#rxns):</p>
+<p>The hierarchical clustering shows that the cancer samples cluster together, as expected.</p>
+<p>Next, the overlap between the models per subsystem is shown using both absolute values (numbers displayed in the tiles) and relative values (tile coloring), in the context of the pathway size (<code>#rxns</code>):</p>
 <p><code>showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.reactionPathwayPresence)</code></p>
 <figure>
     <img src="../assets/overlapSubsystems.svg" alt="overlapSubsystem">
      <figcaption style="width: 100%; text-align: center;">
-    <strong>Figure13:</strong> Overview of the rxns presence and overlap per subsystem and model. On the left the number of rxns per subsystem in the reference model are shown. On the right the colorcode gives an impression how many of the rxns from the reference model made it into the 4 context specific models and the numbers are the absolute number of rxns in each of the subsystems for each of the models. The subsystems with the most variance in absolute number of rxns between the models are displayed on the top. This gives us an impression about how big the changes between the models are at one hand in absolute rxn numbers but also relative to the size of the subsystem. </figcaption>
+    <strong>Figure13:</strong> Overview of reaction (`rxn`) presence and overlap per subsystem and model. On the left, the number of reactions per subsystem in the reference model is shown. On the right, the color coding gives an impression of how many of the reactions from the reference model are retained in the four context-specific models. The numbers indicate the absolute number of reactions in each subsystem for each model.The subsystems with the greatest variance in the absolute number of reactions between the models are displayed at the top. This gives us an impression of the extent of the changes between the models, both in terms of the absolute number of reactions and relative to the size of each subsystem.</figcaption>
 </figure>
 
+<p>In this figure that shows the count of rxns per subsystem, we see that the </p>
 <p><strong>Functional Model Comparison:</strong></p>
-<p>The functional comparison ansers the following question: </p>
+<p>The functional comparison answers the following questions:</p>
 <ul>
-<li>How different are the FVA boundaries of the model ? </li>
-<li>Are there differences in the rxn/met usage (fluxsum) per subsystem between the models ? </li>
-<li>Are there differences in the rxn usage (cardinality) per subsystem between the models ?</li>
+<li>How different are the FVA boundaries between the models?</li>
+<li>Are there differences in reaction/metabolite usage (Fluxsum) per subsystem between the models?</li>
+<li>Are there differences in reaction usage (cardinality) per subsystem between the models?</li>
 </ul>
 <div class="tabbed-set tabbed-alternate" data-tabs="5:4"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><input id="__tabbed_5_3" name="__tabbed_5" type="radio" /><input id="__tabbed_5_4" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Similarity of FVA boundaries</label><label for="__tabbed_5_2">Usage of Rxns (Fluxsum) per Subsystems per Model</label><label for="__tabbed_5_3">Usage of Mets (Fluxsum) per Subsystems per Model</label><label for="__tabbed_5_4">Usage of Rxns (Cardinality) per Subsystem per Model</label></div>
 <div class="tabbed-content">
@@ -1347,12 +1353,10 @@ After sesing how big the inter and outersection between the core rxns in the dif
 </div>
 </div>
 </div>
+<p>These figures show that the TCA cycle is more active in the Stage I and Stage II models compared to the Control and Stage IV models. This pattern is consistent across Fluxsum of metabolites/reactions and Cardinality.</p>
 <p><strong>Sampling Comparison:</strong></p>
-<p>The sampling comparison investigates the whole solution space using sampling (by default CHRR). 
-The aim of this approach is to not only see the the max and min capacity, like in FVA but also see what the likelyhood of the flux values given by the sampling distribution. In the next step, not implemented yet, we'd like to visualize the correlation structure between the rxns.
-As seen in the previous figure visualizing the Cardinality of each subsystem, less than half of the rxns are active in the FBA solution. In cases where the subsystem of interest is not active in the FBA optimizing for the biomass_reaction, FBA can only provide limited to no insights. 
-Therefore investigating the whole solution space under a constraint for the biomass (by default 90% of the biomass = ub) gives the opportunity to investigate the whole metabolic model. 
-Additionally, the sampling analysis can give an impression of the stability of the values seen under the FBA solution, since the FBA solution only gives one optimal value we have no information of how stable this value is.</p>
+<p>The sampling comparison investigates the broader solution space using flux sampling (by default, CHRR). Unlike FVA, which compares maximum and minimum flux capacities, sampling also assesses the likelihood and stability of different flux values within the feasible solution space.</p>
+<p>Since less than half of the reactions are active in the FBA solution, FBA may provide limited insight into subsystems that are inactive when optimizing for the biomass_reaction. Sampling under a biomass constraint (by default, 90% of the biomass upper bound) therefore provides a broader view of the metabolic model and the stability of the flux values observed in the FBA solution.</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="6:4"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><input id="__tabbed_6_3" name="__tabbed_6" type="radio" /><input id="__tabbed_6_4" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Fluxsum over Rxns per model</label><label for="__tabbed_6_2">Fluxsum over Rxns per sample</label><label for="__tabbed_6_3">Fluxsum over Mets per model</label><label for="__tabbed_6_4">Fluxsum over Mets per Sample</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1385,17 +1389,40 @@ Additionally, the sampling analysis can give an impression of the stability of t
 </div>
 </div>
 </div>
-<p>After looking through all the figures we have a rough first overview over our model.
-As a next step the exploratory part beginns where we look more into detail in our metabolic model. 
-This more exploratory part might come from the fact that there are certain pathways of interest for which we want to see biological assumpations validated by the model, or just by looking at the heatmaps already generated there might be specific pathways standing out that are showing more differences than others. </p>
+<p>Going through the Fluxsum heatmaps generated from the sampling analysis, we see that the tendency observed for the TCA cycle is not reproduced here. We do not observe the same pattern across the models. This could be due to several reasons, and further investigation may help us understand why.</p>
+<p>After looking through all the figures, we have a rough first overview of our model.
+As a next step, the exploratory part begins, where we look in more detail at our metabolic models.
+This exploratory analysis might be driven by certain pathways of interest for which we want to see whether biological assumptions are supported by the model.
+Alternatively, specific pathways might already stand out in the heatmaps we have generated because they show greater differences than others.</p>
 <h4 id="exploration-of-metabolic-models-using-tacklemme">Exploration of metabolic models using TackleMMe</h4>
-<p>Looking at the Fluxsum plots (see Fig. 18) it can be seen that the Citric Acid Cycle has a tendency of increasing in StageI and lower values for the Control and even lower values for the Stage II and StageIV models. In Fig.19 we can also see that this difference can be robustly seen throughout the samples. Using the functions of TackleMMe it is easy to take a closer look into the individual Pathways. </p>
-<p>In a first step we want to get the rxnIDs of all rxns that are part of the pathways of interest:</p>
+<p>As established in the previous section we see some interesting tendencies for the TCA cycle. 
+Looking at the Fluxsum plots (see Fig. 18), it can be seen that the Citric Acid Cycle tends to have higher values in Stage I, lower values in the Control, and even lower values in the Stage II and Stage IV models. In Fig. 19, we can also see that this difference is consistently observed across the samples. Using the functions provided by TackleMMe, it is easy to take a closer look at the individual pathways.</p>
+<p>Taking a closer look at specific subsystems or specific sets of rxns can help to understand why. </p>
+<p>As a first step, we want to obtain the <code>rxnIDs</code> of all reactions that are part of the pathways of interest:</p>
+<div class="highlight"><pre><span></span><code>[rxnsMetId, producingMet, matched] = getRxnIDs(BRCAProject, referenceModel, ["Citric acid.*"; "Glycolysis.*"]);
+
+visSingleRxnSamplingDistribution(BRCAProject, comparisonName, rxnsMetId(1), ["TCA"], referenceModel)
+</code></pre></div>
+<p>Flux distribution for all rxns that are part of the defined Rxn Set (here the TCA cycle and the Glycolysis).</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:3"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><input id="__tabbed_7_3" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Figure1</label><label for="__tabbed_7_2">Figure2</label><label for="__tabbed_7_3">Rxn Table</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><img alt="image" src="../assets/TCArxns1.png" /></p>
+</div>
+<div class="tabbed-block">
+<p><img alt="image" src="../assets/TCArxns2.png" /></p>
+</div>
+<div class="tabbed-block">
+<p><img alt="image" src="../assets/TCArxnstable.png" /></p>
+</div>
+</div>
+</div>
 <div class="highlight"><pre><span></span><code>[rxnsMetId, producingMet, matched] = getRxnIDs(BRCAProject, referenceModel, ["Citric acid.*"; "Glycolysis.*"]);
 
 visSingleMetSamplingDistribution(BRCAProject, comparisonName, rxnsMetId(1), ["TCA"], referenceModel)
 </code></pre></div>
-<div class="tabbed-set tabbed-alternate" data-tabs="7:5"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><input id="__tabbed_7_3" name="__tabbed_7" type="radio" /><input id="__tabbed_7_4" name="__tabbed_7" type="radio" /><input id="__tabbed_7_5" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Figure1</label><label for="__tabbed_7_2">Figure2</label><label for="__tabbed_7_3">Figure3</label><label for="__tabbed_7_4">Figure4</label><label for="__tabbed_7_5">Rxn Table</label></div>
+<p>Fluxsum distribution for all metabolites that participate in the rxns that are part of the defined Rxn Set (here the TCA cycle and the Glycolysis). This shows you the usage of a given metabolite in a set of rxns.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:5"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><input id="__tabbed_8_3" name="__tabbed_8" type="radio" /><input id="__tabbed_8_4" name="__tabbed_8" type="radio" /><input id="__tabbed_8_5" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Figure1</label><label for="__tabbed_8_2">Figure2</label><label for="__tabbed_8_3">Figure3</label><label for="__tabbed_8_4">Figure4</label><label for="__tabbed_8_5">Rxn Table</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p><img alt="image" src="../assets/TCAmets1.png" /></p>
@@ -1415,33 +1442,55 @@ visSingleMetSamplingDistribution(BRCAProject, comparisonName, rxnsMetId(1), ["TC
 </div>
 </div>
 <div class="highlight"><pre><span></span><code>[rxnsMetId, producingMet, matched] = getRxnIDs(BRCAProject, referenceModel, ["Citric acid.*"; "Glycolysis.*"]);
-
-visSingleRxnSamplingDistribution(BRCAProject, comparisonName, rxnsMetId(1), ["TCA"], referenceModel)
+visSingleRxnFBA(BRCAProject, comparisonName, rxnsMetId(1), "FVA", false, "thresholdFlux", "none")
+visSingleRxnFBA(BRCAProject, comparisonName, rxnsMetId(1), "FVA", true, "thresholdFlux", "none")
 </code></pre></div>
-<div class="tabbed-set tabbed-alternate" data-tabs="8:5"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><input id="__tabbed_8_3" name="__tabbed_8" type="radio" /><input id="__tabbed_8_4" name="__tabbed_8" type="radio" /><input id="__tabbed_8_5" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Figure1</label><label for="__tabbed_8_2">Figure2</label><label for="__tabbed_8_3">Figure3</label><label for="__tabbed_8_4">Figure4</label><label for="__tabbed_8_5">Rxn Table</label></div>
+<p>Visualizing the FVA and FBA values for a given Rxn Set. </p>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Figure1</label><label for="__tabbed_9_2">Figure2</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p><img alt="image" src="../assets/TCArxns1.png" /></p>
+<p><img alt="image" src="../assets/singleRxnFBA.png" /></p>
 </div>
 <div class="tabbed-block">
-<p><img alt="image" src="../assets/TCArxns2.png" /></p>
-</div>
-<div class="tabbed-block">
-<p><img alt="image" src="./assets/TCArxns3.png" /></p>
-</div>
-<div class="tabbed-block">
-<p><img alt="image" src="./assets/TCArxns4.png" /></p>
-</div>
-<div class="tabbed-block">
-<p><img alt="image" src="./assets/TCAstable.png" /></p>
+<p><img alt="image" src="../assets/singleRxnFBA2.png" /></p>
 </div>
 </div>
 </div>
-<div class="highlight"><pre><span></span><code>visSingleRxnFBA(BRCAProject, comparisonName, rxnsMetId(1), "FVA", true, "thresholdFlux", "none")
+<p><strong>getRxnIDs function:</strong></p>
+<p>The getRxnIDs function allows you to step through your network by giving in the subsystems,genes, rxns names you want to visualize. Here a few examples on how to use it: </p>
+<div class="highlight"><pre><span></span><code>% all rxns that are in the TCA cycle AND associated to SDH.* gene
+[rxnsMetId, producingMet, matched] = getRxnIDs(BRCAProject, referenceModel, ["Citric acid.* &amp; ^SDH.*"]);
+
+% all rxns that are in the TCA cycle OR associated to SDH.* gene
+[rxnsMetId, producingMet, matched] = getRxnIDs(BRCAProject, referenceModel, ["Citric acid.* | ^SDH.*"]);
+
+% all rxns that are in the TCA cycle AND are connected to a metabolite in the mitochondria
+[rxnsMetId, producingMet, matched] = getRxnIDs(BRCAProject, referenceModel, ["Citric acid.* &amp; .*[m.*"]);
+
+% all reaction where the udpg[c], gluside_hs, or g1p[c] participate
+[rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["udpg[c.* | EX_.*gluside_hs.* | g1p[c"]);
+
+% visualize the fluxsum of fadh2 in differen subsystems
+[rxnsMetId,producingMet,matched] = getRxnIDs(BRCAProject,referenceModel, ["fadh2[.* &amp; Glycolysis.*","fadh2[.* &amp; Pentose.*",...
+                                                                              "fadh2[.* &amp; Arginine and proline.*", "fadh2[.* &amp; Citric acid cycle",...
+                                                                              "fadh2[.* &amp; Urea cycle", "fadh2[.* &amp; Oxidative phosphorylation",...
+                                                                              "fadh2[.* &amp; Glutamate metabolism", "fadh2[.* &amp; Glutathione metabolism"]);
+visDiffMetSetUsageFBA(BRCAProject, comparisonName, rxnsMetId, ["fadh2 in Glycolysis", "fadh2 in PPP", "fadh2 in Argining and Proline metabolism", "fadh2 in TCA", "fadh2 in Urea cycle", "fadh2 in OxPhos", "fadh2 in Gluatamte metabolilsm", "fadh2 in Glutathione metabolism"], referenceModel)
+</code></pre></div>
+<p>Visualization of significanly different rxn distributions: </p>
+<p>For details on the principle see <a href="https://www.sciencedirect.com/science/article/pii/S1532046424000157?via%3Dihub">Galuzzi et al. 2024,Journal of Biomedical Informatics</a>.</p>
+<div class="highlight"><pre><span></span><code>[rxnsMetId, producingMet, matched] = getRxnIDs(BRCAProject, referenceModel, ["Glycolysis.*"]);
+visSingleRxnSamplingDistribution(BRCAProject, comparisonName, rxnsMetId(1), ["Glycolysis"], referenceModel, true)
 </code></pre></div>
 <figure>
+        <img src="../assets/KLDGlycolysis.png" alt="KLDGlycolysis">
+        <figcaption><strong>Figure22:</strong> Statistical test to see whether rxns are significantly different (based on KLDivergence). </figcaption>
+</figure>
+
+<p>For more ways on how to use the visualizations to investigate the models see our cheatsheet below:</p>
+<figure>
         <img src="../assets/overviewVisualizations.png" alt="overviewVisualizations">
-        <figcaption><strong>Figure22:</strong> Overview on how to use the functions provided by TackleMMe to explore your models.</figcaption>
+        <figcaption><strong>Figure23:</strong> Overview on how to use the functions provided by TackleMMe to explore your models.</figcaption>
 </figure>
 
 <div class="admonition note">
