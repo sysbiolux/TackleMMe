@@ -178,3 +178,8 @@ visSingleRxnFBA(BRCAProject, comparisonName, rxnsMetId(1), "FVA", true, "thresho
 %%
 
 visualizeSamplingLandscape(BRCAProject, comparisonName, BRCAProject.models.(referenceModel).model.rxns(rxnsMetId{1}(1)))
+
+%%
+
+visSingleRxnSamplingDistribution(BRCAProject, comparisonName, rxnsMetId(1), ["TCA"], referenceModel,true)
+
