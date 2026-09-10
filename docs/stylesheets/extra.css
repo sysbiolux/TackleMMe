@@ -1,0 +1,26 @@
+/* Figure should only be as wide as the image */
+.md-typeset figure {
+  display: table !important;
+  width: auto !important;
+  max-width: 100% !important;
+  margin: 1.5em auto !important;
+}
+
+/* Image */
+.md-typeset figure img {
+  display: block !important;
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* Caption follows the figure/image width */
+.md-typeset figure figcaption {
+  display: table-caption !important;
+  caption-side: bottom !important;
+  width: auto !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding-top: 0.5em;
+  text-align: center;
+}
