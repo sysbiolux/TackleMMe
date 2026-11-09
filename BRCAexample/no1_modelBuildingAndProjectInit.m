@@ -21,7 +21,7 @@ addpath(genpath(dataPath))
 brca_matrix = readtable("brca_matrix.csv", 'ReadRowNames', true, 'VariableNamingRule', 'preserve');
 samples_metadata = readtable("samples_metadata.csv", 'ReadRowNames', true, 'VariableNamingRule', 'preserve');
 gene_metadata = readtable("gene_metadata.csv", 'ReadRowNames', true, 'VariableNamingRule', 'preserve');
-origModel = load('origModelBig.mat').origModel;
+origModel = load('Recon3D.mat').Recon3D;
 dico = load('dico.mat').dico;
 medium = readtable('RPMI1640.tsv', 'FileType', 'text', 'Delimiter', '\t');
 % in case any of these lines throw an error, ensure that the download was
