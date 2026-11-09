@@ -122,5 +122,5 @@ A supplementary `rFastcormicsPipeline.m` script is provided in the `scr/` folder
 Clone the repository to your local machine. The zip download may not work due to the high size of some datasets. Therefore, we recommend to clone the repository instead.
 
 ```{bash}
-git pull https://github.com/sysbiolux/analysisPipelineLVT.git
+git clone https://github.com/sysbiolux/TackleMMe.git
 ```
