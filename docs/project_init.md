@@ -62,7 +62,7 @@ These fields are required only when expression or discretized data is provided.
 | `func` | cell | Reaction(s) that should be retained when running rFastcormics. |
 
 !!! note "rFastcormics related fields"
-    Supplementary documentation regarding rFastcormics related fields can be found on the github documentation of [rFastcormics](https://github.com/sysbiolux/rFASTCORMICS/tree/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2).
+    Supplementary documentation regarding rFastcormics related fields can be found on the github documentation of [rFastcormics](https://github.com/sysbiolux/rFASTCORMICS/tree/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2){: target="_blank" rel="noopener noreferrer" }.
 
 <a id="manually-set-boundaries"></a>
 
@@ -83,7 +83,7 @@ These fields are required only when expression or discretized data is provided.
 | `geneIdsInData` | string / char / cellstr | Gene identifiers as they appear in `geneIds` / expression data. Must cover ≥ 5% of data gene IDs. |
 
 !!! tip "Building the dico table"
-    The `dico` table can be assembled using [Ensembl BioMart](https://www.ensembl.org/biomart/martview).
+    The `dico` table can be assembled using [Ensembl BioMart](https://www.ensembl.org/biomart/martview){: target="_blank" rel="noopener noreferrer" }.
     It maps the gene identifiers from your expression data to the gene identifiers
     in the COBRA model, which may use different naming conventions.
 

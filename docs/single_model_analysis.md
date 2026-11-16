@@ -19,7 +19,7 @@ The following analyses are currently implemented:
 | Flux Variability Analysis | `FVA` | Determines the range of feasible fluxes for each reaction under given constraints |
 | Sampling | `sampling` | Uniform random sampling of the feasible flux space |
 | Loopless sampling | `loopless` | Sampling with thermodynamic constraints eliminating internal loops |
-| KL divergence | `kld` | Computes [Kullback-Leibler divergence](https://doi.org/10.1016/j.jbi.2024.104597) between sampling distributions |
+| KL divergence | `kld` | Computes [Kullback-Leibler divergence](https://doi.org/10.1016/j.jbi.2024.104597){: target="_blank" rel="noopener noreferrer" } between sampling distributions |
 | Single gene deletion | `singleGeneDeletion` | Evaluates the effect of individually knocking out each gene |
 | Double gene deletion | `doubleGeneDeletion` | Evaluates the effect of pairwise gene knockouts |
 
@@ -41,7 +41,7 @@ The **first two rows are required** and must use `all` as the analysis value:
 | `modelReference` | `all` | e.g. `Recon3D` | Reference model identifier |
 | `objFunction` | `all` | e.g. `biomass_reaction` | Objective function reaction ID |
 
-A default parameter table is provided in the `data/` folder of the repository ([`defaultParametersTable.csv`](https://github.com/sysbiolux/TackleMMe/blob/main/data/defaultParametersTable.csv)) and can be used as a starting point. You can load it in MATLAB and modify only the rows relevant to your analyses:
+A default parameter table is provided in the `data/` folder of the repository ([`defaultParametersTable.csv`](https://github.com/sysbiolux/TackleMMe/blob/main/data/defaultParametersTable.csv){: target="_blank" rel="noopener noreferrer" }) and can be used as a starting point. You can load it in MATLAB and modify only the rows relevant to your analyses:
 
 ```matlab
 parameterTable = readtable('data/defaultParametersTable.csv');
@@ -181,7 +181,7 @@ project = addAnalysisToExistingOne(project, parameterTable, ...
 
 ## Analysis Reports
 
-The `writeAnalysisReport` function generates a PDF report summarizing the results of a single analysis run. It requires that **FBA and FVA** have been performed on the model — these are the minimum required analyses. An example of a report can be downloaded [:material-file-pdf-box: here](assets/report_example.pdf).
+The `writeAnalysisReport` function generates a PDF report summarizing the results of a single analysis run. It requires that **FBA and FVA** have been performed on the model — these are the minimum required analyses. An example of a report can be downloaded [:material-file-pdf-box: here](assets/report_example.pdf){: target="_blank" rel="noopener noreferrer" }.
 
 ### Function signature
 

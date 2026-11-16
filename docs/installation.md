@@ -35,11 +35,11 @@ The output should list both `Statistics and Machine Learning Toolbox` and `MATLA
 
 ## UMAP toolbox installation
 
-The pipeline uses the MATLAB UMAP implementation by Meehan et al. [[File Exchange #71902](https://www.mathworks.com/matlabcentral/fileexchange/71902-uniform-manifold-approximation-and-projection-umap)].
+The pipeline uses the MATLAB UMAP implementation by Meehan et al. [[File Exchange #71902](https://www.mathworks.com/matlabcentral/fileexchange/71902-uniform-manifold-approximation-and-projection-umap){: target="_blank" rel="noopener noreferrer" }].
 
 ### Step 1 — Download
 
-Download the toolbox from [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/71902-uniform-manifold-approximation-and-projection-umap).
+Download the toolbox from [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/71902-uniform-manifold-approximation-and-projection-umap){: target="_blank" rel="noopener noreferrer" }.
 
 Alternatively, open it directly in MATLAB Online by clicking **Open in MATLAB Online** on the File Exchange page.
 
@@ -100,10 +100,10 @@ If all commands execute without errors, your environment is ready for the pipeli
 
 ## Installing the COBRA Toolbox 
 
-The COnstraint-Based Reconstruction and Analysis Toolbox is a MATLAB software to create & analyze constrained based metabolic models. All the models stored & worked with in TackleMMe are stored in COBRA format and functions of the COBRA Toolbox are used. Therefore the toolbox must be installed ([see the github page](https://github.com/opencobra/cobratoolbox) as well as the [documentation webpage](https://opencobra.github.io/cobratoolbox/stable/index.html#)). 
+The COnstraint-Based Reconstruction and Analysis Toolbox is a MATLAB software to create & analyze constrained based metabolic models. All the models stored & worked with in TackleMMe are stored in COBRA format and functions of the COBRA Toolbox are used. Therefore the toolbox must be installed ([see the github page](https://github.com/opencobra/cobratoolbox){: target="_blank" rel="noopener noreferrer" } as well as the [documentation webpage](https://opencobra.github.io/cobratoolbox/stable/index.html#){: target="_blank" rel="noopener noreferrer" }). 
 
-+ clone the github repository from the [github page](https://github.com/opencobra/cobratoolbox) (```git clone https://github.com/opencobra/cobratoolbox.git```)
-+ follow the installation instructions from the [cobratoolbox github README.md](https://github.com/opencobra/cobratoolbox)
++ clone the github repository from the [github page](https://github.com/opencobra/cobratoolbox){: target="_blank" rel="noopener noreferrer" } (```git clone https://github.com/opencobra/cobratoolbox.git```)
++ follow the installation instructions from the [cobratoolbox github README.md](https://github.com/opencobra/cobratoolbox){: target="_blank" rel="noopener noreferrer" }
 
 Make sure to add the toolbox to your matlab path:
 ```matlab
@@ -113,7 +113,7 @@ savepath;
 
 ## Building models with rFastcormics
 
-rFASTCORMICS will be integrated into the next release of the COBRA Toolbox. In the meantime, in case you want to build context-specific models using rFASTCORMICS before comparing them with TackleMMe, follow the installation instructions on the [rFASTCORMICS GitHub page](https://github.com/sysbiolux/rFASTCORMICS/tree/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2).
+rFASTCORMICS will be integrated into the next release of the COBRA Toolbox. In the meantime, in case you want to build context-specific models using rFASTCORMICS before comparing them with TackleMMe, follow the installation instructions on the [rFASTCORMICS GitHub page](https://github.com/sysbiolux/rFASTCORMICS/tree/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2){: target="_blank" rel="noopener noreferrer" }.
 
 A supplementary `rFastcormicsPipeline.m` script is provided in the `scr/` folder. It builds context-specific models and outputs a `params` structure that can be passed directly to `createProject.m`. For a usage example, see `no1_modelBuildingAndProjectInit.m` in the `BRCAexample` folder.
 
