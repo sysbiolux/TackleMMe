@@ -11,9 +11,9 @@ Tutorial scripts can be found in the [BRCA example folder of our github](https:/
 
 A complete `project` object after running the entire pipeline (`20262608_BRCAProject.mat`), as well as intermediate objects after running the several steps of the pipeline are available [here](https://zenodo.org/records/22209352?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjRjYzNkNDQ5LTQxNjUtNGI0Yy05NTUwLTBkMWVmYWMzNTQ0ZSIsImRhdGEiOnt9LCJyYW5kb20iOiJjMjE1ZmEyMTAwODRlNWMyNzBkYjZhNTU2NGUwYzVhNiJ9.puAZhYmsSncp1HasCN-igfMabHyGzJJW3ZAlou2d76_lICZ5vHo3wJmytpqy0bRFITK441eD9SaHTr2lZEgq5g). Workspaces associated with the tutorials are also included.
 
-The pipeline and [tutorials](https://github.com/sysbiolux/TackleMMe/tree/main/BRCAexample) has been organized in three main steps:
+The pipeline and [tutorials](https://github.com/sysbiolux/TackleMMe/tree/main/BRCAexample) have been organized in three main steps:
 
-1. **Model building and project initialization**
+1. **Model Building and Project Initialization**
 
     The tutorial includes how to:
 
@@ -43,7 +43,7 @@ The pipeline and [tutorials](https://github.com/sysbiolux/TackleMMe/tree/main/BR
     - compare models on a sampling level (flux distributions, inter-model KL divergence),
     - store all comparison results and generated plots in a dedicated `comparisons` field.
 
-    More details about the available comparison types and their outputs can be found in [Models Comparison](model_comparison.md).
+    More details about the available comparison types and their outputs can be found in [Model Comparison](model_comparison.md).
 
 
 

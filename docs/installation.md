@@ -113,7 +113,7 @@ savepath;
 
 ## Building models with rFastcormics
 
-rFASTCORMICS will be integrated into the next release of the COBRA Toolbox. In the meantime, if you want to build context-specific models using rFASTCORMICS before comparing them with TackleMMe, follow the installation instructions on the [rFASTCORMICS GitHub page](https://github.com/sysbiolux/rFASTCORMICS/tree/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2).
+rFASTCORMICS will be integrated into the next release of the COBRA Toolbox. In the meantime, in case you want to build context-specific models using rFASTCORMICS before comparing them with TackleMMe, follow the installation instructions on the [rFASTCORMICS GitHub page](https://github.com/sysbiolux/rFASTCORMICS/tree/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2).
 
 A supplementary `rFastcormicsPipeline.m` script is provided in the `scr/` folder. It builds context-specific models and outputs a `params` structure that can be passed directly to `createProject.m`. For a usage example, see `no1_modelBuildingAndProjectInit.m` in the `BRCAexample` folder.
 

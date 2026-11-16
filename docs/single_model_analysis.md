@@ -26,7 +26,7 @@ The following analyses are currently implemented:
 !!! note "Upcoming analyses"
     The list of available analyses is actively being expanded. The following are planned for integration:
 
-    - **Enrichment** — pathway enrichment analysis on gene deletion results
+    - **Enrichment** — pathway enrichment analysis on gene deletion results.
 
     Check back for updates in future releases.
 
@@ -83,8 +83,8 @@ analysis_20240815_1430
 
 The format is `analysis_yyyyMMdd_HHmm`, where:
 
-- `yyyyMMdd` — date (year, month, day)
-- `HHmm` — time (hour, minute)
+- `yyyyMMdd` — date (year, month, day).
+- `HHmm` — time (hour, minute).
 
 This ID is used as a field name under `project.models.<modelName>.analysis.<id>` and allows multiple analysis runs to coexist on the same model without overwriting previous results. When comparing models later, you can reference a specific analysis by its ID.
 
@@ -283,4 +283,4 @@ writeAnalysisReport(project, "model1", "analysis_20240815_1430", ...
 !!! note "Upcoming features"
     The following report sections are planned for future integration:
 
-    - **Figures and plots** — embedded visualizations of flux distributions and sampling landscapes
+    - **Figures and plots** — embedded visualizations of flux distributions and sampling landscapes.
