@@ -119,7 +119,7 @@ if isfield(project.comparisons, comparisonName)
             % Functional comparison
             if any(matches(analyses, "functionalComparison"))
                 disp("Running functional comparison.");
-                project.comparisons.(comparisonName).functionalComparison.plots = functionalComparison(project, comparisonName);
+                project = functionalComparison(project, comparisonName);
             end
 
             % Sampling comparison
