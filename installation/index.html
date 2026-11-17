@@ -595,10 +595,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#building-models-with-rfastcormics" class="md-nav__link">
+  <a href="#install-tacklemme-pipeline" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Building models with rFastcormics
+        Install TackleMMe Pipeline
       
     </span>
   </a>
@@ -606,10 +606,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-tacklemme-pipeline" class="md-nav__link">
+  <a href="#building-models-with-rfastcormics" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install TackleMMe Pipeline
+        Building models with rFastcormics
       
     </span>
   </a>
@@ -872,13 +872,14 @@
 <p>Make sure to add the toolbox to your matlab path:
 <div class="language-matlab highlight"><pre class="matlab"><code><span class="tm-source-matlab tm-meta-function-call-parens-matlab tm-entity-name-function-matlab tm-token-function">addpath</span><span class="tm-source-matlab tm-meta-function-call-parens-matlab tm-punctuation-section-parens-begin-matlab">(</span><span class="tm-source-matlab tm-meta-function-call-parens-matlab tm-entity-name-function-matlab tm-token-function">genpath</span><span class="tm-source-matlab tm-meta-function-call-parens-matlab tm-punctuation-section-parens-begin-matlab">(</span><span class="tm-source-matlab tm-meta-function-call-parens-matlab tm-string-quoted-single-matlab tm-punctuation-definition-string-begin-matlab tm-token-string">'</span><span class="tm-source-matlab tm-meta-function-call-parens-matlab tm-string-quoted-single-matlab tm-token-string">path/to/toolbox/on/your/local/machine</span><span class="tm-source-matlab tm-meta-function-call-parens-matlab tm-string-quoted-single-matlab tm-punctuation-definition-string-end-matlab tm-token-string">'</span><span class="tm-source-matlab tm-meta-function-call-parens-matlab tm-punctuation-section-parens-end-matlab">)</span><span class="tm-source-matlab tm-meta-function-call-parens-matlab tm-punctuation-section-parens-end-matlab">)</span><span class="tm-source-matlab tm-punctuation-terminator-semicolon-matlab">;</span><span class="tm-source-matlab tm-punctuation-terminator-semicolon-matlab">
 </span><span class="tm-source-matlab tm-variable-other-readwrite-matlab tm-token-variable">savepath</span><span class="tm-source-matlab tm-punctuation-terminator-semicolon-matlab">;</span></code></pre></div></p>
-<h2 id="building-models-with-rfastcormics">Building models with rFastcormics</h2>
-<p>rFASTCORMICS will be integrated into the next release of the COBRA Toolbox. In the meantime, in case you want to build context-specific models using rFASTCORMICS before comparing them with TackleMMe, follow the installation instructions on the <a href="https://github.com/sysbiolux/rFASTCORMICS/tree/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2" rel="noopener noreferrer" target="_blank">rFASTCORMICS GitHub page</a>.</p>
-<p>A supplementary <code>rFastcormicsPipeline.m</code> script is provided in the <code>scr/</code> folder. It builds context-specific models and outputs a <code>params</code> structure that can be passed directly to <code>createProject.m</code>. For a usage example, see <code>no1_modelBuildingAndProjectInit.m</code> in the <code>BRCAexample</code> folder.</p>
 <h2 id="install-tacklemme-pipeline">Install TackleMMe Pipeline</h2>
 <p>Clone the repository to your local machine. The zip download may not work due to the high size of some datasets. Therefore, we recommend to clone the repository instead.</p>
 <div class="highlight"><pre><span></span><code>git clone https://github.com/sysbiolux/TackleMMe.git
 </code></pre></div>
+<h2 id="building-models-with-rfastcormics">Building models with rFastcormics</h2>
+<p>rFASTCORMICS will be integrated into the next release of the COBRA Toolbox. In the meantime, in case you want to build context-specific models using rFASTCORMICS before comparing them with TackleMMe, follow the installation instructions on the <a href="https://github.com/sysbiolux/rFASTCORMICS/tree/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2" rel="noopener noreferrer" target="_blank">rFASTCORMICS GitHub page</a>.</p>
+<p>In TackleMMe, a extra <code>rFastcormicsPipeline.m</code> script is provided in the <a href="https://github.com/sysbiolux/TackleMMe/tree/main/scr" rel="noopener noreferrer" target="_blank"><code>scr/</code> folder</a>. This new version of the original <code>rFastcormics.m</code> function has been designed to directly fit with TackleMMe by building context-specific models as done originally but providing at the same time an output called <code>params</code>  that can be passed directly to <code>createProject.m</code>. <code>params</code> is a structure that serve as the main input to the TackleMMe pipeline, containing all the information required to initialize and build a <em>project</em>. See more explanation about <code>params</code> format in <a href="../project_init/">Project Initialization</a>. </p>
+<p>For a usage example, see <code>no1_modelBuildingAndProjectInit.m</code> in the <a href="https://github.com/sysbiolux/TackleMMe/tree/main/BRCAexample" rel="noopener noreferrer" target="_blank"><code>BRCAexample</code> folder</a>.</p>
 
 
 

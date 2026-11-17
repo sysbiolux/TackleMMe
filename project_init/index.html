@@ -738,7 +738,7 @@
 
 
 <h1 id="input-data-format">Input data format</h1>
-<p>To create a <em>project</em>, a <code>params</code> structure must be provided as input to the pipeline. The table below describes the expected format for each field.</p>
+<p>To create a <em>project</em>, a <code>params</code> structure must be provided. The <code>params</code> structure serves as the main input to the TackleMMe pipeline, containing all the information required to initialize and build a <em>project</em>. It specifies the context-specific metabolic model and allows users to provide additional data, such as gene expression profiles, sample metadata, and gene identifier mappings, along with optional configuration settings. This information is used to create a <em>project</em> that brings together the metabolic model, associated data, and settings for subsequent analyses. The table below describes the expected format for each field.</p>
 <div class="admonition warning">
 <p class="admonition-title">Field format differences</p>
 <p>Field formats may differ between what is required to initialize a <em>project</em> and how they are stored downstream in the <em>project</em>. Check the <a href="../project_layout/">Project Layout</a> page for field format in an already built <em>project</em>.</p>
