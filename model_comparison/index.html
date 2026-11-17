@@ -859,7 +859,7 @@
 
 
 <h1 id="model-comparison">Model Comparison</h1>
-<p>The <code>modelComparison</code> function compares multiple context-specific models built from the same reference model. It runs a set of comparative analyses and stores the results under a dedicated <code>comparisons</code> field in the project structure.</p>
+<p>The <code>modelComparison</code> function compares multiple context-specific models built from the same reference model. It runs a set of comparative analyses and stores the results under a dedicated <code>comparisons</code> field in the <em>project</em> structure.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <div class="admonition warning">
 <p class="admonition-title">Single model analysis required</p>
@@ -882,7 +882,7 @@
 <tr>
 <td><code>project</code></td>
 <td><code>struct</code></td>
-<td>Project structure with completed single model analyses</td>
+<td><em>Project</em> structure with completed single model analyses</td>
 <td>required</td>
 </tr>
 <tr>
@@ -918,7 +918,7 @@
 <tr>
 <td><code>project</code></td>
 <td><code>struct</code></td>
-<td>Project with <code>active</code> analysis defined for each model</td>
+<td><em>Project</em> with <code>active</code> analysis defined for each model</td>
 </tr>
 <tr>
 <td><code>activeAnalysisTable</code></td>
@@ -996,7 +996,7 @@
 <tr>
 <td><code>project</code></td>
 <td><code>struct</code></td>
-<td>Project structure with single model analyses completed</td>
+<td><em>Project</em> structure with single model analyses completed</td>
 <td>required</td>
 </tr>
 <tr>
@@ -1038,7 +1038,7 @@
 <tr>
 <td><code>project</code></td>
 <td><code>struct</code></td>
-<td>The input project with a <code>comparisons</code> field added</td>
+<td>The input <em>project</em> with a <code>comparisons</code> field added</td>
 </tr>
 <tr>
 <td><code>comparisonName</code></td>
@@ -1107,7 +1107,7 @@
 <blockquote>
 <p>The models shown here were generated based on data generated entirely by the <a href="https://www.cancer.gov/tcga" rel="noopener noreferrer" target="_blank">TCGA Research Network</a>.</p>
 </blockquote>
-<p>The prerequisites are that the Project Initialization and Single Model Analysis have been run beforehand. Let's walk through this example step by step.</p>
+<p>The prerequisites are that the <a href="../project_init/">Project Initialization</a> and <a href="../single_model_analysis/">Single Model Analysis</a> have been run beforehand. Let's walk through this example step by step.</p>
 <p>The Single Model Analysis function added analysis slots to our models, which can be found here:</p>
 <div class="highlight"><pre><span></span><code>BRCAProject
  -&gt; models

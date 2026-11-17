@@ -1004,7 +1004,7 @@
 <h3 id="prerequisites">Prerequisites</h3>
 <div class="admonition warning">
 <p class="admonition-title">Project format</p>
-<p>The <code>project</code> structure must follow the format described in the <a href="../project_layout/">Project Layout</a> page. Use <code>createProject</code> and <code>addModelsToProject</code> to build a valid project before running analyses.</p>
+<p>The <em>project</em> structure must follow the format described in the <a href="../project_layout/">Project Layout</a> page. Use <code>createProject</code> and <code>addModelsToProject</code> to build a valid <em>project</em> before running analyses.</p>
 </div>
 <h3 id="available-analyses">Available analyses</h3>
 <p>The following analyses are currently implemented:</p>
@@ -1111,7 +1111,7 @@
 <tr>
 <td><code>project</code></td>
 <td><code>struct</code></td>
-<td>Project structure following the format described in <a href="../project_layout/">Project Layout</a></td>
+<td><em>Project</em> structure following the format described in <a href="../project_layout/">Project Layout</a></td>
 <td>required</td>
 </tr>
 <tr>
@@ -1159,7 +1159,7 @@
 <tr>
 <td><code>project</code></td>
 <td><code>struct</code></td>
-<td>The input project with an <code>analysis</code> field added to each model</td>
+<td>The input <em>project</em> with an <code>analysis</code> field added to each model</td>
 </tr>
 </tbody>
 </table>
@@ -1194,9 +1194,9 @@
 <h3 id="checkpoint-system">Checkpoint system</h3>
 <p>The function includes a checkpoint mechanism to protect against crashes during long-running analyses:</p>
 <ul>
-<li><strong>Automatic save</strong> — after each model completes, the current project state and progress index are saved to <code>singleModelAnalysis_checkpoint.mat</code> (if <code>saveCheckpoint</code> is <code>true</code>).</li>
+<li><strong>Automatic save</strong> — after each model completes, the current <em>project</em> state and progress index are saved to <code>singleModelAnalysis_checkpoint.mat</code> (if <code>saveCheckpoint</code> is <code>true</code>).</li>
 <li><strong>Resume</strong> — set <code>resumeFromCheckpoint = true</code> to load the last checkpoint and continue from the next model. The function prints which model it is resuming from.</li>
-<li><strong>Error handling</strong> — if an error occurs during analysis of a model, the function catches it, prints the error message and stack trace, and returns the partial project. You can then relaunch with <code>resumeFromCheckpoint = true</code> to continue.</li>
+<li><strong>Error handling</strong> — if an error occurs during analysis of a model, the function catches it, prints the error message and stack trace, and returns the partial <em>project</em>. You can then relaunch with <code>resumeFromCheckpoint = true</code> to continue.</li>
 <li><strong>Cleanup</strong> — the checkpoint file is automatically deleted once all models have been successfully analyzed.</li>
 </ul>
 <h3 id="usage-example">Usage example</h3>
@@ -1227,7 +1227,7 @@
 <tr>
 <td><code>project</code></td>
 <td><code>struct</code></td>
-<td>Project structure with an existing analysis field</td>
+<td><em>Project</em> structure with an existing analysis field</td>
 <td>required</td>
 </tr>
 <tr>
@@ -1299,7 +1299,7 @@
 <tr>
 <td><code>project</code></td>
 <td><code>struct</code></td>
-<td>Project structure containing analysis results</td>
+<td><em>Project</em> structure containing analysis results</td>
 <td>required</td>
 </tr>
 <tr>
