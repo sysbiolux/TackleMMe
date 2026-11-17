@@ -419,7 +419,7 @@ function structuralAnalysis = structuralComparison(project, modelList, reference
         legend({ "Not included","Included"}, 'Location', 'northwest', 'FontSize', 14)
     
         % Title
-        title('Core reactions used into model building.', 'FontSize', 14)
+        title('Core reactions used into model building', 'FontSize', 14)
     
         % ---- Compute percentages of upper stack ----
         total = sum(data, 1);                   % total per model
