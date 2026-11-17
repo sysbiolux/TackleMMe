@@ -32,7 +32,6 @@ theme:
     - search.highlight
     - content.code.annotate
     - content.code.copy
-    - content.code.fold
     - toc.integrate
     - toc.follow
   icon:
