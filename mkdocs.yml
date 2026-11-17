@@ -34,6 +34,7 @@ theme:
     - content.code.copy
     - content.code.fold
     - toc.integrate
+    - toc.follow
   icon:
     logo: assets/logo.png # inside docs folder, create assets folder and put the png of the logo inside
   #favicon: assets/favicon.ico # same here

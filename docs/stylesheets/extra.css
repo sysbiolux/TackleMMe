@@ -24,3 +24,8 @@
   padding-top: 0.5em;
   text-align: center;
 }
+
+/* Add extra space at the end of a page for table of content highlights being able to follow scrolling of the page when arriving to the bottom */
+.md-content__inner {
+    padding-bottom: 30vh;
+}
