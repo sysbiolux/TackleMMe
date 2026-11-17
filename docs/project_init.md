@@ -1,6 +1,6 @@
 # Input data format
 
-To create a *project*, a `params` structure must be provided as input to the pipeline. The table below describes the expected format for each field.
+To create a *project*, a `params` structure must be provided. The `params` structure serves as the main input to the TackleMMe pipeline, containing all the information required to initialize and build a *project*. It specifies the context-specific metabolic model and allows users to provide additional data, such as gene expression profiles, sample metadata, and gene identifier mappings, along with optional configuration settings. This information is used to create a *project* that brings together the metabolic model, associated data, and settings for subsequent analyses. The table below describes the expected format for each field.
 
 !!! warning "Field format differences"
     Field formats may differ between what is required to initialize a *project* and how they are stored downstream in the *project*. Check the [Project Layout](project_layout.md) page for field format in an already built *project*.

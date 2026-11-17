@@ -112,13 +112,6 @@ Make sure to add the toolbox to your matlab path:
 addpath(genpath('path/to/toolbox/on/your/local/machine'));
 savepath;
 ```
-
-## Building models with rFastcormics
-
-rFASTCORMICS will be integrated into the next release of the COBRA Toolbox. In the meantime, in case you want to build context-specific models using rFASTCORMICS before comparing them with TackleMMe, follow the installation instructions on the [rFASTCORMICS GitHub page](https://github.com/sysbiolux/rFASTCORMICS/tree/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2){: target="_blank" rel="noopener noreferrer" }.
-
-A supplementary `rFastcormicsPipeline.m` script is provided in the `scr/` folder. It builds context-specific models and outputs a `params` structure that can be passed directly to `createProject.m`. For a usage example, see `no1_modelBuildingAndProjectInit.m` in the `BRCAexample` folder.
-
 ## Install TackleMMe Pipeline 
 
 Clone the repository to your local machine. The zip download may not work due to the high size of some datasets. Therefore, we recommend to clone the repository instead.
@@ -126,3 +119,12 @@ Clone the repository to your local machine. The zip download may not work due to
 ```{bash}
 git clone https://github.com/sysbiolux/TackleMMe.git
 ```
+
+## Building models with rFastcormics
+
+rFASTCORMICS will be integrated into the next release of the COBRA Toolbox. In the meantime, in case you want to build context-specific models using rFASTCORMICS before comparing them with TackleMMe, follow the installation instructions on the [rFASTCORMICS GitHub page](https://github.com/sysbiolux/rFASTCORMICS/tree/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2){: target="_blank" rel="noopener noreferrer" }.
+
+In TackleMMe, a extra `rFastcormicsPipeline.m` script is provided in the [`scr/` folder](https://github.com/sysbiolux/TackleMMe/tree/main/scr){: target="_blank" rel="noopener noreferrer" }. This new version of the original `rFastcormics.m` function has been designed to directly fit with TackleMMe by building context-specific models as done originally but providing at the same time an output called `params`  that can be passed directly to `createProject.m`. `params` is a structure that serve as the main input to the TackleMMe pipeline, containing all the information required to initialize and build a *project*. See more explanation about `params` format in [Project Initialization](project_init.md). 
+
+For a usage example, see `no1_modelBuildingAndProjectInit.m` in the [`BRCAexample` folder](https://github.com/sysbiolux/TackleMMe/tree/main/BRCAexample){: target="_blank" rel="noopener noreferrer" }.
+
