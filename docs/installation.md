@@ -37,6 +37,9 @@ The output should list both `Statistics and Machine Learning Toolbox` and `MATLA
 
 The pipeline uses the MATLAB UMAP implementation by Meehan et al. [[File Exchange #71902](https://www.mathworks.com/matlabcentral/fileexchange/71902-uniform-manifold-approximation-and-projection-umap){: target="_blank" rel="noopener noreferrer" }].
 
+!!! note "Dependencies"
+    The UMAP toolbox requires the **Statistics and Machine Learning Toolbox** and the **Financial Toolbox**. Check with `ver` if you encounter missing function errors.
+
 ### Step 1 — Download
 
 Download the toolbox from [MATLAB File Exchange](https://www.mathworks.com/matlabcentral/fileexchange/71902-uniform-manifold-approximation-and-projection-umap){: target="_blank" rel="noopener noreferrer" }.
@@ -64,9 +67,8 @@ X = rand(100, 10);
 Y = run_umap(X, 'n_components', 2);
 scatter(Y(:,1), Y(:,2));
 ```
-
-!!! note "Dependencies"
-    The UMAP toolbox requires the **Statistics and Machine Learning Toolbox** and the **Financial Toolbox**. Check with `ver` if you encounter missing function errors.
+!!! note "MathWorks File Exchange restrictions"
+    A window asking whether you want to download UMAP accelerants may appear. Select **"Download all our UMAP accelerants directly"** and confirm your choice.
 
 ## Report generation
 

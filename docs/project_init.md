@@ -1,9 +1,9 @@
 # Input data format
 
-To create a `project`, a `params` structure must be provided as input to the pipeline. The table below describes the expected format for each field.
+To create a *project*, a `params` structure must be provided as input to the pipeline. The table below describes the expected format for each field.
 
 !!! warning "Field format differences"
-    Field formats may differ between what is required to initialize a project and how they are stored downstream in the `project`. Check the [Project Layout](project_layout.md) page for field format in an already built `project`.
+    Field formats may differ between what is required to initialize a *project* and how they are stored downstream in the *project*. Check the [Project Layout](project_layout.md) page for field format in an already built *project*.
 
 ## Required fields
 

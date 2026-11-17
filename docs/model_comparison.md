@@ -1,6 +1,6 @@
 # Model Comparison
 
-The `modelComparison` function compares multiple context-specific models built from the same reference model. It runs a set of comparative analyses and stores the results under a dedicated `comparisons` field in the project structure.
+The `modelComparison` function compares multiple context-specific models built from the same reference model. It runs a set of comparative analyses and stores the results under a dedicated `comparisons` field in the *project* structure.
 
 ## Prerequisites
 
@@ -19,7 +19,7 @@ Since multiple analysis runs (with different parameters) can coexist on the same
 
 | Name | Type | Description | Default |
 |---|---|---|---|
-| `project` | `struct` | Project structure with completed single model analyses | required |
+| `project` | `struct` | *Project* structure with completed single model analyses | required |
 | `modelList` | `cell array` | Names of the models to define an active analysis for | required |
 | `analysisIDs` | `cell array` | Analysis ID to set as active for each model (same order as `modelList`) | `{}` (most recent) |
 | `overwriteActive` | `cell array` | Fields to overwrite in the existing active slot, or `{'all'}` for full replacement | `{'all'}` |
@@ -28,7 +28,7 @@ Since multiple analysis runs (with different parameters) can coexist on the same
 
 | Name | Type | Description |
 |---|---|---|
-| `project` | `struct` | Project with `active` analysis defined for each model |
+| `project` | `struct` | *Project* with `active` analysis defined for each model |
 | `activeAnalysisTable` | `table` | Summary of the active analysis IDs used per model |
 
 #### Behavior
@@ -78,7 +78,7 @@ Three types of comparison are available, each investigating a different aspect o
 
 | Name | Type | Description | Default |
 |---|---|---|---|
-| `project` | `struct` | Project structure with single model analyses completed | required |
+| `project` | `struct` | *Project* structure with single model analyses completed | required |
 | `modelList` | `string array` | Names of the models to compare | required |
 | `referenceModel` | `string` | Name of the reference model used to compute relative reaction presence | required |
 | `identifier` | `string` | Postfix appended to the comparison name | current timestamp (`_yyyyMMdd_HHmmss`) |
@@ -88,7 +88,7 @@ Three types of comparison are available, each investigating a different aspect o
 
 | Name | Type | Description |
 |---|---|---|
-| `project` | `struct` | The input project with a `comparisons` field added |
+| `project` | `struct` | The input *project* with a `comparisons` field added |
 | `comparisonName` | `string` | Name of the created comparison |
 
 ## Comparison naming
@@ -138,7 +138,7 @@ The bulk RNA-seq data on which the models are based can be found [here](https://
 
 > The models shown here were generated based on data generated entirely by the [TCGA Research Network](https://www.cancer.gov/tcga){: target="_blank" rel="noopener noreferrer" }.
 
-The prerequisites are that the Project Initialization and Single Model Analysis have been run beforehand. Let's walk through this example step by step.
+The prerequisites are that the [Project Initialization](project_init.md) and [Single Model Analysis](single_model_analysis.md) have been run beforehand. Let's walk through this example step by step.
 
 The Single Model Analysis function added analysis slots to our models, which can be found here:
 

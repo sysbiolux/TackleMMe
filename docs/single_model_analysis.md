@@ -7,7 +7,7 @@ The `singleModelAnalysis` function runs one or more analyses on a model or a lis
 ### Prerequisites
 
 !!! warning "Project format"
-    The `project` structure must follow the format described in the [Project Layout](project_layout.md) page. Use `createProject` and `addModelsToProject` to build a valid project before running analyses.
+    The *project* structure must follow the format described in the [Project Layout](project_layout.md) page. Use `createProject` and `addModelsToProject` to build a valid *project* before running analyses.
 
 ### Available analyses
 
@@ -60,7 +60,7 @@ project = singleModelAnalysis(project, parameterTable, modelList, analyses, save
 
 | Name | Type | Description | Default |
 |---|---|---|---|
-| `project` | `struct` | Project structure following the format described in [Project Layout](project_layout.md) | required |
+| `project` | `struct` | *Project* structure following the format described in [Project Layout](project_layout.md) | required |
 | `parameterTable` | `table` | Parameter table defining analysis settings (at minimum the default one) | required |
 | `modelList` | `string array` | Names of the models to analyze | `{}` (all models) |
 | `analyses` | `cell array` | List of analyses to perform | `{}` (all available) |
@@ -71,7 +71,7 @@ project = singleModelAnalysis(project, parameterTable, modelList, analyses, save
 
 | Name | Type | Description |
 |---|---|---|
-| `project` | `struct` | The input project with an `analysis` field added to each model |
+| `project` | `struct` | The input *project* with an `analysis` field added to each model |
 
 ### Analysis IDs
 
@@ -113,9 +113,9 @@ Loopless sampling can be run in two ways:
 
 The function includes a checkpoint mechanism to protect against crashes during long-running analyses:
 
-- **Automatic save** — after each model completes, the current project state and progress index are saved to `singleModelAnalysis_checkpoint.mat` (if `saveCheckpoint` is `true`).
+- **Automatic save** — after each model completes, the current *project* state and progress index are saved to `singleModelAnalysis_checkpoint.mat` (if `saveCheckpoint` is `true`).
 - **Resume** — set `resumeFromCheckpoint = true` to load the last checkpoint and continue from the next model. The function prints which model it is resuming from.
-- **Error handling** — if an error occurs during analysis of a model, the function catches it, prints the error message and stack trace, and returns the partial project. You can then relaunch with `resumeFromCheckpoint = true` to continue.
+- **Error handling** — if an error occurs during analysis of a model, the function catches it, prints the error message and stack trace, and returns the partial *project*. You can then relaunch with `resumeFromCheckpoint = true` to continue.
 - **Cleanup** — the checkpoint file is automatically deleted once all models have been successfully analyzed.
 
 ### Usage example
@@ -145,7 +145,7 @@ project = addAnalysisToExistingOne(project, parameterTable, modelName, analyses,
 
 | Name | Type | Description | Default |
 |---|---|---|---|
-| `project` | `struct` | Project structure with an existing analysis field | required |
+| `project` | `struct` | *Project* structure with an existing analysis field | required |
 | `parameterTable` | `table` | Parameter table containing settings for the analyses to add | required |
 | `modelName` | `string` | Name of the model | required |
 | `analyses` | `string` or `cell array` | Analysis key(s) to add (e.g. `"FBA"`, `{"FBA","sampling"}`) | required |
@@ -193,7 +193,7 @@ writeAnalysisReport(project, modelName, analysisId, varargin)
 
 | Name | Type | Description | Default |
 |---|---|---|---|
-| `project` | `struct` | Project structure containing analysis results | required |
+| `project` | `struct` | *Project* structure containing analysis results | required |
 | `modelName` | `string` | Name of the model to report on | required |
 | `analysisId` | `string` | Analysis ID (e.g. `analysis_20240815_1430`) | required |
 | `path` | `string` | Output directory for the PDF file | `''` (current folder) |

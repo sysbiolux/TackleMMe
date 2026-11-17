@@ -9,7 +9,7 @@
 TackleMMe is based on the creation of one unique MATLAB object, called *project*. A *project* is made to store everything, from model building, to model analysis and model comparison.
 Tutorial scripts can be found in the [BRCA example folder of our github](https://github.com/sysbiolux/TackleMMe/tree/main/BRCAexample){: target="_blank" rel="noopener noreferrer" }.
 
-A complete `project` object after running the entire pipeline (`20262608_BRCAProject.mat`), as well as intermediate objects after running the several steps of the pipeline are available [here](https://zenodo.org/records/22209352?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjRjYzNkNDQ5LTQxNjUtNGI0Yy05NTUwLTBkMWVmYWMzNTQ0ZSIsImRhdGEiOnt9LCJyYW5kb20iOiJjMjE1ZmEyMTAwODRlNWMyNzBkYjZhNTU2NGUwYzVhNiJ9.puAZhYmsSncp1HasCN-igfMabHyGzJJW3ZAlou2d76_lICZ5vHo3wJmytpqy0bRFITK441eD9SaHTr2lZEgq5g){: target="_blank" rel="noopener noreferrer" }. Workspaces associated with the tutorials are also included.
+A complete *project* object after running the entire pipeline (`20262608_BRCAProject.mat`), as well as intermediate objects after running the several steps of the pipeline are available [here](https://zenodo.org/records/22209352?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjRjYzNkNDQ5LTQxNjUtNGI0Yy05NTUwLTBkMWVmYWMzNTQ0ZSIsImRhdGEiOnt9LCJyYW5kb20iOiJjMjE1ZmEyMTAwODRlNWMyNzBkYjZhNTU2NGUwYzVhNiJ9.puAZhYmsSncp1HasCN-igfMabHyGzJJW3ZAlou2d76_lICZ5vHo3wJmytpqy0bRFITK441eD9SaHTr2lZEgq5g){: target="_blank" rel="noopener noreferrer" }. Workspaces associated with the tutorials are also included.
 
 The pipeline and [tutorials](https://github.com/sysbiolux/TackleMMe/tree/main/BRCAexample){: target="_blank" rel="noopener noreferrer" } have been organized in three main steps:
 
@@ -18,14 +18,14 @@ The pipeline and [tutorials](https://github.com/sysbiolux/TackleMMe/tree/main/BR
     The tutorial includes how to:
 
     - build context-specific models from RNA-seq data using [rFASTCORMICS](https://github.com/sysbiolux/rFASTCORMICS/tree/master/rFASTCORMICS%20for%20RNA-seq%20data/rFASTCORMICS_v2){: target="_blank" rel="noopener noreferrer" },
-    - initialize a project,
-    - add a model to an already existing project.
+    - initialize a *project*,
+    - add a model to an already existing *project*.
 
     Although TackleMMe offers the possibility to build context-specific models using rFASTCORMICS, any COBRA-format model can be stored inside a *project*. Mandatory fields required for *project* initialization are detailed in [Project Initialization](project_init.md).
 
 2. **Single Model Analysis**
 
-    Once a project is initialized and contains models, our pipeline allows to:
+    Once a *project* is initialized and contains models, our pipeline allows to:
     
     - perform integrated tests on one or several models,
     - store the results as well as the parameters that have been used for each test,
