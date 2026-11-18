@@ -4936,6 +4936,7 @@ several copy strategies in sequence: direct copyobj, children-only
 copyobj, and finally save-and-reopen via a temporary .fig file. This
 ensures compatibility with figures containing UIAxes, tables,
 clustergrams, and other complex objects.</p>
+<p>The copied figure is automatically resized to fit within the screen.</p>
 
 <p><span class="doc-section-title">Input arguments:</span></p>
     <table>
@@ -5007,8 +5008,7 @@ clustergrams, and other complex objects.</p>
 
             <details class="quote">
               <summary>Source code in <code>scr/classes/model_comparison/functions/showFigure.m</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
 <span class="normal"> 5</span>
@@ -5093,11 +5093,7 @@ clustergrams, and other complex objects.</p>
 <span class="normal">84</span>
 <span class="normal">85</span>
 <span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span>newFig<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">showFigure</span><span class="p">(</span>figHandle<span class="p">)</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">function</span><span class="w"> </span>newFig<span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nf">showFigure</span><span class="p">(</span>figHandle<span class="p">)</span>
 <span class="c">% Creates a copy of a figure safely.</span>
 <span class="c">%</span>
 <span class="c">% This function duplicates a figure given by its handle. It attempts</span>
@@ -5105,6 +5101,8 @@ clustergrams, and other complex objects.</p>
 <span class="c">% copyobj, and finally save-and-reopen via a temporary .fig file. This</span>
 <span class="c">% ensures compatibility with figures containing UIAxes, tables,</span>
 <span class="c">% clustergrams, and other complex objects.</span>
+<span class="c">%</span>
+<span class="c">% The copied figure is automatically resized to fit within the screen.</span>
 <span class="c">%</span>
 <span class="c">% Arguments:</span>
 <span class="c">%   figHandle (figure): Handle of the figure to duplicate.</span>
@@ -5125,66 +5123,59 @@ clustergrams, and other complex objects.</p>
 
 <span class="w">    </span><span class="k">try</span>
 
-<span class="w">        </span><span class="c">% tf = any(arrayfun(@(x) isa(x, 'matlab.ui.control.UIAxes'), figHandle.Children));</span>
-<span class="w">        </span><span class="c">% if tf </span>
-<span class="w">        </span><span class="c">%     error("This is a ui figure it needs to be saved and reopened!")</span>
-<span class="w">        </span><span class="c">% end</span>
-<span class="w">        </span><span class="nb">figure</span><span class="p">(</span><span class="nb">copyobj</span><span class="p">(</span><span class="n">figHandle</span><span class="p">,</span><span class="w"> </span><span class="nb">groot</span><span class="p">));</span>
-<span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w">  </span><span class="c">% success, exit function</span>
+<span class="w">        </span><span class="c">% Copy the entire figure</span>
+<span class="w">        </span><span class="n">newFig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">copyobj</span><span class="p">(</span><span class="n">figHandle</span><span class="p">,</span><span class="w"> </span><span class="nb">groot</span><span class="p">);</span>
+<span class="w">        </span><span class="nb">figure</span><span class="p">(</span><span class="n">newFig</span><span class="p">);</span>
 
 <span class="w">    </span><span class="k">catch</span>
 <span class="w">        </span><span class="k">try</span>
-<span class="w">            </span><span class="c">% if tf </span>
-<span class="w">            </span><span class="c">%     error("This is a ui figure it needs to be saved and reopened!")</span>
-<span class="w">            </span><span class="c">% end</span>
+
 <span class="w">            </span><span class="n">children</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">get</span><span class="p">(</span><span class="n">figHandle</span><span class="p">,</span><span class="w"> </span><span class="s">'Children'</span><span class="p">);</span><span class="w">  </span><span class="c">% get figure children</span>
 <span class="w">            </span><span class="n">newFig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">figure</span><span class="p">;</span><span class="w">                        </span><span class="c">% create new figure</span>
 <span class="w">            </span><span class="nb">copyobj</span><span class="p">(</span><span class="n">children</span><span class="p">,</span><span class="w"> </span><span class="n">newFig</span><span class="p">);</span><span class="w">              </span><span class="c">% attempt copy</span>
-<span class="w">            </span><span class="nb">set</span><span class="p">(</span><span class="n">newFig</span><span class="p">,</span><span class="w"> </span><span class="s">'Visible'</span><span class="p">,</span><span class="w"> </span><span class="s">'on'</span><span class="p">);</span><span class="w">           </span><span class="c">% ensure it shows</span>
-<span class="w">            </span><span class="k">return</span><span class="p">;</span><span class="w">  </span><span class="c">% success, exit function</span>
-<span class="w">        </span><span class="k">catch</span><span class="w"> </span>
-<span class="w">            </span><span class="c">% try</span>
-<span class="w">            </span><span class="c">%     % if tf </span>
-<span class="w">            </span><span class="c">%     %     error("This is a ui figure it needs to be saved and reopened!")</span>
-<span class="w">            </span><span class="c">%     % end</span>
-<span class="w">                </span><span class="c">% Check input</span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">ishandle</span><span class="p">(</span><span class="n">figHandle</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">~</span><span class="nb">strcmp</span><span class="p">(</span><span class="nb">get</span><span class="p">(</span><span class="n">figHandle</span><span class="p">,</span><span class="s">'Type'</span><span class="p">),</span><span class="s">'figure'</span><span class="p">)</span>
-<span class="w">                    </span><span class="nb">error</span><span class="p">(</span><span class="s">'Input must be a valid figure handle.'</span><span class="p">);</span>
-<span class="w">                </span><span class="k">end</span>
+<span class="w">            </span><span class="nb">set</span><span class="p">(</span><span class="n">newFig</span><span class="p">,</span><span class="w"> </span><span class="s">'Visible'</span><span class="p">,</span><span class="w"> </span><span class="s">'on'</span><span class="p">);</span><span class="w">            </span><span class="c">% ensure it shows</span>
 
+<span class="w">        </span><span class="k">catch</span>
 
-<span class="w">                </span><span class="c">% Generate a temporary filename in the system temp folder</span>
-<span class="w">                </span><span class="n">tempFile</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="nb">tempname</span><span class="p">,</span><span class="w"> </span><span class="s">'.fig'</span><span class="p">];</span>
+<span class="w">            </span><span class="c">% Check input</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">~</span><span class="nb">ishandle</span><span class="p">(</span><span class="n">figHandle</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">~</span><span class="nb">strcmp</span><span class="p">(</span><span class="nb">get</span><span class="p">(</span><span class="n">figHandle</span><span class="p">,</span><span class="s">'Type'</span><span class="p">),</span><span class="s">'figure'</span><span class="p">)</span>
+<span class="w">                </span><span class="nb">error</span><span class="p">(</span><span class="s">'Input must be a valid figure handle.'</span><span class="p">);</span>
+<span class="w">            </span><span class="k">end</span>
 
-<span class="w">                </span><span class="k">try</span>
-<span class="w">                    </span><span class="c">% Save the figure to the temporary file</span>
-<span class="w">                    </span><span class="nb">savefig</span><span class="p">(</span><span class="n">figHandle</span><span class="p">,</span><span class="w"> </span><span class="n">tempFile</span><span class="p">);</span>
+<span class="w">            </span><span class="c">% Generate a temporary filename in the system temp folder</span>
+<span class="w">            </span><span class="n">tempFile</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[</span><span class="nb">tempname</span><span class="p">,</span><span class="w"> </span><span class="s">'.fig'</span><span class="p">];</span>
 
-<span class="w">                    </span><span class="c">% Open the figure as a new figure</span>
-<span class="w">                    </span><span class="n">newFig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">openfig</span><span class="p">(</span><span class="n">tempFile</span><span class="p">,</span><span class="w"> </span><span class="s">'reuse'</span><span class="p">);</span><span class="w"> </span><span class="c">% opens a new figure window</span>
+<span class="w">            </span><span class="k">try</span>
+<span class="w">                </span><span class="c">% Save the figure to the temporary file</span>
+<span class="w">                </span><span class="nb">savefig</span><span class="p">(</span><span class="n">figHandle</span><span class="p">,</span><span class="w"> </span><span class="n">tempFile</span><span class="p">);</span>
 
-<span class="w">                    </span><span class="c">% Ensure it is visible</span>
-<span class="w">                    </span><span class="nb">set</span><span class="p">(</span><span class="n">newFig</span><span class="p">,</span><span class="w"> </span><span class="s">'Visible'</span><span class="p">,</span><span class="w"> </span><span class="s">'on'</span><span class="p">);</span>
+<span class="w">                </span><span class="c">% Open the figure as a new figure</span>
+<span class="w">                </span><span class="n">newFig</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">openfig</span><span class="p">(</span><span class="n">tempFile</span><span class="p">,</span><span class="w"> </span><span class="s">'reuse'</span><span class="p">);</span>
 
-<span class="w">                </span><span class="k">catch</span><span class="w"> </span><span class="n">ME</span>
-<span class="w">                    </span><span class="c">% If any error occurs, delete the temp file and rethrow</span>
-<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="n">tempFile</span><span class="p">,</span><span class="w"> </span><span class="s">'file'</span><span class="p">)</span>
-<span class="w">                        </span><span class="nb">delete</span><span class="p">(</span><span class="n">tempFile</span><span class="p">);</span>
-<span class="w">                    </span><span class="k">end</span>
-<span class="w">                    </span><span class="nb">rethrow</span><span class="p">(</span><span class="n">ME</span><span class="p">);</span>
-<span class="w">                </span><span class="k">end</span>
+<span class="w">                </span><span class="c">% Ensure it is visible</span>
+<span class="w">                </span><span class="nb">set</span><span class="p">(</span><span class="n">newFig</span><span class="p">,</span><span class="w"> </span><span class="s">'Visible'</span><span class="p">,</span><span class="w"> </span><span class="s">'on'</span><span class="p">);</span>
 
-<span class="w">                </span><span class="c">% Delete the temporary file</span>
+<span class="w">            </span><span class="k">catch</span><span class="w"> </span><span class="n">ME</span>
+<span class="w">                </span><span class="c">% If any error occurs, delete the temp file and rethrow</span>
 <span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="n">tempFile</span><span class="p">,</span><span class="w"> </span><span class="s">'file'</span><span class="p">)</span>
 <span class="w">                    </span><span class="nb">delete</span><span class="p">(</span><span class="n">tempFile</span><span class="p">);</span>
 <span class="w">                </span><span class="k">end</span>
-<span class="w">            </span><span class="c">% catch</span>
-<span class="w">            </span><span class="c">%     drawnow</span>
-<span class="w">            </span><span class="c">%     frame = getframe(figHandle);</span>
-<span class="w">            </span><span class="c">%     figure('Position', [10 10 1000 1000]) % [left bottom width height]</span>
-<span class="w">            </span><span class="c">%     imshow(frame.cdata)</span>
-<span class="w">            </span><span class="c">% end</span>
+<span class="w">                </span><span class="nb">rethrow</span><span class="p">(</span><span class="n">ME</span><span class="p">);</span>
+<span class="w">            </span><span class="k">end</span>
+
+<span class="w">            </span><span class="c">% Delete the temporary file</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nb">exist</span><span class="p">(</span><span class="n">tempFile</span><span class="p">,</span><span class="w"> </span><span class="s">'file'</span><span class="p">)</span>
+<span class="w">                </span><span class="nb">delete</span><span class="p">(</span><span class="n">tempFile</span><span class="p">);</span>
+<span class="w">            </span><span class="k">end</span>
+
 <span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+
+<span class="w">    </span><span class="c">% Resize the copied figure without triggering another copy</span>
+<span class="w">    </span><span class="k">try</span>
+<span class="w">        </span><span class="n">fitFigureToScreen</span><span class="p">(</span><span class="n">newFig</span><span class="p">);</span>
+<span class="w">    </span><span class="k">catch</span><span class="w"> </span><span class="n">ME</span>
+<span class="w">        </span><span class="nb">warning</span><span class="p">(</span><span class="s">'Figure copied but resizing failed: %s'</span><span class="p">,</span><span class="w"> </span><span class="n">ME</span><span class="p">.</span><span class="n">message</span><span class="p">);</span>
 <span class="w">    </span><span class="k">end</span>
 
 <span class="k">end</span>
