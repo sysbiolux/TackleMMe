@@ -16,7 +16,7 @@ dataPath = "local/absPath/to/data";
 addpath(genpath(dataPath))
 
 %% LOADING PROJECT AND PARAMETERS FOR ANALYSIS
-load(dataPath + filesep +'BRCAProjectNo3.mat') % available in https://zenodo.org/records/22209352?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjRjYzNkNDQ5LTQxNjUtNGI0Yy05NTUwLTBkMWVmYWMzNTQ0ZSIsImRhdGEiOnt9LCJyYW5kb20iOiJjMjE1ZmEyMTAwODRlNWMyNzBkYjZhNTU2NGUwYzVhNiJ9.puAZhYmsSncp1HasCN-igfMabHyGzJJW3ZAlou2d76_lICZ5vHo3wJmytpqy0bRFITK441eD9SaHTr2lZEgq5g
+load(dataPath + filesep +'BRCAProjectNo2.mat') % available in https://zenodo.org/records/22209352?preview=1&token=eyJhbGciOiJIUzUxMiJ9.eyJpZCI6IjRjYzNkNDQ5LTQxNjUtNGI0Yy05NTUwLTBkMWVmYWMzNTQ0ZSIsImRhdGEiOnt9LCJyYW5kb20iOiJjMjE1ZmEyMTAwODRlNWMyNzBkYjZhNTU2NGUwYzVhNiJ9.puAZhYmsSncp1HasCN-igfMabHyGzJJW3ZAlou2d76_lICZ5vHo3wJmytpqy0bRFITK441eD9SaHTr2lZEgq5g
 
 %% COMPUTING THE COMPARISON
 modelsToCompare = {'Control', 'StageI', 'StageII', 'StageIV'};
@@ -39,9 +39,11 @@ rmpath("local/absPath/to/cobratoolbox/papers/2025_bioenergeticPD")
 
 [BRCAProject, comparisonName] = modelComparison(BRCAProject, modelsToCompare, referenceModel, compID, comparisonList);
 
+save BRCAProjectNo3.mat BRCAProject
+
 %% Showing the Default figures generated during comparison 
 
-load('workspaceTutoNo3.mat');
+load('workspaceTutoNo3.mat'); % if necessary
 
 % --- Structural Analysis Plots
 
