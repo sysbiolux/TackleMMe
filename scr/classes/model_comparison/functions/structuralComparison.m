@@ -194,9 +194,38 @@ function structuralAnalysis = structuralComparison(project, modelList, reference
             end
         
             % percentages
+            % tot = sum(counts, 1);
+            % pct = 100 * counts ./ tot;
+            % pct = round(pct);
+            % 
+            % pct = zeros(size(counts));
+
+            % percentage
             tot = sum(counts, 1);
-            pct = 100 * counts ./ tot;
-            pct = round(pct);
+            pct = zeros(size(counts));
+            for i = 1:size(counts, 2)
+                if tot(i) == 0
+                    continue;
+                end
+            
+                % Calculate the exact percentages
+                exactPct = 100 * counts(:, i) / tot(i);
+            
+                % Round all percentages down to the nearest integer
+                roundedPct = floor(exactPct);
+            
+                % Calculate the remaining percentage points to reach 100%
+                missing = 100 - sum(roundedPct);
+            
+                % Sort categories by their decimal remainders in descending order
+                [~, idx] = sort(exactPct - roundedPct, 'descend');
+            
+                % Distribute the remaining points to the largest remainders
+                roundedPct(idx(1:missing)) = roundedPct(idx(1:missing)) + 1;
+            
+                % Store the adjusted percentages
+                pct(:, i) = roundedPct;
+            end
             
             % only put the percentages there only if it is a reasonable
             % amount of samples
