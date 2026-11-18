@@ -53,7 +53,7 @@ showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.j
 % what can also be observed is that the cancer models are more similar than
 % to the normal model
 
-% lets check out the size and overlap of the models, in terms of genes,
+% let's check out the size and overlap of the models, in terms of genes,
 % metabolites and reactions
 showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.intersections.genes)
 showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.intersections.mets)
@@ -61,7 +61,7 @@ showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.i
 % in these venn diagramms we see in absolute numbers what is indicated by
 % the jaccard similarity heatmap
 
-% how were the genes in the model discretized ? 
+% how were the genes in the model discretized? 
 showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.dataDiscretization)
 % this is more a QC measure, can be observed that roughly 1/3 of all genes
 % which are in the model where discretized to be active
@@ -77,7 +77,7 @@ showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.d
 showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.coreReactions)
 
 % the next question then is how many of those core reactions are specific
-% or are the all shared ? 
+% or are the all shared? 
 % The models share a large amount of core reactions, which makes sense but we also see that the control samples have the highest number of specific rxns, 
 % while the overlap between the two cancer models are larger than between
 % the cancer models and control, stage I has the least number of specific
@@ -95,17 +95,17 @@ showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.r
 
 %%
 
-% Is it a difference in growth between the models ? 
+% Is there a difference in growth between the models? 
 
 showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.objValue)
 
-% Is it a difference in what the models consume and how much ? 
+% Is there a difference in what the models consume and how much? 
 showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.import)
 
-% Is it a difference in what the models export and how much ? 
+% Is there a difference in what the models export and how much? 
 showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.export)
 
-% How similar are the models in terms of FVA boundaries ? 
+% How similar are the models in terms of FVA boundaries? 
 showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.fvaSim.overall)
 showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.fvaSim.hist)
 
@@ -116,30 +116,30 @@ showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.f
 % used in terms of metabolite usage 
 showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.fba.heatmapMetsFluxsum)
 
-% how is the cardinality in different subsystems ? 
+% how is the cardinality in different subsystems? 
 showFigure(BRCAProject.comparisons.(comparisonName).functionalComparison.plots.fba.heatmapRxnActivityFba)
 
 %% SAMPLING COMPARISON
 
 % how much are metabolites used in a specific subsystem in sampling (average over samples)
 showFigure(BRCAProject.comparisons.(comparisonName).samplingComparison.plots.heatmapMetsFluxSum)
-% is this trend consistent within the model, or highly variable between samples ? 
+% is this trend consistent within the model or highly variable between samples? 
 showFigure(BRCAProject.comparisons.(comparisonName).samplingComparison.plots.heatmapMetsFluxSumSamples)
 
 % how active are rxns in the different subsystems
 showFigure(BRCAProject.comparisons.(comparisonName).samplingComparison.plots.heatmapRxnFluxSum)
-% is this trend consistent within the model, or highly variable between samples ? 
+% is this trend consistent within the model, or highly variable between samples? 
 showFigure(BRCAProject.comparisons.(comparisonName).samplingComparison.plots.heatmapRxnFluxSumSamples)
 
 %% GENERATING FIGURES ON DEMAND
 
-referenceModel = "consistentMediumConstrainedModel"
+referenceModel = "consistentMediumConstrainedModel";
 
 % Questions to be answered by plotting data using the functions + getting to know the behavior of the models in detail
-% - How active is a given set of rxns in the fba solution or the sampling solutions ?
-% - How much is a given set of metabolites used in the fba solution or the sampling solutions ?
-% - How much can the values of a given set of rxns be pushed ? 
-% - What is the rxn flux value under the minimal solution for a given set of rxns ? 
+% - How active is a given set of rxns in the fba solution or the sampling solutions?
+% - How much is a given set of metabolites used in the fba solution or the sampling solutions?
+% - How much can the values of a given set of rxns be pushed? 
+% - What is the rxn flux value under the minimal solution for a given set of rxns? 
 % - How do the rxn flux values vary in the sampling? 
 
 % visualize with new functions 
