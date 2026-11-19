@@ -394,10 +394,10 @@ Next, the overlap between the models per subsystem is shown using both absolute 
 <figure>
     <img src="../assets/overlapSubsystems.svg" alt="overlapSubsystem">
      <figcaption style="width: 100%; text-align: center;">
-    <strong>Figure13:</strong> Overview of reaction (`rxn`) presence and overlap per subsystem and model. On the left, the number of reactions per subsystem in the reference model is shown. On the right, the color coding gives an impression of how many of the reactions from the reference model are retained in the four context-specific models. The numbers indicate the absolute number of reactions in each subsystem for each model.The subsystems with the greatest variance in the absolute number of reactions between the models are displayed at the top. This gives us an impression of the extent of the changes between the models, both in terms of the absolute number of reactions and relative to the size of each subsystem.</figcaption>
+    <strong>Figure13:</strong> Overview of reaction (`rxn`) distribution across subsystems in the reference model and four context-specific models (Control, StageI, StageII, StageIV). The left panel shows the total number of reactions associated with each subsystem in the reference model, providing a baseline for comparison. The right panel shows the number of reactions retained in each context-specific model, with the absolute counts displayed in each cell. The color scale represents the proportion of reactions retained relative to the reference model, ranging from low (dark blue/purple) to high (yellow) retention. Subsystems with the greatest variation in reaction counts between the context-specific models are displayed at the top.</figcaption>
 </figure>
 
-In this figure that shows the count of rxns per subsystem, we see that the 
+By comparing both panels, it is possible to identify which subsystems are largely preserved across all models and which show greater differences in reaction content. This highlights how the distribution of metabolic reactions varies between the context-specific models, both in absolute numbers and relative to the size of each subsystem in the reference model.
 
 __Functional Model Comparison:__
 

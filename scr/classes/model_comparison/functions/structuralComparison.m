@@ -345,7 +345,8 @@ function structuralAnalysis = structuralComparison(project, modelList, reference
         imagesc(data)
         % cmap = getColorPallette();
         colorbar
-        title("Relative counts of subsystem rxn occurence/reference model")    % grayscale
+        %title("Relative counts of subsystem rxn occurence/reference model")    % grayscale
+        title("Proportion of reactions retained per subsystem compared to the reference model") % grayscale
         ax2.XTick = 1:numel(colNames);
         ax2.XTickLabel = colNames;
     

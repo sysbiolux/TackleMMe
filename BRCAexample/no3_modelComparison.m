@@ -94,6 +94,9 @@ showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.c
 % the next question is where do the differences between the models come from
 % in terms of rxns presence, so structural difference
 showFigure(BRCAProject.comparisons.(comparisonName).structuralComparison.plots.reactionPathwayPresence)
+% By comparing both panels, it is possible to identify which subsystems are largely preserved across all models and which show greater differences in reaction content. 
+% This highlights how the distribution of metabolic reactions varies between the context-specific models,
+% both in absolute numbers and relative to the size of each subsystem in the reference model.
 
 %%
 
